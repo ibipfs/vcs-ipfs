@@ -1,0 +1,59 @@
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/main.woff');
+}
+
+body {
+	font: 13px 'Open Sans', verdana;
+	color: #505050;
+	margin: 0px;
+	padding: 30px;
+}
+
+a:link, a:visited, a:hover {
+	color: #505050;
+   text-decoration: none;
+	-o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+	transition: .2s;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0px;
+	font: inherit;
+	color: inherit;
+	padding: 0px;
+	margin: 0px;
+}
+
+td {
+	vertical-align: top;
+	margin: 0px;
+	padding: 0px;
+}
+
+#files table tr#header {
+   background: #CECECE;
+   text-transform: uppercase;
+}
+
+#files table tr#content {
+   background: #F1F1F1;
+}
+
+#files table td {
+   width: 50%;
+   padding: 8px;
+   border-bottom: 4px solid white;
+}
+
+#files table td:nth-child(2) {
+   text-align: right;
+}

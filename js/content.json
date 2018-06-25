@@ -1,0 +1,33 @@
+{
+   "contracts": {
+      "Main.sol": {
+         "name": "Main.sol",
+         "hash": "QmXZG9SDe4xqo6FtBQ1EFdtidwL8pV3RNb8UAeJd8o66ec",
+         "path": "contracts/Main.sol",
+         "type": "file"
+      },
+
+      "Migrations.sol": {
+         "name": "Migrations.sol",
+         "hash": "QmNSjw1nUfofmYK2QxeDcZdKSa5w8gL5oA1HWQJ5CBoi4d",
+         "path": "contracts/Migrations.sol",
+         "type": "file"
+      }
+   },
+
+   "js": {
+      "app.js": {
+         "name": "app.js",
+         "hash": "QmYNCJ6UokJc2RkQyWwecxKwZ1fKNzjcKRHYvQQvnzJYMG",
+         "path": "js/app.js",
+         "type": "file"
+      },
+
+      "setup.js": {
+         "name": "setup.js",
+         "hash": "QmdKNVa3HCZS5KimqUrwhFve4BG3dcZxr6xYwJDT6EsXJG",
+         "path": "js/setup.js",
+         "type": "file"
+      }
+   }
+}

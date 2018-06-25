@@ -11,15 +11,23 @@ const ipfs = new Ipfs({
 ipfs.on('ready', () => {
    log('Connected!')
 
-   const validCID = 'QmaJysin1GznfoyqFF9cvoDCWeEGvPSeMVZdbxXChojJ4p';
+   const validCID = 'QmQZjuhxyjmVPxFkPi9F3mU2VNs3qCGNBhuFkQteKDkSWa';
    $('body').html('<a href="https://ipfs.io/ipfs/' + validCID + '">' + validCID + '</a>')
 
-   const stream = ipfs.lsReadableStream(validCID)
+   // ipfs.ls(validCID, function (err, files) {
+   //    log(files);
+   //    files.forEach((file) => {
+   //       console.log(file.path)
+   //    })
+   // })
 
-   stream.on('data', (file) => {
-   // write the file's path and contents to standard out
-   console.log(file.path)
-   })
+   ipfs.files.cat(validCID, function (err, file) {
+      if (err) {
+        throw err
+      }
+    
+      console.log(file.toString('utf8'))
+    })
 });
 
 function log(stuff) {

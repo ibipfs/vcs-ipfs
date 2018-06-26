@@ -7,7 +7,7 @@ body {
 	font: 13px 'Open Sans', verdana;
 	color: #505050;
 	margin: 0px;
-	padding: 30px;
+	padding: 0px;
 }
 
 a:link, a:visited, a:hover {
@@ -17,7 +17,8 @@ a:link, a:visited, a:hover {
 	-ms-transition: .2s;
 	-moz-transition: .2s;
 	-webkit-transition: .2s;
-	transition: .2s;
+   transition: .2s;
+   cursor: pointer;
 }
 
 a:hover {
@@ -37,6 +38,36 @@ td {
 	vertical-align: top;
 	margin: 0px;
 	padding: 0px;
+}
+
+/* -- PROMPT -- */
+
+#prompt {
+	display: none;
+	background: url('img/dark.png');
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#prompt td {
+	vertical-align: middle;
+}
+
+#prompt-inner {
+	border: 4px solid #9C9C9C;
+	background: url('img/bg2.png');
+   width: 700px;
+   min-height: 800px;
+	margin-left: auto;
+	margin-right: auto;
+   color: #F1F1F1;
+}
+
+/* -- FILES -- */
+
+#files {
+   padding: 30px;
 }
 
 #files table tr#header {

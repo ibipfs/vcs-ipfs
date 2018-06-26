@@ -1,5 +1,52 @@
 renderFiles();
 
+function log(stuff) {
+   console.log(stuff);
+}
+
+// SHOW PROMPT TRIGGER
+$('a#show').on('click', () => {
+   var name = $(event.target).attr("name");
+
+   var selector = `
+      <table id="prompt">
+         <tr>
+            <td>
+               <div id="prompt-inner"></div>
+            </td>
+         </tr>
+      </table>
+   `;
+
+	var editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+		value: [
+			'function x() {',
+			'\tconsole.log("Hello world!");',
+			'}'
+		].join('\n'),
+      language: 'javascript',
+      minimap: {
+         enabled: false
+      }
+	});
+
+   $('body').prepend(selector);
+   $("#prompt").css('display', 'table');
+});
+
+// HIDE PROMPT ON ESC
+jQuery(document).on('keyup',function(evt) {
+   if (evt.keyCode == 27) {
+     var value = $("#prompt").css('display');
+
+     if (value == 'table') {
+        $("#prompt").css('display', 'none');
+        //delete require['node_modules/monaco-editor/min/vs/editor/editor.main'];
+     }
+   }
+});
+
+// RENDER FILES
 function renderFiles() {
 
    // CONTENT OBJECT
@@ -32,7 +79,7 @@ function renderFiles() {
          var base = dir_content[file];
 
          // GENERATE ROW AND APPEND PARENT
-         var row = '<tr id="content"><td><a href="https://ipfs.io/ipfs/' + base.hash + '"><div>' + base.name + '</div></a></td></tr>';
+         var row = '<tr id="content"><td><a id="show"><div name="' + base.hash + '">' + base.name + '</div></a></td></tr>';
          rows += row;
       }
 
@@ -45,6 +92,10 @@ function renderFiles() {
    $('#files').html(links);
 }
 
-function log(stuff) {
-   console.log(stuff);
+// HASH BASED ON OBJECT CONTENT
+function contentHash(obj) {
+   var string = JSON.stringify(obj);
+   var string = md5(string);
+
+   return string;
 }

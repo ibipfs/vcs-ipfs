@@ -1,0 +1,104 @@
+{
+  "contractName": "Main",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820567e927d21a9d9d2ec96421728889aa9261c038666d336c8efb47d5a8989c7790029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820567e927d21a9d9d2ec96421728889aa9261c038666d336c8efb47d5a8989c7790029",
+  "sourceMap": "25:30:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:30:0;;;;;;;",
+  "deployedSourceMap": "25:30:0:-;;;;;",
+  "source": "pragma solidity ^0.4.2;\n\ncontract Main {\n    // STUFF\n}",
+  "sourcePath": "/var/www/html/ipfs/contracts/Main.sol",
+  "ast": {
+    "absolutePath": "/var/www/html/ipfs/contracts/Main.sol",
+    "exportedSymbols": {
+      "Main": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Main",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "25:30:0"
+      }
+    ],
+    "src": "0:55:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/var/www/html/ipfs/contracts/Main.sol",
+    "exportedSymbols": {
+      "Main": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Main",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "25:30:0"
+      }
+    ],
+    "src": "0:55:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "1529997817009": {
+      "events": {},
+      "links": {},
+      "address": "0x8409e05aa7382fd7c5b4fb90b5d806c28aabf662",
+      "transactionHash": "0xe440651ee05d68cb6ff6433b5a288dc242d5ef79c1f3ec8ca0181c2a4bea9690"
+    }
+  },
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-06-26T07:23:58.233Z"
+}

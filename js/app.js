@@ -12,23 +12,13 @@ $('a#show').on('click', () => {
       <table id="prompt">
          <tr>
             <td>
-               <div id="prompt-inner"></div>
+               <div id="prompt-outer">
+                  <div id="prompt-inner">` + name + `</div>
+               </div>
             </td>
          </tr>
       </table>
    `;
-
-	var editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-		value: [
-			'function x() {',
-			'\tconsole.log("Hello world!");',
-			'}'
-		].join('\n'),
-      language: 'javascript',
-      minimap: {
-         enabled: false
-      }
-	});
 
    $('body').prepend(selector);
    $("#prompt").css('display', 'table');
@@ -66,7 +56,7 @@ function renderFiles() {
       var dir_content = content[directories[x]];
 
       // TABLE ELEMENTS
-      var header = '<table><tr id="header"><td>' + dir_name +  '</td></tr>';
+      var header = '<table><tr id="header"><td><div>' + dir_name +  '</div></td></tr>';
       var footer = '</table>';
 
       // FILE KEYS
@@ -94,7 +84,17 @@ function renderFiles() {
 
 // HASH BASED ON OBJECT CONTENT
 function contentHash(obj) {
+
+   // STRINGIFY
    var string = JSON.stringify(obj);
+
+   // FORCE LOWERCASE
+   var string = string.toLowerCase();
+
+   // TRIM SPACES
+   var string = string.trim();
+
+   // HASH
    var string = md5(string);
 
    return string;

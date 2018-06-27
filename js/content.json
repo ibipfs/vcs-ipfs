@@ -17,14 +17,14 @@
 
    "js": {
       "app.js": {
-         "name": "app.js",
+         "name": "App.js",
          "hash": "QmYNCJ6UokJc2RkQyWwecxKwZ1fKNzjcKRHYvQQvnzJYMG",
          "path": "js/app.js",
          "type": "file"
       },
 
       "setup.js": {
-         "name": "setup.js",
+         "name": "Setup.js",
          "hash": "QmdKNVa3HCZS5KimqUrwhFve4BG3dcZxr6xYwJDT6EsXJG",
          "path": "js/setup.js",
          "type": "file"

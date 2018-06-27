@@ -3,17 +3,24 @@
    <title>IPFS Testing</title>
    <link rel="stylesheet" href="interface/styles.css" type="text/css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-   <link rel="stylesheet" data-name="vs/editor/editor.main" href="node_modules/monaco-editor/min/vs/editor/editor.main.css">
    <script src="js/md5.js"></script>
-   <script>var require = { paths: { 'vs': 'node_modules/monaco-editor/min/vs' } };</script>
-   <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
-   <script src="node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
-   <script src="node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
    <!-- <script src="js/ipfs.js"></script> -->
 </head>
 <body>
-   <div id="files"></div>
-   <div id="coding"></div>
+   <!-- CONTENT -->
+   <div id="content-body">
+
+      <!-- FILES -->
+      <div id="files-outer">
+         <div id="files"></div>
+      </div>
+
+      <!-- FOOTER -->
+      <div id="footer">
+         <a href="#"><u>Files</u></a> &nbsp;&ndash;&nbsp; <a href="#">Log</a> &nbsp;&ndash;&nbsp; <a href="#">Status</a>
+      </div>
+
+   </div>
 </body>
 <script src="js/app.js"></script>
 <script src="js/temp.js"></script>

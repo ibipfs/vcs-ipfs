@@ -7,6 +7,7 @@ function log(stuff) {
 // SHOW PROMPT TRIGGER
 $('a#show').on('click', () => {
    var name = $(event.target).attr("name");
+   //var name = 'testing';
 
    var selector = `
       <table id="prompt">
@@ -31,7 +32,6 @@ jQuery(document).on('keyup',function(evt) {
 
      if (value == 'table') {
         $("#prompt").css('display', 'none');
-        //delete require['node_modules/monaco-editor/min/vs/editor/editor.main'];
      }
    }
 });
@@ -69,7 +69,19 @@ function renderFiles() {
          var base = dir_content[file];
 
          // GENERATE ROW AND APPEND PARENT
-         var row = '<tr id="content"><td><a id="show"><div name="' + base.hash + '">' + base.name + '</div></a></td></tr>';
+         var row = '<tr id="content"><td><div>' + base.name + '</div></td></tr>';
+
+         var row = `
+            <tr id="content">
+               <td><div>
+                  <table><tr>
+                     <td>` + base.name + `</a></td>
+                     <td><a id="show" attr="view"><span name="` + base.hash + `">View</span></a><a id="show"" attr="edit"><span name="` + base.hash + `" id="edit">Edit</span></a></td>
+                  </tr></table>
+               </div></td>
+            </tr>
+         `;
+
          rows += row;
       }
 

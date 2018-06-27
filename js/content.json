@@ -12,6 +12,13 @@
          "hash": "QmNSjw1nUfofmYK2QxeDcZdKSa5w8gL5oA1HWQJ5CBoi4d",
          "path": "contracts/Migrations.sol",
          "type": "file"
+      },
+
+      "Oracle.sol": {
+         "name": "Oracle.sol",
+         "hash": "Qmeu7kziNqvH6vGazK5925UZYzYLXNf8eKtsrFy1ma31EZ",
+         "path": "contracts/Oracle.sol",
+         "type": "file"
       }
    },
 

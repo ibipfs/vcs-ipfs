@@ -95,34 +95,72 @@ td {
 
 #files table tr#header td div {
    background: url('img/blue-bg.png');
-   text-transform: uppercase;
-   padding: 8px;
+   border-bottom: 1px solid #C3CDE1;
+   padding: 10px;
+   text-transform: capitalize;
 }
 
 #files table tr#content td div {
    background: url('img/gray-bg.png');
-   padding: 8px;
+   border-bottom: 1px solid #CECECE;
+   padding: 6px;
+   padding-left: 10px;
 }
 
 #files table tr#content td div:hover {
    background: url('img/gray-bg-hover.png');
-   border-left: 4px solid #CECECE;
 }
 
 #files table td {
    width: 50%;
+   vertical-align: middle;
+}
+
+#files table td:nth-child(2) {
+   text-align: right;
+   color: #CECECE;
+   visibility: hidden;
+}
+
+#files table tr#content td div:hover td:nth-child(2) {
+   visibility: visible;
 }
 
 #files table td div {
    margin-bottom: 5px;
 }
 
+/* -- FILES / BUTTONS -- */
+
+#files span {
+   background: url('img/success.png');
+   color: #505050;
+   padding: 3px 6px;
+   display: inline-block;
+   margin-left: 5px;
+   border-radius: 4px;
+   border: 1px solid white;
+}
+
+#files span:hover {
+   background: url('img/success-hover.png');
+   text-decoration: underline;
+}
+
+#files span#edit {
+   background: url('img/caution.png');
+}
+
+#files span#edit:hover {
+   background: url('img/caution-hover.png');
+}
+
 /* -- FOOTER -- */
 
 #footer {
-   padding-top: 5px;
+   padding: 10px 0px;
    text-align: center;
-   color: #808080;
+   color: #9b9b9b;
 }
 
 #footer a:link, #footer a:visited {
@@ -131,4 +169,53 @@ td {
 
 #footer a:hover {
    color: white;
+}
+
+/* -- EXPERIMENTAL -- */
+
+#menu {
+   background: url('img/bg2.png');
+   border-bottom: 4px solid #747474;
+   padding: 10px;
+   padding-left: 2px;
+}
+
+ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#menu li {
+	display: inline-block;
+	border-right: 2px dotted rgb(156, 156, 156);
+	margin: 0px;
+	padding: 6px;
+}
+
+#menu li:last-child {
+	border: 0px solid white;
+}
+
+#menu li a:link, li a:visited {
+	padding: 8px 10px;
+	color: #C8C9CA;
+}
+
+#menu li a:hover {
+	background: url('img/dark.png');
+	border-radius: 4px;
+	color: white;
+}
+
+#menu-tbl td:last-child {
+   text-align: right;
+}
+
+#menu-tbl span {
+   background: url('img/success.png');
+   color: #F1F1F1;
+   padding: 6px 10px;
+   display: inline-block;
+   border-radius: 4px;
 }

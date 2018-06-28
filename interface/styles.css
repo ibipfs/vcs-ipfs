@@ -74,7 +74,6 @@ td {
 	background: url('img/inner-bg.png');
    color: #505050;
    border-radius: 4px;
-   padding: 15px;
    min-height: 600px;
 }
 
@@ -84,6 +83,7 @@ td {
    background: url('img/dark.png');
    border-radius: 4px;
    padding: 10px;
+   min-width: 600px;
 }
 
 #files {
@@ -151,6 +151,7 @@ td {
    border-bottom: 4px solid #747474;
    padding: 10px;
    padding-left: 2px;
+   min-width: 600px;
 }
 
 ul {
@@ -171,7 +172,7 @@ ul {
 }
 
 #menu li a:link, li a:visited {
-	padding: 8px 10px;
+	padding: 5px 10px 8px 10px;
 	color: #C8C9CA;
 }
 

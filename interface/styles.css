@@ -63,7 +63,7 @@ td {
 
 #prompt-outer {
 	background: url('img/dark.png');
-   width: 600px;
+   width: 550px;
 	margin-left: auto;
 	margin-right: auto;
    border-radius: 4px;
@@ -75,7 +75,7 @@ td {
    color: #505050;
    border-radius: 4px;
    padding: 15px;
-   min-height: 700px;
+   min-height: 600px;
 }
 
 /* -- FILES -- */
@@ -103,56 +103,29 @@ td {
 #files table tr#content td div {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
-   padding: 6px;
-   padding-left: 10px;
+   padding: 8px;
 }
 
 #files table tr#content td div:hover {
-   background: url('img/gray-bg-hover.png');
+   background: url('img/success.png');
+}
+
+#files table tr td a:hover {
+   text-decoration: none;
 }
 
 #files table td {
    width: 50%;
-   vertical-align: middle;
 }
 
 #files table td:nth-child(2) {
    text-align: right;
-   color: #CECECE;
-   visibility: hidden;
-}
-
-#files table tr#content td div:hover td:nth-child(2) {
-   visibility: visible;
+   color: rgb(196, 195, 195);
+   text-decoration: none;
 }
 
 #files table td div {
    margin-bottom: 5px;
-}
-
-/* -- FILES / BUTTONS -- */
-
-#files span {
-   background: url('img/success.png');
-   color: #505050;
-   padding: 3px 6px;
-   display: inline-block;
-   margin-left: 5px;
-   border-radius: 4px;
-   border: 1px solid white;
-}
-
-#files span:hover {
-   background: url('img/success-hover.png');
-   text-decoration: underline;
-}
-
-#files span#edit {
-   background: url('img/caution.png');
-}
-
-#files span#edit:hover {
-   background: url('img/caution-hover.png');
 }
 
 /* -- FOOTER -- */

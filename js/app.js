@@ -207,17 +207,20 @@ function promisify(query, value = null) {
  
          // FETCH NUMBER OF RECORDS
          case 'metamask':
-            web3.eth.getAccounts(function(err, accounts) {
+            web3.eth.getAccounts(function(err, result) {
                if (err) {
                   log('MetaMask Error: ' + err)
                } else {
-                  resolve(accounts);
+                  resolve(result);
                }
             });
          break;
 
+         // FETCH MEMBERS ARRAY
          case 'members':
-            
+            contract.fetchMembers((err, result) => {
+               resolve(result);
+            });
          break;
  
          // FALLBACK
@@ -246,6 +249,11 @@ promisify('metamask').then((accounts) => {
 
       // SET ACCOUNT AS SELECTOR KEY
       $('#metamask').attr('key', accounts[0]);
+
+      promisify('members').then((members) => {
+         log(members);
+      });
+
    } else {
       text = 'MetaMask Not Connection';
       bg = 'error';

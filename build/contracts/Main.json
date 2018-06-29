@@ -1,8 +1,8 @@
 {
   "contractName": "Main",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820567e927d21a9d9d2ec96421728889aa9261c038666d336c8efb47d5a8989c7790029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820567e927d21a9d9d2ec96421728889aa9261c038666d336c8efb47d5a8989c7790029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582031678e98af9278477b2cd69fdf0152b1e20b99df203d646618fe3e9034dad32e0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582031678e98af9278477b2cd69fdf0152b1e20b99df203d646618fe3e9034dad32e0029",
   "sourceMap": "25:30:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:30:0;;;;;;;",
   "deployedSourceMap": "25:30:0:-;;;;;",
   "source": "pragma solidity ^0.4.2;\n\ncontract Main {\n    // STUFF\n}",
@@ -89,16 +89,16 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
   "networks": {
-    "1529997817009": {
+    "1530240276168": {
       "events": {},
       "links": {},
-      "address": "0x8409e05aa7382fd7c5b4fb90b5d806c28aabf662",
-      "transactionHash": "0xe440651ee05d68cb6ff6433b5a288dc242d5ef79c1f3ec8ca0181c2a4bea9690"
+      "address": "0x398c21949e10ed66e78dae9dffda7d332079f8ec",
+      "transactionHash": "0x7a454e0de477f55048d218f3fad4a5a55152c24067b310f05e97157bcebea409"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-06-26T07:23:58.233Z"
+  "updatedAt": "2018-06-29T02:56:31.860Z"
 }

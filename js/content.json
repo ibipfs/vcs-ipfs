@@ -4,37 +4,42 @@
          "name": "Main.sol",
          "hash": "QmXZG9SDe4xqo6FtBQ1EFdtidwL8pV3RNb8UAeJd8o66ec",
          "path": "contracts/Main.sol",
-         "type": "file"
+         "type": "file",
+         "size": 84534
       },
 
       "Migrations.sol": {
          "name": "Migrations.sol",
          "hash": "QmNSjw1nUfofmYK2QxeDcZdKSa5w8gL5oA1HWQJ5CBoi4d",
          "path": "contracts/Migrations.sol",
-         "type": "file"
-      },
-
-      "Oracle.sol": {
-         "name": "Oracle.sol",
-         "hash": "Qmeu7kziNqvH6vGazK5925UZYzYLXNf8eKtsrFy1ma31EZ",
-         "path": "contracts/Oracle.sol",
-         "type": "file"
+         "type": "file",
+         "size": 18736
       }
    },
 
    "js": {
-      "app.js": {
+      "App.js": {
          "name": "App.js",
          "hash": "QmYNCJ6UokJc2RkQyWwecxKwZ1fKNzjcKRHYvQQvnzJYMG",
-         "path": "js/app.js",
-         "type": "file"
+         "path": "js/App.js",
+         "type": "file",
+         "size": 24321
       },
 
-      "setup.js": {
+      "Setup.js": {
          "name": "Setup.js",
          "hash": "QmdKNVa3HCZS5KimqUrwhFve4BG3dcZxr6xYwJDT6EsXJG",
-         "path": "js/setup.js",
-         "type": "file"
+         "path": "js/Setup.js",
+         "type": "file", 
+         "size": 65875
+      },
+
+      "Content.js": {
+         "name": "Content.js",
+         "hash": "QmWSfPuxJZkUyeuAkXJEEBJHn6aZNt4WoqTDZEo7Q8eEuq",
+         "path": "js/Content.js",
+         "type": "file",
+         "size": 34325
       }
    }
 }

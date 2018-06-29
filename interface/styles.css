@@ -47,6 +47,11 @@ td {
    padding: 30px;
 }
 
+pre, code {
+   padding: 0px;
+   margin: 0px;
+}
+
 /* -- PROMPT -- */
 
 #prompt {
@@ -63,7 +68,7 @@ td {
 
 #prompt-outer {
 	background: url('img/dark.png');
-   width: 550px;
+   width: 650px;
 	margin-left: auto;
 	margin-right: auto;
    border-radius: 4px;
@@ -74,7 +79,60 @@ td {
 	background: url('img/inner-bg.png');
    color: #505050;
    border-radius: 4px;
-   min-height: 600px;
+   height: 500px;
+   padding: 10px;
+   overflow: auto;
+}
+
+#prompt-header {
+   background: url('img/inner-bg.png');
+   border-radius: 4px;
+}
+
+#prompt-header #item {
+   background: url('img/success.png');
+   color: #F1F1F1;
+   padding: 10px;
+   border-radius: 4px;
+   margin-bottom: 5px;
+   color: #505050;
+}
+
+#prompt-header #item table tr td:nth-child(2), #prompt-tools table tr td:nth-child(2) {
+   text-align: right;
+}
+
+hr {
+   margin: 7px 0px;
+   padding: 0px;
+   border: 0px solid white;
+   border-top: 1px dotted #A0BFB4;
+   border-bottom: 1px dotted #E5F3EE;
+}
+
+#prompt-tools {
+   padding-top: 5px;
+}
+
+#save, #upload, #discard {
+   background: url('img/success.png');
+   display: inline-block;
+   color: #F1F1F1;
+   padding: 6px 10px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+#save {
+   margin-right: 5px;
+}
+
+#upload {
+   background: url('img/caution.png');
+}
+
+#discard {
+   background: url('img/error.png');
 }
 
 /* -- FILES -- */

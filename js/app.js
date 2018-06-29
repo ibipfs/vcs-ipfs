@@ -199,11 +199,51 @@ function closePrompt() {
    }
 }
 
-web3.eth.getAccounts(function(err, accounts){
-   if (err) {
-      log("An error occurred: " + err)
+// WRAP BLOCKCHAIN QUERIES INTO PROMISES
+function promisify(query, value = null) {
+   return new Promise(function(resolve, reject) {
+ 
+      switch(query) {
+ 
+         // FETCH NUMBER OF RECORDS
+         case 'metamask':
+            web3.eth.getAccounts(function(err, accounts) {
+               if (err) {
+                  log('MetaMask Error: ' + err)
+               } else {
+                  resolve(accounts);
+               }
+            });
+         break;
+ 
+         // FALLBACK
+         default:
+            log('Error in Promisify Switch.')
+         break;
+      }
+ 
+   });
+}
 
+// CHECK IF USER IS LOGGED IN
+promisify('metamask').then((accounts) => {
+
+   // CHECK AMOUNT
+   var count = accounts.length;
+   log(count + ' account(s) found.');
+
+   // ASSIST VARS
+   var text;
+   var bg;
+
+   if (count == 1) {
+      text = 'MetaMask Connected';
+      bg = 'success';
    } else {
-      log(accounts);
+      text = 'MetaMask Not Connection';
+      bg = 'error';
    }
+   
+   $('#metamask').text(text);
+   $('#metamask').css('background', "url('interface/img/" + bg + ".png')");
 });

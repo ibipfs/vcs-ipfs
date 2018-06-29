@@ -29,4 +29,9 @@ contract Main {
             members.push(_owner);
         }
     }
+
+    // FETCH MEMBERS
+    function fetchMembers() public view returns (address[]) {
+        return members;
+    }
 }

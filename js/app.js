@@ -215,6 +215,10 @@ function promisify(query, value = null) {
                }
             });
          break;
+
+         case 'members':
+            
+         break;
  
          // FALLBACK
          default:
@@ -239,6 +243,9 @@ promisify('metamask').then((accounts) => {
    if (count == 1) {
       text = 'MetaMask Connected';
       bg = 'success';
+
+      // SET ACCOUNT AS SELECTOR KEY
+      $('#metamask').attr('key', accounts[0]);
    } else {
       text = 'MetaMask Not Connection';
       bg = 'error';

@@ -3,8 +3,8 @@ pragma solidity ^0.4.2;
 contract Main {
 
     // MEMBERS
-    mapping(uint256 => User) public members;
-    uint256 public memberCount;
+    mapping(address => User) public memberInfo;
+    address[] public members;
 
     // CONTRACT ADMIN
     address public admin = 0x2b1ccbb47df9585e513cecac307a1e8ce0b620c5;
@@ -12,7 +12,6 @@ contract Main {
     // USER OBJECT
     struct User {
         string name;
-        address owner;
         uint256 timestamp;
     }
 
@@ -23,12 +22,11 @@ contract Main {
         if (msg.sender == admin) {
 
             // GENERATE STRUCT
-            members[memberCount].name = _name;
-            members[memberCount].owner = _owner;
-            members[memberCount].timestamp = now;
+            memberInfo[_owner].name = _name;
+            memberInfo[_owner].timestamp = now;
 
-            // INCREMENT
-            memberCount++;
+            // PUSH INTO MEMBER ARRAY
+            members.push(_owner);
         }
     }
 }

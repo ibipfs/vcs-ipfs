@@ -198,3 +198,12 @@ function closePrompt() {
       $('#prompt').remove();
    }
 }
+
+web3.eth.getAccounts(function(err, accounts){
+   if (err) {
+      log("An error occurred: " + err)
+
+   } else {
+      log(accounts);
+   }
+});

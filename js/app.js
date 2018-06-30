@@ -17,9 +17,10 @@ $('a#show').on('click', () => {
       dataType: 'json'
    }).responseJSON;
 
+   // FILE DETAILS
    var instanceData = fetchData(path, file);
 
-   // TRANSFORM OBJECT
+   // TRANSFORM CODE BLOCK
    var stringify = JSON.stringify(file);
    var minify = vkbeautify.jsonmin(stringify);
    var beautify = vkbeautify.json(minify, 4);
@@ -30,6 +31,7 @@ $('a#show').on('click', () => {
          <tr>
             <td>
                <div id="prompt-outer">
+
                   <div id="prompt-header">
                      <div id="item">
                         <table>
@@ -62,11 +64,12 @@ $('a#show').on('click', () => {
                   <div id="prompt-tools">
                      <table>
                         <tr>
-                           <td><span id="save">Save</span><span id="upload">Upload</span></td>
-                           <td><a id="asa"><span id="discard">Discard</span></a></td>
+                           <td><span id="save-cache">Save To Cache</span><span id="upload">Upload To IPFS</span></td>
+                           <td><span id="remove-cache">Remove From Cache</span><span id="discard">Discard & Close</span></td>
                         </tr>
                      </table>
                   </div>
+
                </div>
             </td>
          </tr>
@@ -74,15 +77,14 @@ $('a#show').on('click', () => {
    `;
 
    // PREPEND TO BODY
-   $('body').prepend(selector);
+   $('#prompt-space').prepend(selector);
 
    // CODE HIGHLIGHTING
    $('pre code').each(function(i, block) {
       hljs.highlightBlock(block);
    });
 
-   // DISPLAY WITH CSS
-   $("#prompt").css('display', 'table');
+   $("#prompt-space").css('opacity', '1');
 });
 
 // HIDE PROMPT ON ESC
@@ -93,6 +95,11 @@ jQuery(document).on('keyup',function(evt) {
       closePrompt();
    }
 
+});
+
+// HIDE PROMPT WITH DISCARD BUTTON
+$('body').on('click', '#discard', () => {
+   closePrompt();
 });
 
 // RENDER FILES
@@ -191,11 +198,18 @@ function closePrompt() {
 
    if (value == 'table') {
 
-      // CSS HIDE SELECTOR
-      $("#prompt").css('display', 'none');
+      // MAKE PARENT OPACITY ZERO AGAIN
+      $('#prompt-space').css('opacity', '0');
 
-      // REMOVE FROM DOM
-      $('#prompt').remove();
+      // WAIT FOR 0.2 SECONDS
+      sleep(180).then(() => {
+
+         // CSS HIDE SELECTOR
+         $("#prompt").css('display', 'none');
+
+         // REMOVE FROM DOM
+         $('#prompt').remove();
+      });
    }
 }
 
@@ -271,7 +285,7 @@ promisify('metamask').then((accounts) => {
 
       // IF CONNECTED BUT NOT A MEMBER
       } else {
-         text = 'MetaMask Found - Anonymous';
+         text = 'MetaMask Found - Unknown User';
          bg = 'caution';
       }
 
@@ -285,3 +299,8 @@ promisify('metamask').then((accounts) => {
    $('#metamask').text(text);
    $('#metamask').css('background', "url('interface/img/" + bg + ".png')");
 });
+
+// SLEEP FUNC
+function sleep (time) {
+   return new Promise((resolve) => setTimeout(resolve, time));
+ }

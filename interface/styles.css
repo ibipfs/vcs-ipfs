@@ -58,12 +58,20 @@ pre, code {
 
 /* -- PROMPT -- */
 
+#prompt-space {
+   opacity: 0;
+	-o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+   transition: .2s;
+}
+
 #prompt {
-	display: none;
 	background: url('img/darker.png');
 	position: absolute;
 	height: 100%;
-	width: 100%;
+   width: 100%;
 }
 
 #prompt td {
@@ -118,25 +126,55 @@ hr {
    padding-top: 5px;
 }
 
-#save, #upload, #discard {
+#save-cache, #remove-cache, #discard, #upload {
    background: url('img/success.png');
    display: inline-block;
    color: #F1F1F1;
    padding: 6px 10px;
    border-radius: 4px;
    cursor: pointer;
+   transition: .2s;
 }
 
-#save {
+#save-cache:hover, #remove-cache:hover, #discard:hover, #upload:hover {
+   text-decoration: underline;
+}
+
+#save-cache {
    margin-right: 5px;
+   border: 1px solid #5D8576;
+}
+
+#save-cache:hover {
+   background: url('img/save-cache-hover.png');
 }
 
 #upload {
+   background: url('img/blue-bg.png');
+   border: 1px solid #334160;
+}
+
+#upload:hover {
+   background: url('img/upload-hover.png');
+}
+
+#remove-cache {
    background: url('img/caution.png');
+   border: 1px solid #959528;
+   margin-right: 5px;
+}
+
+#remove-cache:hover {
+   background: url('img/remove-cache-hover.png');
 }
 
 #discard {
    background: url('img/error.png');
+   border: 1px solid #744C4C;
+}
+
+#discard:hover {
+   background: url('img/discard-hover.png');
 }
 
 /* -- FILES -- */
@@ -212,7 +250,7 @@ hr {
    background: url('img/bg2.png');
    border-bottom: 4px solid #747474;
    padding: 10px;
-   padding-left: 2px;
+   padding-left: 6px;
    min-width: 600px;
 }
 

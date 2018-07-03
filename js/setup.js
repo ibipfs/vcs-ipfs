@@ -2,7 +2,7 @@
 if (typeof web3 !== 'undefined') {
    web3 = new Web3(web3.currentProvider);
 } else {
-   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+   web3 = new Web3(new Web3.providers.HttpProvider('http://192.168.1.34:8545'));
 }
 
 // DEFAULT ACCOUNT
@@ -23,3 +23,7 @@ var contractAddress = json.networks[id].address;
 
 // CREATE CONTRACT REFERENCE
 var contract = web3.eth.contract(json.abi).at(contractAddress);
+
+
+// ESTABLISH CONNECTION TO IPFS PEER
+var ipfs = window.IpfsApi('192.168.1.34', '5001');

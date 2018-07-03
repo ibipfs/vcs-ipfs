@@ -53,7 +53,13 @@ pre, code {
 }
 
 #metamask {
+   background: url('img/caution.png');
+   border: 1px solid rgb(119, 170, 151);
    text-transform: capitalize;
+   color: #F1F1F1;
+   padding: 5px 8px;
+   display: inline-block;
+   border-radius: 4px;
 }
 
 /* -- PROMPT -- */
@@ -284,12 +290,4 @@ ul {
 
 #menu-tbl td:last-child {
    text-align: right;
-}
-
-#menu-tbl span {
-   background: url('img/success.png');
-   color: #F1F1F1;
-   padding: 6px 10px;
-   display: inline-block;
-   border-radius: 4px;
 }

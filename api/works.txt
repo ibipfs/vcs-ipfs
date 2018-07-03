@@ -1,11 +1,11 @@
 // https://github.com/ipfs/js-ipfs-api#in-a-web-browser-from-cdn
 
-var ipfs = window.IpfsApi('localhost', '5001');
+var ipfs = window.IpfsApi('192.168.1.34', '5001');
 
-ipfs.files.cat('QmegxUaiExnc3LLTdqYXsCAp2epCA74xREAsW4MJtdfdpT', function (err, file) {
-   if (err) {
-     throw err
-   }
- 
-   console.log(file.toString('utf8'))
- })
+const validCID = 'QmeREduHV2GtFe3Ag8gSNrXMa9Ns7oX9qpsUCd6ZAQxCtw'
+
+ipfs.ls(validCID, function (err, files) {
+   files.forEach((file) => {
+      console.log(file.path)
+   })
+})

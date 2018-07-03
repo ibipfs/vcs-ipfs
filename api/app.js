@@ -1,61 +1,94 @@
-var ipfs = window.IpfsApi('localhost', '5001');
+// ESTABLISH CONNECTION TO IPFS PEER
+var ipfs = window.IpfsApi('192.168.1.34', '5001');
 
-const validCID = 'QmVDHzcrfJgAx31v6epD5SmpGF1qFoTHj95VLdqR4DLEC7'
-
-// ipfs.ls(validCID, function (err, files) {
-//   files.forEach((file) => {
-//     console.log(file.path)
-//   })
-// })
-
-var foo = {};
-setBuild(foo);
-
+// DIRECTORY URL
+var validCID = 'QmUfiUfPtE8Yv6tim9bFSanQrZMJR7NgH4ACgeU2zbQwJE';
 parseDir(validCID);
-log(getBuild());
 
+// PARSE DIRECTORY
 function parseDir(_hash) {
+   var build = {};
 
-   ipfs.ls(_hash, function (err, files) {
+   // STAGE 1 -- ADD DIRECTORIES TO OBJECT
+   promisify('dir', _hash).then((files) => {
+      files.forEach((file) => {
 
-      // CONTENT TYPES
-      var types = ['dir', 'file'];
+         // PUSH DIRECTORIES INTO OBJECT
+         var parent = file.name;
+         build[parent] = {
+            hash: file.hash
+         };
 
-      // LOOP ONE TYPE AT A TIME
-      for (var x = 0; x < types.length; x++) {
+      });
 
-         files.forEach((file) => {
+   // STAGE 2 -- ADD FILES
+   }).then(() => {
 
-            if (file.type == types[x]) {
-               var str = file.type + ' / ' + file.name;
+      // OBJECT KEYS
+      var keys = Object.keys(build);
 
-               var build = getBuild();
-               build[str] = {};
-               setBuild(build);
-               log(getBuild());
+      // LOOP
+      keys.forEach((key) => {
+         
+         // CHILD DIR PROMISE
+         promisify('dir', build[key].hash).then((files) => {
+            files.forEach((file) => {
 
-               // if (file.type == types[0]) {
-               //    parseDir(file.hash);
-               // }
-            }
+               // PUSH FILES INTO OBJECT
+               build[key][file.name] = {
+                  name: file.name,
+                  hash: file.hash,
+                  size: file.size,
+                  path: file.path
+               }
+
+            });
+
+         // STAGE 3 -- RENDER
+         }).then(() => {
+
+            var stringify = JSON.stringify(build);
+            var minify = vkbeautify.jsonmin(stringify);
+            var beautify = vkbeautify.json(minify);
+            $('code').text(beautify);
 
          });
-
-      }
+      });
 
    });
+}
 
+// WRAP BLOCKCHAIN QUERIES INTO PROMISES
+function promisify(query, value = null) {
+   return new Promise(function(resolve, reject) {
+ 
+      switch(query) {
+ 
+         // FETCH IPFS DIRECTORY CONTENT
+         case 'dir':
+            ipfs.ls(value, function (err, files) {
+               resolve(files);
+            });
+         break;
+ 
+         // FALLBACK
+         default:
+            log('Error in Promisify Switch.')
+         break;
+      }
+ 
+   });
 }
 
 function log(stuff) {
    console.log(stuff);
 }
 
-function getBuild() {
-   var ret = JSON.parse(localStorage.getItem('build'));
-   return ret;
-}
+// HASH BASED ON JSON CONTENT
+function contentHash(obj) {
+   var string = JSON.stringify(obj);
+   var string = vkbeautify.jsonmin(string);
+   var string = md5(string);
 
-function setBuild(obj) {
-   localStorage.setItem('build', JSON.stringify(obj));
+   return string;
 }

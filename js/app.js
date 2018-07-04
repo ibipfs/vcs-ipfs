@@ -35,14 +35,14 @@ $('body').on('click', 'a#show', () => {
                            <table>
                               <tr>
                                  <td>Direct Link: </td>
-                                 <td>` + instanceData.hash + `</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + instanceData.hash + `" target="_blank">` + instanceData.hash + `</a></td>
                               </tr>
                            </table>
                            <hr>
                            <table>
                               <tr>
                                  <td>Size: </td>
-                                 <td>` + instanceData.size + `</td>
+                                 <td>` + instanceData.size / 1000 + ` KB</td>
                               </tr>
                            </table>
                         </div>

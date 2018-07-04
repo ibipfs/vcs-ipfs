@@ -1,0 +1,25 @@
+// WEB3 BROWSER CONFIG
+if (typeof web3 !== 'undefined') {
+   web3 = new Web3(web3.currentProvider);
+} else {
+   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+}
+
+// DEFAULT ACCOUNT
+web3.eth.defaultAccount = web3.eth.accounts[0];
+
+// FETCH CONTRACT JSON
+var json = $.ajax({
+   url: "build/contracts/Main.json",
+   async: false,
+   dataType: 'json'
+}).responseJSON;
+
+// FETCH DEPLOYMENT ID
+var id = Object.keys(json.networks)[0];
+
+// CONTRACT ADDRESS
+var contractAddress = json.networks[id].address;
+
+// CREATE CONTRACT REFERENCE
+var contract = web3.eth.contract(json.abi).at(contractAddress);

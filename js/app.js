@@ -11,10 +11,6 @@ $('body').on('click', 'a#show', () => {
    var instanceData = fetchData(path);
 
    promisify('file', instanceData.hash).then((file) => {
-      
-      // TRANSFORM CODE BLOCK
-      var minify = vkbeautify.jsonmin(file);
-      var beautify = vkbeautify.json(minify, 4);
 
       // GENERATE TABLE
       var selector = `
@@ -49,7 +45,7 @@ $('body').on('click', 'a#show', () => {
                      </div>
 
                      <div id="prompt-inner">
-                        <pre><code class="JSON">` + beautify + `</code></pre>
+                        <pre><code class="` + instanceData.suffix + `">` + file + `</code></pre>
                      </div>
 
                      <div id="prompt-tools">
@@ -132,12 +128,16 @@ function parseDir(_hash) {
          promisify('dir', build[key].hash).then((files) => {
             files.forEach((file) => {
 
+               // FETCH FILE SUFFIX
+               var split = file.name.split('.');
+
                // PUSH FILES INTO OBJECT
                build[key][file.name] = {
                   name: file.name,
                   hash: file.hash,
                   size: file.size,
-                  path: key + '/' + file.name 
+                  path: key + '/' + file.name,
+                  suffix: split.pop()
                }
 
             });
@@ -148,6 +148,8 @@ function parseDir(_hash) {
             //var content = build;
             localStorage.setItem('dataset', JSON.stringify(build));
             var content = JSON.parse(localStorage.getItem('dataset'));
+
+            //log(content['build']['Main.json'])
 
             // DIRECTORY KEYS
             var directories = Object.keys(content);
@@ -213,20 +215,9 @@ function fetchData(path) {
    var object = JSON.parse(localStorage.getItem('dataset'));
 
    path = path.split('/');
-   var pathLen = path.length;
-   var content;
+   var data = object[path[0]][path[1]]
 
-   switch (pathLen) {
-      case 1:
-         content = object[path[0]];
-      break;
-
-      case 2:
-         content = object[path[0]][path[1]];
-      break;
-   }
-
-   return content;
+   return data;
 }
 
 // CLOSE PROMPT WINDOW

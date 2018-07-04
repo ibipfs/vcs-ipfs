@@ -1,5 +1,5 @@
 ipfs swarm peers
-ipfs add -r data
+ipfs add datboi.json
 echo "Directory Hash?"
 read hash
 echo "Publishing....."

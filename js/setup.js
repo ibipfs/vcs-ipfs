@@ -1,8 +1,10 @@
+var host_addr = 'localhost';
+
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {
    web3 = new Web3(web3.currentProvider);
 } else {
-   web3 = new Web3(new Web3.providers.HttpProvider('http://192.168.1.34:8545'));
+   web3 = new Web3(new Web3.providers.HttpProvider('http://' + host_addr + ':8545'));
 }
 
 // DEFAULT ACCOUNT
@@ -26,4 +28,4 @@ var contract = web3.eth.contract(json.abi).at(contractAddress);
 
 
 // ESTABLISH CONNECTION TO IPFS PEER
-var ipfs = window.IpfsApi('192.168.1.34', '5001');
+var ipfs = window.IpfsApi(host_addr, '5001');

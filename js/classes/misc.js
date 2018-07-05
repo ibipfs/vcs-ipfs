@@ -23,6 +23,17 @@ function promisify(query, value = null) {
             });
          break;
 
+         // FETCH NUMBER OF RECORDS
+         case 'metamask':
+            web3.eth.getAccounts(function(err, result) {
+               if (err) {
+                  log('MetaMask Error: ' + err)
+               } else {
+                  resolve(result);
+               }
+            });
+         break;
+
          // FALLBACK
          default:
             log('Error in Promisify Switch.')

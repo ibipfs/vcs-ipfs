@@ -65,14 +65,16 @@ class parseDir {
    render() {
       this.init().then((dir) => {
 
+         var content = dir.build;
+
          // DIRECTORY KEYS
-         var directories = Object.keys(dir);
+         var directories = Object.keys(content);
          var links = '';
 
          // LOOP THROUGH DIRECTORY LIST
          for (var x = 0; x < directories.length; x++) {
             var dir_name = directories[x];
-            var dir_content = dir[directories[x]];
+            var dir_content = content[directories[x]];
 
             // TABLE ELEMENTS
             var header = '<table><tr id="header"><td><div>' + dir_name +  '</div></td></tr>';
@@ -80,6 +82,7 @@ class parseDir {
 
             // FILE KEYS
             var files = Object.keys(dir_content);
+            log(content)
             var rows = '';
 
             // LOOP THROUGH FILES -- START FROM INDEX 1 TO DODGE THE DIRECTORY HASH

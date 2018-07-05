@@ -1,4 +1,4 @@
-var host_addr = 'localhost';
+var host_addr = '127.0.0.1';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {

@@ -197,13 +197,19 @@ hr {
    border-radius: 4px;
    padding: 5px;
    padding-bottom: 0px;
+   transition: .2s;
 }
 
-#files table tr#header td div {
+#files table tr#header td div, #files table tr#back td div {
    background: url('img/blue-bg.png');
    border-bottom: 1px solid #C3CDE1;
    padding: 10px;
    text-transform: capitalize;
+}
+
+#files table tr#back td div {
+   background: url('img/error.png');
+   border-bottom: 1px solid #CCAAAA;
 }
 
 #files table tr#content td div {

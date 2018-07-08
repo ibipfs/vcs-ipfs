@@ -1,4 +1,5 @@
-var host_addr = '127.0.0.1';
+// BLOCKCHAIN & IPFS PEER IP
+var host_addr = '192.168.1.34';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {
@@ -25,7 +26,6 @@ var contractAddress = json.networks[id].address;
 
 // CREATE CONTRACT REFERENCE
 var contract = web3.eth.contract(json.abi).at(contractAddress);
-
 
 // ESTABLISH CONNECTION TO IPFS PEER
 var ipfs = window.IpfsApi(host_addr, '5001');

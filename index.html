@@ -7,11 +7,12 @@
    <link rel="stylesheet" href="interface/github.css" type="text/css">
    
    <!-- JS / FRAMEWORKS -->
-   <script src="js/jquery.js"></script>
-   <script src="js/md5.js"></script>
-   <script src="js/vkbeautify.js"></script>
-   <script src="js/highlight.pack.js"></script>
-   <script src="js/ipfs.js"></script>
+   <script src="js/frameworks/jquery.js"></script>
+   <script src="js/frameworks/md5.js"></script>
+   <script src="js/frameworks/vkbeautify.js"></script>
+   <script src="js/frameworks/highlight.pack.js"></script>
+   <script src="js/frameworks/ipfs.js"></script>
+   <script src="js/frameworks/web3.js"></script>
 </head>
 <body>
 
@@ -42,13 +43,16 @@
 
       <!-- FOOTER -->
       <div id="footer">Cannot locate IPFS directory</div>
+      <input type="hidden" id="root">
 
    </div>
 </body>
 
 <!-- JS / APP -->
-<script src="js/web3.js"></script>
 <script src="js/setup.js"></script>
 <script src="js/classes/misc.js"></script>
-<script src="js/classes/parseDir.js"></script>
-<script src="js/stuff.js"></script>
+<script src="js/classes/metamask.js"></script>
+<script src="js/classes/content.js"></script>
+<script src="js/classes/events.js"></script>
+<script src="js/classes/prompt.js"></script>
+<script src="js/app.js"></script>

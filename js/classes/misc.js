@@ -29,7 +29,7 @@ function promisify(query, value = null) {
 
          // FETCH IPFS FILE DATA
          case 'file':
-            ipfs.files.get(value, function (err, file) {
+            ipfs.files.cat(value, function (err, file) {
                resolve(file);
             });
          break;
@@ -46,4 +46,38 @@ function promisify(query, value = null) {
 // SLEEP FUNC FOR PROMPT TRANSITIONS
 function sleep (time) {
    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+// FETCH SPECIFIC INFO FROM DIR OBJECT
+function fetchData(obj, fileName) {
+   var keys = Object.keys(obj);
+   var data = {};
+
+   keys.forEach((key) => {
+      if (obj[key].name == fileName) {
+         data = obj[key];
+      }
+   });
+
+   return data;
+}
+
+// CHANGE FILE SUFFIX TO LANGUAGE
+function findLang(suffix) {
+   var name = '';
+
+   switch(suffix) {
+
+      // JAVASCRIPT
+      case 'js':
+         name = 'javascript';
+      break;
+
+      // FALLBACK
+      default:
+         name = suffix;
+      break;
+   }
+
+   return name;
 }

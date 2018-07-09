@@ -86,6 +86,9 @@ class Render {
 
          sleep(180).then(() => {
 
+            // EMPTY SELECTOR
+            $('#files').html('');
+
             // TURN OPACITY UP
             $("#files").css('opacity', '1');
 

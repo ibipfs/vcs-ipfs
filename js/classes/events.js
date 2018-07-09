@@ -1,20 +1,26 @@
 // ONCLICK FILE
 $('body').on('click', 'a#show', () => {
 
-   // PICK UP TARGET PATH
+   // FILE PATH
    var path = $(event.target).attr('key');
+   var split = path.split('/');
 
-   promisify('file', path).then((file) => {
+   // REFS
+   var dir = split[0];
+   var file = split[1];
 
-      // INSTANCE DATA
-      var data = file["0"];
+   // GENERATE PROMISES
+   var first = promisify('file', path);
+   var second = promisify('dir', dir);
 
-      // CONTENT
-      var content = data.content.toString('utf8');
+   // AFTER BOTH PROMISES ARE RESOLVED
+   Promise.all([first, second]).then(function(values) {
 
-      // FILE SUFFIX
-      var type = data.path.split('.');
-      type = type[1];
+      var content = values[0].toString('utf8');
+      var info = fetchData(values[1], file);
+
+      var type = info.name.split('.');
+      type = findLang(type.pop());
 
       // GENERATE TABLE
       var selector = `
@@ -25,10 +31,29 @@ $('body').on('click', 'a#show', () => {
 
                      <div id="prompt-header">
                         <div id="item">
+
                            <table>
                               <tr>
-                                 <td>Name/Path: </td>
-                                 <td>` + path + `</td>
+                                 <td>Name/Path:</td>
+                                 <td>` + info.path + `</td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Direct Link:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + info.hash + `" target="_blank">` + info.hash + `</a></td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Size:</td>
+                                 <td>` + info.size / 1000 + ` KB</td>
                               </tr>
                            </table>
                         </div>
@@ -70,9 +95,6 @@ $('body').on('click', 'a#open', () => {
 
    // NEW DIR HASH
    var hash = $(event.target).attr('key');
-
-   // EMPTY SELECTOR
-   $('#files').html('');
 
    // RENDER NEW CONTENT
    var render = new Render(hash);

@@ -15,6 +15,7 @@ class Render {
 
    // RENDER BODY
    body() {
+
       this.init(this.hash).then((content) => {
 
          // DIRECTORY KEYS
@@ -26,16 +27,17 @@ class Render {
          parent = parent.split('/')
          parent = parent[0];
 
-         var rootz = $('#root').val();
+         // FIX REAL PARENT DIR PATHING
+         var root = $('#root').val();
 
          // BACK BUTTON IF PARENT DIR ISNT ROOT
-         if (rootz != parent) {
+         if (root != parent) {
             rows = `
                <tr id="back">
-                  <td><a id="open"><div key="` + parent + `">
+                  <td><a id="open"><div key="` + root + `">
                      <table><tr>
-                        <td key="` + parent + `">Back</a></td>
-                        <td key="` + parent + `">` + parent + `</td>
+                        <td key="` + root + `">Back</td>
+                        <td key="` + root + `">` + root + `</td>
                      </tr></table>
                   </div></a></td>
                </tr>
@@ -66,7 +68,7 @@ class Render {
                <tr id="` + cssID + `">
                   <td><a id="` + eventID + `"><div key="` + eventREF + `">
                      <table><tr>
-                        <td key="` + eventREF + `">` + item.name + `</a></td>
+                        <td key="` + eventREF + `">` + item.name + `</td>
                         <td key="` + eventREF + `">` + item.hash + `</td>
                      </tr></table>
                   </div></a></td>
@@ -80,8 +82,18 @@ class Render {
          // CONSTRUCT FULL TABLE
          var table = '<table>' + rows + '</table>';
 
-         // RENDER TO SELECTOR
-         $('#files').html(table);
+         // OPACITY 0
+         $("#files").css('opacity', '0');
+
+         sleep(180).then(() => {
+
+            // TURN OPACITY UP
+            $("#files").css('opacity', '1');
+
+            // RENDER TO SELECTOR
+            $('#files').html(table);
+         });
+
       });
    }
 

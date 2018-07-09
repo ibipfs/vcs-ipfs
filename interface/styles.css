@@ -198,6 +198,7 @@ hr {
    padding: 5px;
    padding-bottom: 0px;
    transition: .2s;
+   opacity: 0;
 }
 
 #files table tr#header td div, #files table tr#back td div {

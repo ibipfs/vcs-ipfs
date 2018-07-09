@@ -15,7 +15,6 @@ class Render {
 
    // RENDER BODY
    body() {
-
       this.init(this.hash).then((content) => {
 
          // DIRECTORY KEYS

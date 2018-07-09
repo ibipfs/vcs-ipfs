@@ -1,13 +1,20 @@
 // ONCLICK FILE
 $('body').on('click', 'a#show', () => {
 
-   // PICK UP TARGET HASH
+   // PICK UP TARGET PATH
    var path = $(event.target).attr('key');
 
-   // FILE DETAILS
-   var instanceData = fetchData(path);
+   promisify('file', path).then((file) => {
 
-   promisify('file', instanceData.hash).then((file) => {
+      // INSTANCE DATA
+      var data = file["0"];
+
+      // CONTENT
+      var content = data.content.toString('utf8');
+
+      // FILE SUFFIX
+      var type = data.path.split('.');
+      type = type[1];
 
       // GENERATE TABLE
       var selector = `
@@ -21,28 +28,14 @@ $('body').on('click', 'a#show', () => {
                            <table>
                               <tr>
                                  <td>Name/Path: </td>
-                                 <td>` + instanceData.path + `</td>
-                              </tr>
-                           </table>
-                           <hr>
-                           <table>
-                              <tr>
-                                 <td>Direct Link: </td>
-                                 <td><a href="http://ipfs.io/ipfs/` + instanceData.hash + `" target="_blank">` + instanceData.hash + `</a></td>
-                              </tr>
-                           </table>
-                           <hr>
-                           <table>
-                              <tr>
-                                 <td>Size: </td>
-                                 <td>` + instanceData.size / 1000 + ` KB</td>
+                                 <td>` + path + `</td>
                               </tr>
                            </table>
                         </div>
                      </div>
 
                      <div id="prompt-inner">
-                        <pre><code class="` + instanceData.suffix + `">` + file + `</code></pre>
+                        <pre><code class="` + type + `">` + content + `</code></pre>
                      </div>
 
                      <div id="prompt-tools">

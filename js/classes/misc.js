@@ -26,6 +26,13 @@ function promisify(query, value = null) {
                resolve(files);
             });
          break;
+
+         // FETCH IPFS FILE DATA
+         case 'file':
+            ipfs.files.get(value, function (err, file) {
+               resolve(file);
+            });
+         break;
  
          // FALLBACK
          default:

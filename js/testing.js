@@ -1,46 +1,41 @@
-// MKDIR
-function mkdir(dir) {
-   ipfs.files.mkdir('/' + dir, (err) => {
-      if (err) {
-      console.error(err)
-      } else {
-         log('Added: "' + dir + '"');
-      }
-   });
+var Buffer = require('buffer/').Buffer
+
+class Mutable {
+ 
+   // WRITE
+   write(path, content) {
+      ipfs.files.write('/' + path, Buffer.from(content), {truncate: true}, (err) => {
+         if (err) {
+            log(err)
+         } else {
+            log('Wrote to file.');
+         }
+      });
+   }
+
+   // READ
+   read(path) {
+      ipfs.files.read('/' + path, (error, buf) => {
+         log(buf.toString('utf8'));
+         });
+   }
+
+   // FLUSH
+   flush() {
+      ipfs.files.flush('/mutable', (err) => {
+         if (err) {
+            log(err);
+         } else {
+            log('Flushed.')
+         }
+      });
+   }
+ 
 }
 
-// LS
-function ls(dir = '') {
-   ipfs.files.ls(dir, function (err, files) {
-      if (err) {
-         log(err);
-      } else {
-         log('Listing Content.');
-         log(files);
-      }
-   });
-}
+var mutable = new Mutable();
 
-// FLUSH
-function flush() {
-   ipfs.files.flush('/', (err) => {
-      if (err) {
-         log(err);
-      } else {
-         log('Flushed.')
-      }
-   });
-}
-
-// RM
-function rm(dir) {
-   ipfs.files.rm('/' + dir, { recursive: true }, (err) => {
-      if (err) {
-         log(err);
-      } else {
-         log('Removed "' + dir + '"')
-      }
-   });
-}
-
-//mkdir('vcs')
+mutable.read('mutable/one.js');
+mutable.write('mutable/one.js', 'moro');
+mutable.flush();
+mutable.read('mutable/one.js');

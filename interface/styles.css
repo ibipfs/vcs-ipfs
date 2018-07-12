@@ -201,7 +201,7 @@ hr {
    opacity: 0;
 }
 
-#files table tr#header td div, #files table tr#back td div {
+#files table tr#header td div, #files table tr#back td div, #files table tr#current td div {
    background: url('img/blue-bg.png');
    border-bottom: 1px solid #C3CDE1;
    padding: 10px;
@@ -217,6 +217,12 @@ hr {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
    padding: 8px;
+}
+
+#files table tr#current td div {
+   background: url('img/caution.png');
+   border-bottom: 1px solid #dada8b;
+   padding: 10px;
 }
 
 #files table tr#content td div:hover {

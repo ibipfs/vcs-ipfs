@@ -33,6 +33,13 @@ function promisify(query, value = null) {
                resolve(file);
             });
          break;
+
+         // GET INFO FROM IPFS SOURCE
+         case 'get':
+            ipfs.files.get(value, function (err, content) {
+               resolve(content);
+            });
+         break;
  
          // FALLBACK
          default:

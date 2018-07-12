@@ -1,7 +1,28 @@
 class Render {
 
    constructor(_hash) {
+
+      // SAVE REQUESTED HASH
       this.hash = _hash;
+
+      // SPLIT PATH
+      var pathing = _hash.split('/');
+
+      // IF NOT IN ROOT DIRECTORY
+      if (pathing.length > 1) {
+         
+         // SEPARATE NAME OF CURRENT DIRECTORY
+         var current = pathing.pop();
+
+         // SUBTRACT FROM PATH
+         var countLast = current.length + 1;
+         var good = _hash.length - countLast;
+         
+         // SAVE PARENT DIR & CURRENT DIR NAME & ENABLE BACK BUTTON
+         this.showBack = true;
+         this.parent = _hash.substring(0, good);
+         this.dirName = current;
+      }
    }
 
    // FETCH IPFS CONTENT 
@@ -21,24 +42,16 @@ class Render {
          var keys = Object.keys(content);
          var rows = '';
 
-         // PARENT DIR HASH
-         var parent = content["0"].path;
-         parent = parent.split('/')
-         parent = parent[0];
-
-         // FIX REAL PARENT DIR PATHING
-         var root = $('#root').val();
-
-         // BACK BUTTON IF PARENT DIR ISNT ROOT
-         if (root != parent) {
-            rows = `
-               <tr id="back">
-                  <td><a id="open"><div key="` + root + `">
+         // RENDER SUBDIR HEADER BEFORE CONTENT
+         if (this.showBack == true) {
+            rows += `
+               <tr id="current">
+                  <td><div>
                      <table><tr>
-                        <td key="` + root + `">Back</td>
-                        <td key="` + root + `">` + root + `</td>
+                        <td>` + this.dirName + `</td>
+                        <td>` + this.hash + `</td>
                      </tr></table>
-                  </div></a></td>
+                  </div></td>
                </tr>
             `;
          }
@@ -53,7 +66,7 @@ class Render {
             var row = '';
             var cssID = 'header';
             var eventID = 'open';
-            var eventREF = item.hash;
+            var eventREF = item.path;
             
             // CHANGE ROW ID BASED FOR FILES
             if (item.type == 'file') {
@@ -77,6 +90,22 @@ class Render {
             // APPEND ROWS
             rows += row;
          });
+
+         // ENABLE BACK BUTTON IF ENABLED
+         if (this.showBack == true) {
+            var parentHash = this.parent;
+
+            rows += `
+               <tr id="back">
+                  <td><a id="open"><div key="` + parentHash + `">
+                     <table><tr>
+                        <td key="` + parentHash + `">Back</td>
+                        <td key="` + parentHash + `">` + parentHash + `</td>
+                     </tr></table>
+                  </div></a></td>
+               </tr>
+            `;
+         }
 
          // CONSTRUCT FULL TABLE
          var table = '<table>' + rows + '</table>';
@@ -103,7 +132,6 @@ class Render {
    footer() {
       var link = 'Directory Hash: <a href="https://ipfs.io/ipfs/' + this.hash + '" target="_blank">' + this.hash + '</a>';
       $('#footer').html(link)
-      $('#root').val(this.hash);
    }
 
 }

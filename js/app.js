@@ -9,4 +9,15 @@ render.body();
 render.footer();
 
 var mutable = new Mutable();
-mutable.ls();
+// mutable.purge();
+// mutable.spawn();
+
+//mutable.check();
+
+mutable.list();
+mutable.check();
+
+// mutable.write('asdf.js', 'asdasd').then(() => {
+//    mutable.flush();
+//    mutable.list();
+// });

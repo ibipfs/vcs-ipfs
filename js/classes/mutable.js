@@ -129,9 +129,24 @@ class Mutable {
    // CREATE NECESSARY LOGS
    spawn() {
 
+      // HISTORY LOG OBJECT
+      var historyObj = {
+         "current": {
+            "name": "",
+            "hash": "",
+            "timestamp": 0
+         },
+      
+         "old": {
+         }
+      }
+
+      // TRACKER LOG OBJECT
+      var trackerObj = {}
+
       // MAKE PROMISES FOR FILES
-      var history = this.write('history.json', 'Spawned.');
-      var tracker = this.write('tracker.json', 'Spawned.');
+      var history = this.write('history.json', JSON.stringify(historyObj));
+      var tracker = this.write('tracker.json', JSON.stringify(trackerObj));
 
       // WAIT FOR THEM TO RESOVLE
       Promise.all([history, tracker]).then(function(values) {

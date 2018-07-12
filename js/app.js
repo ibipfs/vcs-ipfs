@@ -9,10 +9,6 @@ render.body();
 render.footer();
 
 var mutable = new Mutable();
-// mutable.purge();
-// mutable.spawn();
-
-//mutable.check();
 
 mutable.list();
 mutable.check();
@@ -21,3 +17,5 @@ mutable.check();
 //    mutable.flush();
 //    mutable.list();
 // });
+
+//mutable.read('history.json');

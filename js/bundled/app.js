@@ -10,10 +10,6 @@ render.body();
 render.footer();
 
 var mutable = new Mutable();
-// mutable.purge();
-// mutable.spawn();
-
-//mutable.check();
 
 mutable.list();
 mutable.check();
@@ -22,6 +18,8 @@ mutable.check();
 //    mutable.flush();
 //    mutable.list();
 // });
+
+//mutable.read('history.json');
 },{"./classes/mutable.js":2}],2:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
@@ -146,6 +144,7 @@ class Mutable {
             this.rmFile(name);
          }
 
+         // FLUSH TO SAVE
          this.flush();
       });
    }
@@ -153,9 +152,24 @@ class Mutable {
    // CREATE NECESSARY LOGS
    spawn() {
 
+      // HISTORY LOG OBJECT
+      var historyObj = {
+         "current": {
+            "name": "",
+            "hash": "",
+            "timestamp": 0
+         },
+      
+         "old": {
+         }
+      }
+
+      // TRACKER LOG OBJECT
+      var trackerObj = {}
+
       // MAKE PROMISES FOR FILES
-      var history = this.write('history.json', 'Spawned.');
-      var tracker = this.write('tracker.json', 'Spawned.');
+      var history = this.write('history.json', JSON.stringify(historyObj));
+      var tracker = this.write('tracker.json', JSON.stringify(trackerObj));
 
       // WAIT FOR THEM TO RESOVLE
       Promise.all([history, tracker]).then(function(values) {
@@ -167,7 +181,7 @@ class Mutable {
             log('- ' + name);
          });
 
-         // FLUSH TO SAVE DATA
+         // FLUSH TO SAVE
          this.flush();
       });
    }

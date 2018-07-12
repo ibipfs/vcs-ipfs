@@ -1,8 +1,85 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+// REQUIRE IN FOR MUTABLE IPFS METHODS
+var Mutable = require('./classes/mutable.js');
+
+// old = QmUfiUfPtE8Yv6tim9bFSanQrZMJR7NgH4ACgeU2zbQwJE
+var validCID = 'QmaYEbgsnsGdWG9oPBrM6L3ZqVpCLJMUBHQL4ds424QHu9';
+var render = new Render(validCID);
+
+render.body();
+render.footer();
+
+var mutable = new Mutable();
+mutable.ls();
+},{"./classes/mutable.js":2}],2:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
 class Mutable {
- 
+
+   // MAKE DIRECTORY
+   mkdir(dir) {
+      ipfs.files.mkdir('/' + dir, (err) => {
+         if (err) {
+         console.error(err)
+         } else {
+            log('Added: "' + dir + '"');
+         }
+      });
+   }
+   
+   // LIST
+   ls(dir = '') {
+      ipfs.files.ls('/' + dir, function (err, files) {
+         if (err) {
+            log(err);
+         } else {
+            log('Listing Content.');
+            log(files);
+         }
+      });
+   }
+   
+   // FLUSH
+   flush() {
+      ipfs.files.flush('/', (err) => {
+         if (err) {
+            log(err);
+         } else {
+            log('Flushed.')
+         }
+      });
+   }
+   
+   // REMOVE
+   rm(dir) {
+      ipfs.files.rm('/' + dir, { recursive: true }, (err) => {
+         if (err) {
+            log(err);
+         } else {
+            log('Removed "' + dir + '"')
+         }
+      });
+   }
+
+   // COPY
+   cp(from, to) {
+      // To copy a directory
+      ipfs.files.cp('/' + from, '/' + to, (err) => {
+         if (err) {
+            log(err)
+         } else {
+            log('Copied "' + from + '" to "' + to + '"');
+         }
+      })
+   }
+
+   // READ
+   read(path) {
+      ipfs.files.read('/' + path, (error, buf) => {
+         log(buf.toString('utf8'));
+       });
+   }
+
    // WRITE
    write(path, content) {
       ipfs.files.write('/' + path, Buffer.from(content), {truncate: true}, (err) => {
@@ -14,33 +91,10 @@ class Mutable {
       });
    }
 
-   // READ
-   read(path) {
-      ipfs.files.read('/' + path, (error, buf) => {
-         log(buf.toString('utf8'));
-         });
-   }
-
-   // FLUSH
-   flush() {
-      ipfs.files.flush('/mutable', (err) => {
-         if (err) {
-            log(err);
-         } else {
-            log('Flushed.')
-         }
-      });
-   }
- 
 }
 
-var mutable = new Mutable();
-
-mutable.read('mutable/one.js');
-mutable.write('mutable/one.js', 'moro');
-mutable.flush();
-mutable.read('mutable/one.js');
-},{"buffer/":3}],2:[function(require,module,exports){
+module.exports = Mutable;
+},{"buffer/":4}],3:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -193,7 +247,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1931,7 +1985,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":2,"ieee754":4}],4:[function(require,module,exports){
+},{"base64-js":3,"ieee754":5}],5:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1

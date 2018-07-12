@@ -1,4 +1,4 @@
-var Buffer = require("buffer")
+var Buffer = require('buffer/').Buffer
 
 class Mutable {
 
@@ -68,7 +68,7 @@ class Mutable {
 
    // WRITE
    write(path, content) {
-      ipfs.files.write('/' + path, Buffer.from(content), (err) => {
+      ipfs.files.write('/' + path, Buffer.from(content), {truncate: true}, (err) => {
          if (err) {
             log(err)
          } else {
@@ -78,3 +78,5 @@ class Mutable {
    }
 
 }
+
+module.exports = Mutable;

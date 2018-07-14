@@ -1,4 +1,5 @@
-var validCID = 'QmaYEbgsnsGdWG9oPBrM6L3ZqVpCLJMUBHQL4ds424QHu9';
+//old QmaYEbgsnsGdWG9oPBrM6L3ZqVpCLJMUBHQL4ds424QHu9 
+var validCID = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP';
 var render = new Render(validCID);
 
 render.body();

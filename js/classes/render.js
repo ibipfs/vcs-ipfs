@@ -56,50 +56,71 @@ class Render {
             </tr>
          `;
 
-         // LOOP THROUGH ALL
+         // HELP VARS
+         var row = '';
+
+         // LOOP IN DIRECTORIES FIRST
          keys.forEach((key) => {
 
             // CURRENT ITEM
             var item = content[key];
 
-            // HELP VARS
-            var row = '';
-            var cssID = 'header';
-            var eventID = 'open';
-            var eventREF = item.path;
-            
-            // CHANGE ROW ID BASED FOR FILES
-            if (item.type == 'file') {
-               cssID = 'content';
-               eventID = 'show';
-               eventREF = item.path;
+            // IF TYPE IS DIR
+            if (item.type == 'dir') {
+
+               // CONSTRUCT ROW
+               row = `
+                  <tr id="header">
+                     <td><a id="open"><div key="` + item.path + `">
+                        <table><tr>
+                           <td key="` + item.path + `">` + capitalize(item.name) + `/</td>
+                           <td key="` + item.path + `">` + item.hash + `</td>
+                        </tr></table>
+                     </div></a></td>
+                  </tr>
+               `;
+
+               // APPEND ROWS
+               rows += row;
             }
-
-            // CONSTRUCT ROW
-            var row = `
-               <tr id="` + cssID + `">
-                  <td><a id="` + eventID + `"><div key="` + eventREF + `">
-                     <table><tr>
-                        <td key="` + eventREF + `">` + capitalize(item.name) + `</td>
-                        <td key="` + eventREF + `">` + item.hash + `</td>
-                     </tr></table>
-                  </div></a></td>
-               </tr>
-            `;
-
-            // APPEND ROWS
-            rows += row;
          });
 
-         // ENABLE BACK BUTTON IF ENABLED
-         if (this.showBack == true) {
-            var parentHash = this.parent;
+         // THEN LOOP IN FILES LAST
+         keys.forEach((key) => {
 
+            // CURRENT ITEM
+            var item = content[key];
+
+            // IF TYPE IS FILE
+            if (item.type == 'file') {
+
+               // HELP VARS
+               row = '';
+
+               // CONSTRUCT ROW
+               var row = `
+                  <tr id="content">
+                     <td><a id="show"><div key="` + item.path + `">
+                        <table><tr>
+                           <td key="` + item.path + `">` + capitalize(item.name) + `</td>
+                           <td key="` + item.path + `">` + item.hash + `</td>
+                        </tr></table>
+                     </div></a></td>
+                  </tr>
+               `;
+
+               // APPEND ROWS
+               rows += row;
+            }
+         });
+
+         // ENABLE BACK BUTTON IF TRUE
+         if (this.showBack == true) {
             rows += `
                <tr id="back">
-                  <td><a id="open"><div key="` + parentHash + `">
+                  <td><a id="open"><div key="` + this.parent + `">
                      <table><tr>
-                        <td key="` + parentHash + `">Back</td>
+                        <td key="` + this.parent + `">Back</td>
                      </tr></table>
                   </div></a></td>
                </tr>

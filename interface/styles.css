@@ -225,8 +225,14 @@ hr {
    padding: 10px;
 }
 
-#files table tr#content td div:hover {
+#files table tr#content td div:hover, #files table tr#header td div:hover {
    background: url('img/success.png');
+   border-bottom: 1px solid #B5D0C6;
+}
+
+#files table tr#back td div:hover {
+   background: url('img/discard-hover.png');
+   border-bottom: 1px solid #CCAAAA;
 }
 
 #files table tr td a:hover {
@@ -283,7 +289,7 @@ ul {
 	display: inline-block;
 	border-right: 2px dotted rgb(156, 156, 156);
 	margin: 0px;
-	padding: 6px;
+   padding: 6px;
 }
 
 #menu li:last-child {
@@ -292,13 +298,13 @@ ul {
 
 #menu li a:link, li a:visited {
 	padding: 5px 10px 8px 10px;
-	color: #C8C9CA;
+   color: #C8C9CA;
 }
 
 #menu li a:hover {
 	background: url('img/dark.png');
 	border-radius: 4px;
-	color: white;
+   color: white;
 }
 
 #menu-tbl td:last-child {

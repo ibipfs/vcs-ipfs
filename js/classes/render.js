@@ -150,7 +150,7 @@ class Render {
 
    // RENDER FOOTER
    footer() {
-      var link = 'Directory Hash: <a href="https://ipfs.io/ipfs/' + this.hash + '" target="_blank">' + this.hash + '</a>';
+      var link = 'Root: <a href="https://ipfs.io/ipfs/' + this.hash + '" target="_blank">' + this.hash + '</a>';
       $('#footer').html(link)
    }
 

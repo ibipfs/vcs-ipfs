@@ -54,7 +54,7 @@ pre, code {
 
 #metamask {
    background: url('img/caution.png');
-   border: 1px solid rgb(119, 170, 151);
+   border: 1px solid #dada8b;
    text-transform: capitalize;
    color: #F1F1F1;
    padding: 5px 8px;
@@ -216,7 +216,7 @@ hr {
 #files table tr#content td div {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
-   padding: 8px;
+   padding: 10px;
 }
 
 #files table tr#current td div {

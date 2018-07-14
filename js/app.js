@@ -1,7 +1,12 @@
-//old QmaYEbgsnsGdWG9oPBrM6L3ZqVpCLJMUBHQL4ds424QHu9 
-var validCID = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP';
-var render = new Render(validCID);
+// PROJECT LOCATION
+var root = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP';
 
+// METAMASK CHECK
+var metamask = new Metamask();
+metamask.check();
+
+// RENDER CONTENT
+var render = new Render(root);
 render.body();
 render.footer();
 

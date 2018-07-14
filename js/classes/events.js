@@ -16,14 +16,20 @@ $('body').on('click', 'a#show', () => {
    // AFTER BOTH PROMISES ARE RESOLVED
    Promise.all([first, second]).then(function(values) {
 
+      // FILE PROPS
       var content = values[0].toString('utf8');
       var info = fetchData(values[1], file);
 
+      // FETCH FILETYPE FOR HIGHLIGHT JS
       var type = info.name.split('.');
       type = findLang(type.pop());
 
+      // FETCH AND CONCAT FULL PATH TO FILE
       var location = $('#location').text();
       location += ' / ' + capitalize(file);
+
+      // BUTTONS
+      var buttons = new Buttons(info.hash);
 
       // GENERATE TABLE
       var selector = `
@@ -59,6 +65,7 @@ $('body').on('click', 'a#show', () => {
                                  <td>` + info.size / 1000 + ` KB</td>
                               </tr>
                            </table>
+
                         </div>
                      </div>
 
@@ -69,8 +76,8 @@ $('body').on('click', 'a#show', () => {
                      <div id="prompt-tools">
                         <table>
                            <tr>
-                              <td><span id="save-cache">Save To Cache</span><span id="upload">Upload To IPFS</span></td>
-                              <td><span id="remove-cache">Remove From Cache</span><span id="discard">Discard & Close</span></td>
+                              <td id="left">` + buttons.left() + `</td>
+                              <td id="right">` + buttons.right() + `</td>
                            </tr>
                         </table>
                      </div>
@@ -102,5 +109,37 @@ $('body').on('click', 'a#open', () => {
    // RENDER NEW CONTENT
    var render = new Render(hash);
    render.body();
+});
 
+// SAVE FILE RENDITION TO CACHE
+$('body').on('click', '#save', () => {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+   var value = 'I LOVE MEMES';
+   var split = cache.split('-');
+
+   // SAVE TO CACHE
+   localStorage.setItem(cache, value);
+   log('Cache Set.')
+
+   // RECALIBRATE BUTTONS
+   var buttons = new Buttons(split[0]);
+   buttons.recalibrate();
+});
+
+// REMOVE CACHED FILE
+$('body').on('click', '#remove', () => {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#remove-cache').attr('storage');
+   var split = cache.split('-');
+
+   // SAVE TO CACHE
+   localStorage.removeItem(cache);
+   log('Cache Removed.')
+
+   // RECALIBRATE BUTTONS
+   var buttons = new Buttons(split[0]);
+   buttons.recalibrate();
 });

@@ -8,6 +8,9 @@ class Render {
       // SPLIT PATH
       var pathing = _hash.split('/');
 
+      // SET DEFAULT DIRNAME
+      this.dirName = 'Root';
+
       // IF NOT IN ROOT DIRECTORY
       if (pathing.length > 1) {
          
@@ -21,7 +24,7 @@ class Render {
          // SAVE PARENT DIR & CURRENT DIR NAME & ENABLE BACK BUTTON
          this.showBack = true;
          this.parent = _hash.substring(0, good);
-         this.dirName = current;
+         this.dirName = formatPath(this.hash);
       }
    }
 
@@ -42,19 +45,16 @@ class Render {
          var keys = Object.keys(content);
          var rows = '';
 
-         // RENDER SUBDIR HEADER BEFORE CONTENT
-         if (this.showBack == true) {
-            rows += `
-               <tr id="current">
-                  <td><div>
-                     <table><tr>
-                        <td>` + this.dirName + `</td>
-                        <td>` + this.hash + `</td>
-                     </tr></table>
-                  </div></td>
-               </tr>
-            `;
-         }
+         // ADD DIRECTORY NAME ON TOP
+         rows += `
+            <tr id="current">
+               <td><div>
+                  <table><tr>
+                     <td id="location">` + this.dirName + `</td>
+                  </tr></table>
+               </div></td>
+            </tr>
+         `;
 
          // LOOP THROUGH ALL
          keys.forEach((key) => {
@@ -80,7 +80,7 @@ class Render {
                <tr id="` + cssID + `">
                   <td><a id="` + eventID + `"><div key="` + eventREF + `">
                      <table><tr>
-                        <td key="` + eventREF + `">` + item.name + `</td>
+                        <td key="` + eventREF + `">` + capitalize(item.name) + `</td>
                         <td key="` + eventREF + `">` + item.hash + `</td>
                      </tr></table>
                   </div></a></td>
@@ -100,7 +100,6 @@ class Render {
                   <td><a id="open"><div key="` + parentHash + `">
                      <table><tr>
                         <td key="` + parentHash + `">Back</td>
-                        <td key="` + parentHash + `">` + parentHash + `</td>
                      </tr></table>
                   </div></a></td>
                </tr>

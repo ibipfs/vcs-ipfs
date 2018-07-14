@@ -6,8 +6,8 @@ $('body').on('click', 'a#show', () => {
    var split = path.split('/');
 
    // REFS
-   var dir = split[0];
-   var file = split[1];
+   var file = split.pop();
+   var dir = split.join('/');
 
    // GENERATE PROMISES
    var first = promisify('file', path);
@@ -22,6 +22,9 @@ $('body').on('click', 'a#show', () => {
       var type = info.name.split('.');
       type = findLang(type.pop());
 
+      var location = $('#location').text();
+      location += ' / ' + capitalize(file);
+
       // GENERATE TABLE
       var selector = `
          <table id="prompt">
@@ -35,7 +38,7 @@ $('body').on('click', 'a#show', () => {
                            <table>
                               <tr>
                                  <td>Name/Path:</td>
-                                 <td>` + info.path + `</td>
+                                 <td>` + location + `</td>
                               </tr>
                            </table>
 

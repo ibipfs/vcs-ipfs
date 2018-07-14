@@ -88,3 +88,21 @@ function findLang(suffix) {
 
    return name;
 }
+
+// REFORMAT PATH HEADER FOR LISTING
+function formatPath(path) {
+   var split = path.split('/');
+   split[0] = 'Root';
+   
+   for (var x = 0; x < split.length; x++) {
+      split[x] = capitalize(split[x]);
+   }
+
+   var string = split.join(' / ');
+   return string;
+}
+
+// CAPITALIZE STRING
+function capitalize(string) {
+   return string.charAt(0).toUpperCase() + string.slice(1);
+}

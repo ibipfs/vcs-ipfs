@@ -1,3 +1,38 @@
+// HIDE PROMPT ON ESC
+$(document).on('keyup',function(evt) {
+
+   // ESC KEY
+   if (evt.keyCode == 27) {
+      closePrompt();
+   }
+
+});
+
+// HIDE PROMPT WITH DISCARD BUTTON
+$('body').on('click', '#discard', () => {
+   closePrompt();
+});
+
+// CTRL + X KEYBINDS
+$(window).bind('keydown', function(event) {
+   if (event.ctrlKey || event.metaKey) {
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+
+         // CTRL + S
+         case 's':
+            event.preventDefault();
+            saveCache();
+         break;
+
+         // CTRL + X
+         case 'x':
+            event.preventDefault();
+            removeCache();
+         break;
+      }
+   }
+});
+
 // ONCLICK FILE
 $('body').on('click', 'a#show', () => {
 
@@ -113,33 +148,10 @@ $('body').on('click', 'a#open', () => {
 
 // SAVE FILE RENDITION TO CACHE
 $('body').on('click', '#save', () => {
-
-   // PICK UP CACHE ID & VALUE
-   var cache = $('#save-cache').attr('storage');
-   var value = 'I LOVE MEMES';
-   var split = cache.split('-');
-
-   // SAVE TO CACHE
-   localStorage.setItem(cache, value);
-   log('Cache Set.')
-
-   // RECALIBRATE BUTTONS
-   var buttons = new Buttons(split[0]);
-   buttons.recalibrate();
+   saveCache();
 });
 
 // REMOVE CACHED FILE
 $('body').on('click', '#remove', () => {
-
-   // PICK UP CACHE ID & VALUE
-   var cache = $('#remove-cache').attr('storage');
-   var split = cache.split('-');
-
-   // SAVE TO CACHE
-   localStorage.removeItem(cache);
-   log('Cache Removed.')
-
-   // RECALIBRATE BUTTONS
-   var buttons = new Buttons(split[0]);
-   buttons.recalibrate();
+   removeCache();
 });

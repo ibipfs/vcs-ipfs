@@ -132,6 +132,10 @@ hr {
    padding-top: 5px;
 }
 
+#left, #right {
+   transition: .2s;
+}
+
 #save-cache, #remove-cache, #discard, #upload {
    background: url('img/success.png');
    display: inline-block;
@@ -139,7 +143,6 @@ hr {
    padding: 6px 10px;
    border-radius: 4px;
    cursor: pointer;
-   transition: .2s;
 }
 
 #save-cache:hover, #remove-cache:hover, #discard:hover, #upload:hover {

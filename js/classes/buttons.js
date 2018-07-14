@@ -69,6 +69,8 @@ class Buttons {
 
    // RECALIBRATE BUTTONS
    recalibrate() {
+
+      // RE-RENDER CONTENT TO SELECTORS
       $('#left').html(this.left());
       $('#right').html(this.right());
    }

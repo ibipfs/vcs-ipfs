@@ -105,7 +105,7 @@ $('body').on('click', 'a#show', () => {
                      </div>
 
                      <div id="prompt-inner">
-                        <pre><code class="` + type + `">` + content + `</code></pre>
+                        <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
                      </div>
       `;
 

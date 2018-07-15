@@ -55,7 +55,7 @@ function saveCache() {
 
       // SAVE TO CACHE
       localStorage.setItem(cache, value);
-      log('Cache Set.')
+      log('Cache Set.');
 
       // TRANSITION
       transitionButtons(split[0]);

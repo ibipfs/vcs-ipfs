@@ -121,8 +121,7 @@ class Mutable {
             this.rmFile(name);
          }
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH TO SAVE ???
       });
    }
 
@@ -158,8 +157,7 @@ class Mutable {
             log('- ' + name);
          });
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH TO SAVE ???
       });
    }
 

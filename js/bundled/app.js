@@ -15,10 +15,11 @@ render.footer();
 var Mutable = require('./classes/mutable.js');
 var mutable = new Mutable();
 
-mutable.list();
-/* mutable.check();
+//mutable.mkdir('asdasd')
+//mutable.list();
+//mutable.check();
 
-mutable.write('asdf.js', 'asdasd').then(() => {
+/* mutable.write('asdf.js', 'asdasd').then(() => {
    mutable.flush();
    mutable.list();
 }); */
@@ -146,8 +147,7 @@ class Mutable {
             this.rmFile(name);
          }
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH TO SAVE ???
       });
    }
 
@@ -183,8 +183,7 @@ class Mutable {
             log('- ' + name);
          });
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH TO SAVE ???
       });
    }
 

@@ -1,5 +1,26 @@
 class Metamask {
 
+   // REPLACE WITH SMART CONTRACT & BLOCKCHAIN EQUIVALENT
+   constructor() {
+
+      // MEMBER WHITELIST & NAMELIST
+      this.whitelist = ['0x107aaf87edde390a81e400e096f3c6caee0034a7', '0xb690bf90706104d43a65d81f744343d72c7562a6'];
+      this.namelist = ['wickstjo', 'testuser'];
+   
+      // MEMBERSINFO OBJECT
+      this.memberInfo = {
+         "0x107aaf87edde390a81e400e096f3c6caee0034a7": {
+            name: "wickstjo",
+            timestamp: 1530321302
+         },
+         
+         "0xb690bf90706104d43a65d81f744343d72c7562a6": {
+            name: "testuser",
+            timestamp: 1530324655
+         },
+      }
+   }
+
    // INIT METHOD
    init() {
       var p = promisify('metamask').then((accounts) => {
@@ -26,29 +47,14 @@ class Metamask {
          if (count == 1) {
             var user = accounts[0];
 
-            // MEMBERS ARRAY -- FROM SMART CONTRACT
-            var members = ['0x107aaf87edde390a81e400e096f3c6caee0034a7', '0xb690bf90706104d43a65d81f744343d72c7562a6'];
-            
             // CHECK IF MEMBER IS IN ARRAY
-            var check = $.inArray(user, members);
+            var check = $.inArray(user, this.whitelist);
 
             // IF USER IS FOUND
             if (check != -1) {
 
-               // MEMBERSINFO OBJECT -- REPLACE WITH BLOCKCHAIN VERSION
-               var memberInfo = {
-                  "0x107aaf87edde390a81e400e096f3c6caee0034a7": {
-                     name: "wickstjo",
-                     timestamp: 1530321302
-                  },
-                  "0xb690bf90706104d43a65d81f744343d72c7562a6": {
-                     name: "testuser",
-                     timestamp: 1530324655
-                  },
-               }
-
                // FETCH CORRESPONDING NAME
-               var name = memberInfo[user].name;
+               var name = this.memberInfo[user].name;
 
                // SET ACCOUNT NAME AS SELECTOR KEY
                $('#metamask').attr('whois', name);
@@ -76,6 +82,29 @@ class Metamask {
          $('#metamask').css('background', "url('interface/img/" + bg + ".png')");
          $('#metamask').css('border', 'thin solid' + border);
       });
+   }
+
+   // CHECK FOR LOGIN SESSION
+   checkStatus() {
+      var check = $('#metamask').attr('whois');
+      var value = false;
+
+      // IF SOMEONE IS LOGGED IN
+      if (check != undefined) {
+         var count = $.inArray(check, this.namelist);
+
+         // IF USER IS PART OF MEMBERLIST
+         if (count != -1) {
+            value = true;
+         }
+      }
+
+      return value;
+   }
+
+   // GETTER FOR ISLOGGED
+   get isLogged() {
+      return this.checkStatus();
    }
 
 }

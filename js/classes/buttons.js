@@ -75,4 +75,19 @@ class Buttons {
       $('#right').html(this.right());
    }
 
+   render() {
+      var row = `
+         <div id="prompt-tools">
+         <table>
+            <tr>
+               <td id="left">` + this.left() + `</td>
+               <td id="right">` + this.right() + `</td>
+            </tr>
+         </table>
+         </div>
+      `;
+
+      return row;
+   }
+
 }

@@ -48,7 +48,7 @@ function saveCache() {
    var cache = $('#save-cache').attr('storage');
 
    // MAKE SURE SOMETHING IS CACHED
-   if (cache != undefined) {
+   if (cache != undefined && metamask.isLogged) {
 
       var value = 'I LOVE MEMES';
       var split = cache.split('-');
@@ -73,12 +73,12 @@ function removeCache() {
    var cache = $('#remove-cache').attr('storage');
 
    // MAKE SURE SOMETHING IS CACHED
-   if (cache != undefined) {
+   if (cache != undefined && metamask.isLogged) {
       var split = cache.split('-');
 
       // SAVE TO CACHE
       localStorage.removeItem(cache);
-      log('Cache Removed.')
+      log('Cache Purged.')
 
       // TRANSITION
       transitionButtons(split[0]);
@@ -89,3 +89,8 @@ function removeCache() {
       log('Nothing is cached.')
    }
 }
+
+function upload() {
+   log('Attempting to Upload.')
+}
+

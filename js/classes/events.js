@@ -107,16 +107,15 @@ $('body').on('click', 'a#show', () => {
                      <div id="prompt-inner">
                         <pre><code class="` + type + `">` + content + `</code></pre>
                      </div>
+      `;
 
-                     <div id="prompt-tools">
-                        <table>
-                           <tr>
-                              <td id="left">` + buttons.left() + `</td>
-                              <td id="right">` + buttons.right() + `</td>
-                           </tr>
-                        </table>
-                     </div>
+      // STITCH IN BUTTON ROW IF USER IS LOGGED
+      if (metamask.isLogged) {
+         selector += buttons.render();
+      }
 
+      // STITCH IN END OF SELECTORS
+      selector += `
                   </div>
                </td>
             </tr>
@@ -154,4 +153,9 @@ $('body').on('click', '#save', () => {
 // REMOVE CACHED FILE
 $('body').on('click', '#remove', () => {
    removeCache();
+});
+
+// UPLOAD VIRTUAL FILE TO IPFS
+$('body').on('click', '#upload', () => {
+   upload();
 });

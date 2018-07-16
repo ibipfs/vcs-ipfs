@@ -1,3 +1,5 @@
+var Mutable = require('./mutable.js')
+
 // CLOSE PROMPT WINDOW
 function closePrompt() {
 
@@ -91,6 +93,11 @@ function removeCache() {
 }
 
 function upload() {
-   log('Attempting to Upload.')
+   var mutable = new Mutable();
+   mutable.list();
 }
 
+module.exports = {
+   close: closePrompt,
+   upl: upload
+}

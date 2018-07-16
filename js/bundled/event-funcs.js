@@ -1,29 +1,109 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-// PROJECT LOCATION
-var root = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP';
+var Mutable = require('../classes/mutable.js')
 
-// METAMASK CHECK
-var metamask = new Metamask();
-metamask.check();
+// CLOSE PROMPT WINDOW
+function closePrompt() {
 
-// RENDER CONTENT
-var render = new Render(root);
-render.body();
-render.footer();
+   // CHECK CURRENT DISPLAY VALUE
+   var value = $("#prompt").css('display');
 
-// REQUIRE IN FOR MUTABLE IPFS METHODS
-var Mutable = require('./classes/mutable.js');
+   if (value == 'table') {
 
-var mutable = new Mutable();
-mutable.list();
+      // MAKE PARENT OPACITY ZERO AGAIN
+      $('#prompt-space').css('opacity', '0');
 
-// mutable.check();
+      // WAIT FOR 0.2 SECONDS
+      sleep(180).then(() => {
 
-// mutable.write('asdf.js', 'asdasd').then(() => {
-//    mutable.flush();
-//    mutable.list();
-// });
-},{"./classes/mutable.js":2}],2:[function(require,module,exports){
+         // CSS HIDE SELECTOR
+         $("#prompt").css('display', 'none');
+
+         // REMOVE FROM DOM
+         $('#prompt').remove();
+      });
+   }
+}
+
+// TRANSITION PROMPT BUTTONS EVENTS
+function transitionButtons(_hash) {
+
+   // TURN OPACITY TO ZERO
+   $('#left').css('opacity', '0');
+   $('#right').css('opacity', '0');
+
+   // SLEEP FOR 1.8s
+   sleep(180).then(() => {
+
+      // RECALIBRATE BUTTONS
+      var buttons = new Buttons(_hash);
+      buttons.recalibrate();
+
+      // TURN OPACITY TO MAX AGAIN
+      $('#left').css('opacity', '1');
+      $('#right').css('opacity', '1');
+   });
+}
+
+// SAVE CACHE
+function saveCache() {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+
+      var value = 'I LOVE MEMES';
+      var split = cache.split('-');
+
+      // SAVE TO CACHE
+      localStorage.setItem(cache, value);
+      log('Cache Set.');
+
+      // TRANSITION
+      transitionButtons(split[0]);
+   } else {
+
+      // FALLBACK ERROR
+      log('Trying to save.')
+   }
+}
+
+// REMOVE CACHE
+function removeCache() {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#remove-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+      var split = cache.split('-');
+
+      // SAVE TO CACHE
+      localStorage.removeItem(cache);
+      log('Cache Purged.')
+
+      // TRANSITION
+      transitionButtons(split[0]);
+   
+   } else {
+
+      // FALLBACK ERROR
+      log('Nothing is cached.')
+   }
+}
+
+function upload() {
+   var mutable = new Mutable();
+   mutable.list();
+   
+   log('Attempting to Upload.')
+}
+
+module.exports = {
+   close: closePrompt()
+}
+},{"../classes/mutable.js":2}],2:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
 class Mutable {

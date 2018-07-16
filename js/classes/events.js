@@ -1,14 +1,17 @@
+var asdf = require('../classes/event-funcs.js');
+
 // HIDE PROMPT ON ESC
 $(document).on('keyup',function(evt) {
-
+   
    // ESC KEY
    if (evt.keyCode == 27) {
-      closePrompt();
+      asdf.close();
+      asdf.upl();
    }
 
 });
 
-// HIDE PROMPT WITH DISCARD BUTTON
+// HIDE PRObuttonsMPT WITH DISCARD BUTTON
 $('body').on('click', '#discard', () => {
    closePrompt();
 });

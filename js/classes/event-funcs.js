@@ -98,6 +98,9 @@ function upload() {
 }
 
 module.exports = {
-   close: closePrompt,
-   upl: upload
+   closePrompt: closePrompt,
+   transitionButtons: transitionButtons,
+   saveCache: saveCache,
+   removeCache: removeCache,
+   upload: upload
 }

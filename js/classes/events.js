@@ -1,19 +1,19 @@
-var asdf = require('../classes/event-funcs.js');
+var funcs = require('../classes/event-funcs.js');
 
 // HIDE PROMPT ON ESC
 $(document).on('keyup',function(evt) {
    
    // ESC KEY
    if (evt.keyCode == 27) {
-      asdf.close();
-      asdf.upl();
+      funcs.closePrompt();
+      funcs.upload();
    }
 
 });
 
 // HIDE PRObuttonsMPT WITH DISCARD BUTTON
 $('body').on('click', '#discard', () => {
-   closePrompt();
+   funcs.closePrompt();
 });
 
 // CTRL + X KEYBINDS
@@ -24,13 +24,13 @@ $(window).bind('keydown', function(event) {
          // CTRL + S
          case 's':
             event.preventDefault();
-            saveCache();
+            funcs.saveCache();
          break;
 
          // CTRL + X
          case 'x':
             event.preventDefault();
-            removeCache();
+            funcs.removeCache();
          break;
       }
    }
@@ -150,15 +150,15 @@ $('body').on('click', 'a#open', () => {
 
 // SAVE FILE RENDITION TO CACHE
 $('body').on('click', '#save', () => {
-   saveCache();
+   funcs.saveCache();
 });
 
 // REMOVE CACHED FILE
 $('body').on('click', '#remove', () => {
-   removeCache();
+   funcs.removeCache();
 });
 
 // UPLOAD VIRTUAL FILE TO IPFS
 $('body').on('click', '#upload', () => {
-   upload();
+   funcs.upload();
 });

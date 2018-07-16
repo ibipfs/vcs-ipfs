@@ -48,6 +48,8 @@ function transitionButtons(_hash) {
 // SAVE CACHE
 function saveCache() {
 
+   mutable.list();
+
    // PICK UP CACHE ID & VALUE
    var cache = $('#save-cache').attr('storage');
 

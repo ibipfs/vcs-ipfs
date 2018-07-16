@@ -1,6 +1,3 @@
-var Mutable = require('./mutable.js');
-var mutable = new Mutable();
-
 // CLOSE PROMPT WINDOW
 function closePrompt() {
 

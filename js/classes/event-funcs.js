@@ -107,7 +107,7 @@ function upload() {
 
          // WRITE VIRTUAL TEMP FILE
          mutable.write(cache, localStorage.getItem(cache)).then((result) => {
-            log('Wrote to file!');
+            log('Wrote file!');
 
             // FLUSH TO SAVE
             mutable.flush(cache).then((res) => {
@@ -116,10 +116,21 @@ function upload() {
                // LISTING NEW FILES 
                mutable.ls().then((files) => {
                   log(files);
+
+                  // REMOVE TEMP FILE
+                  mutable.rmFile(cache).then(() => {
+                     log('Removed file!');
+
+                     // LISTING FILES
+                     mutable.ls().then((files) => {
+                        log(files);
+                     });
+                  });
                });
             });
          });
       });
+
    } else {
       log('Tried to Upload.');
    }

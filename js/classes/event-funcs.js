@@ -93,10 +93,39 @@ function removeCache() {
 }
 
 function upload() {
-   var mutable = new Mutable();
-   mutable.list();
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+      var mutable = new Mutable();
+
+      // LISTING FILES
+      mutable.ls().then((files) => {
+         log(files);
+
+         // WRITE VIRTUAL TEMP FILE
+         mutable.write(cache, localStorage.getItem(cache)).then((result) => {
+            log('Wrote to file!');
+
+            // FLUSH TO SAVE
+            mutable.flush(cache).then((res) => {
+               log('Flushed file!')
+               
+               // LISTING NEW FILES 
+               mutable.ls().then((files) => {
+                  log(files);
+               });
+            });
+         });
+      });
+   } else {
+      log('Tried to Upload.');
+   }
 }
 
+// EXPORT ALL FUNCTIONS
 module.exports = {
    closePrompt: closePrompt,
    transitionButtons: transitionButtons,

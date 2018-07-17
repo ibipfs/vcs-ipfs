@@ -6,7 +6,6 @@ $(document).on('keyup',function(evt) {
    // ESC KEY
    if (evt.keyCode == 27) {
       funcs.closePrompt();
-      funcs.upload();
    }
 
 });

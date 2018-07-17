@@ -94,10 +94,39 @@ function removeCache() {
 }
 
 function upload() {
-   var mutable = new Mutable();
-   mutable.list();
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+      var mutable = new Mutable();
+
+      // LISTING FILES
+      mutable.ls().then((files) => {
+         log(files);
+
+         // WRITE VIRTUAL TEMP FILE
+         mutable.write(cache, localStorage.getItem(cache)).then((result) => {
+            log('Wrote to file!');
+
+            // FLUSH TO SAVE
+            mutable.flush(cache).then((res) => {
+               log('Flushed file!')
+               
+               // LISTING NEW FILES 
+               mutable.ls().then((files) => {
+                  log(files);
+               });
+            });
+         });
+      });
+   } else {
+      log('Tried to Upload.');
+   }
 }
 
+// EXPORT ALL FUNCTIONS
 module.exports = {
    closePrompt: closePrompt,
    transitionButtons: transitionButtons,
@@ -114,7 +143,6 @@ $(document).on('keyup',function(evt) {
    // ESC KEY
    if (evt.keyCode == 27) {
       funcs.closePrompt();
-      funcs.upload();
    }
 
 });
@@ -279,7 +307,7 @@ class Mutable {
    mkdir(dir) {
       ipfs.files.mkdir('/' + dir, (err) => {
          if (err) {
-         console.error(err)
+            log(err)
          } else {
             log('Added: "' + dir + '"');
          }
@@ -308,9 +336,9 @@ class Mutable {
    }
    
    // FLUSH
-   flush() {
-      var flush =  new Promise(function(resolve, reject) {
-         ipfs.files.flush('/', (err) => {
+   flush(file = '') {
+      return new Promise(function(resolve, reject) {
+         ipfs.files.flush('/' + file, (err) => {
             if (err) {
                log(err);
             } else {
@@ -318,31 +346,31 @@ class Mutable {
             }
          });
       });
-
-      flush.then(() => {
-         log('Flushed Successfully!')
-      });
    }
    
    // REMOVE DIR
    rmDir(dir) {
-      ipfs.files.rm('/' + dir, { recursive: true }, (err) => {
-         if (err) {
-            log(err);
-         } else {
-            log('Removed dir "' + dir + '"')
-         }
+      return new Promise(function(resolve, reject) {
+         ipfs.files.rm('/' + dir, { recursive: true }, (err) => {
+            if (err) {
+               log(err);
+            } else {
+               resolve(dir);
+            }
+         });
       });
    }
 
    // REMOVE FILE
    rmFile(file) {
-      ipfs.files.rm('/' + file, (err) => {
-         if (err) {
-            log(err);
-         } else {
-            log('Removed file "' + file + '"')
-         }
+      return new Promise(function(resolve, reject) {
+         ipfs.files.rm('/' + file, (err) => {
+            if (err) {
+               log(err);
+            } else {
+               resolve(file);
+            }
+         });
       });
    }
 
@@ -367,11 +395,11 @@ class Mutable {
    // WRITE
    write(path, content) {
       return new Promise(function(resolve, reject) {
-         ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }, (err) => {
+         ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }, (err, res) => {
             if (err) {
                log(err)
             } else {
-               resolve(path);
+               resolve(res);
             }
          });
       });
@@ -386,16 +414,19 @@ class Mutable {
          if (split.length == 1) {
 
             // REMOVE DIR
-            this.rmDir(name);
+            this.rmDir(name).then((dir) => {
+               log('Removed dir: "' + dir + '"')
+            });
 
          } else {
 
             // REMOVE FILE
-            this.rmFile(name);
+            this.rmFile(name).then((file) => {
+               log('Removed file: "' + file + '"')
+            });
          }
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH ???
       });
    }
 
@@ -431,8 +462,7 @@ class Mutable {
             log('- ' + name);
          });
 
-         // FLUSH TO SAVE
-         this.flush();
+         // FLUSH ???
       });
    }
 
@@ -456,6 +486,7 @@ class Mutable {
 
             // SAVE OBJECT KEY.NAMES INTO ARRAY
             var names = [];
+
             keys.forEach((key) => {
                var name = files[key].name;
                names.push(name);
@@ -479,6 +510,7 @@ class Mutable {
 
 }
 
+// EXPORT CLASS
 module.exports = Mutable;
 },{"buffer/":5}],4:[function(require,module,exports){
 'use strict'

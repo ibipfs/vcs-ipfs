@@ -102,7 +102,7 @@ function upload() {
       var mutable = new Mutable();
 
       // NUKE TRACKER
-      //mutable.nukeTracker();
+      //mutable.nukeLogs();
 
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
@@ -139,7 +139,31 @@ function upload() {
 
             // OVERWRITE OLD TRACKER LOG
             mutable.write('tracker.json', tracker).then((a) => {
-               log('Wrote new Tracker log.')
+               log('Added entry to Tracker.')
+
+               // READ LOG FILE
+               mutable.read('log.json').then((file) => {
+
+                  // PARSE LOG FILE
+                  var logz = JSON.parse(file);
+                  var string = user + ' uploaded a rendition of ' + original_file;
+                  
+                  // ADD ENTRY
+                  logz[unix] = {
+                     string: string,
+                     original: original_file,
+                     user: user
+                  }
+
+                  // STRINGIFY AGAIN
+                  logz = JSON.stringify(logz);
+
+                  // OVERWRITE OLD LOG
+                  mutable.write('log.json', logz).then(() => {
+                     log('Added entry to log.');
+
+                  });
+               });
             });
          });
       });

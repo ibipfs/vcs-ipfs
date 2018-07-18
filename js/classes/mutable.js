@@ -209,10 +209,56 @@ class Mutable {
       });
    }
 
-   nukeTracker() {
-      this.write('tracker.json', '{}').then(() => {
+   // RESET ALL LOGS TO THEIR DEFAULT VALUE
+   nukeLogs() {
+
+      // DEFAULT TRACKER CONTENT
+      var trackerDefault = {};
+
+      // NUKE TRACKER
+      this.write('tracker.json', JSON.stringify(trackerDefault)).then(() => {
          log('Nuked Tracker!');
-      })
+         
+         // DEFAULT HISTORY CONTENT
+         var historyDefault = {
+            "current": {
+               "name": "",
+               "hash": "",
+               "timestamp": 0
+            },
+         
+            "old": {
+            }
+         }
+
+         // NUKE HISTORY
+         this.write('history.json', JSON.stringify(historyDefault)).then(() => {
+            log('Nuked History!');
+
+            // DEFAULT LOG CONTENT
+            var logDefault = {};
+            
+            // NUKE LOG
+            this.write('log.json', JSON.stringify(logDefault)).then(() => {
+               log('Nuked Log!');
+
+               // DEFAULT SETTINGS CONTENT
+               var settingsDefault = {};
+
+               // NUKE SETTINGS
+               this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
+                  log('Nuked Settings!');
+
+                  // LOG VIRTUAL CONTENT
+                  this.ls().then((ls) => {
+                     log(ls);
+                     log('Nuking Complete!')
+                  });
+
+               });
+            });
+         });
+      });
    }
 
    // ADD TO IPFS

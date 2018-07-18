@@ -103,7 +103,7 @@ function upload() {
       var mutable = new Mutable();
 
       // NUKE TRACKER
-      //mutable.nukeTracker();
+      //mutable.nukeLogs();
 
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
@@ -124,36 +124,52 @@ function upload() {
             var user = split[1];
             var unix = Math.round(+new Date()/1000);
 
-            // MAKE NESTED ATTR IF IT DOESNT EXIST
+            // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
             if (tracker[original_file] == undefined) {
                tracker[original_file] = {};
             };
 
-            // PUSH NEW ENTRY
+            // PUSH NEW USER ENTRY
             tracker[original_file][user] = {
                hash: hash,
                timestamp: unix
             }
-
-            // PUSH NEW ENTRY
-            /* tracker[original_file][user] = {
-               hash: hash,
-               timestamp: unix
-            } */
-
-            
-
-            log(tracker)
 
             // STRINGIFY AGAIN
             var tracker = JSON.stringify(tracker);
 
             // OVERWRITE OLD TRACKER LOG
             mutable.write('tracker.json', tracker).then((a) => {
-               log('Wrote new Tracker log.')
+               log('Added entry to Tracker.')
+
+               // READ LOG FILE
+               mutable.read('log.json').then((file) => {
+
+                  // PARSE LOG FILE
+                  var logz = JSON.parse(file);
+                  var string = user + ' uploaded a rendition of ' + original_file;
+                  
+                  // ADD ENTRY
+                  logz[unix] = {
+                     string: string,
+                     original: original_file,
+                     user: user
+                  }
+
+                  log(logz)
+
+                  // STRINGIFY AGAIN
+                  logz = JSON.stringify(logz);
+
+                  // OVERWRITE OLD LOG
+                  mutable.write('log.json', logz).then(() => {
+                     log('Added entry to log.');
+
+
+                  });
+               });
             });
          });
-
       });
 
    } else {
@@ -545,10 +561,56 @@ class Mutable {
       });
    }
 
-   nukeTracker() {
-      this.write('tracker.json', '{}').then(() => {
+   // RESET ALL LOGS TO THEIR DEFAULT VALUE
+   nukeLogs() {
+
+      // DEFAULT TRACKER CONTENT
+      var trackerDefault = {};
+
+      // NUKE TRACKER
+      this.write('tracker.json', JSON.stringify(trackerDefault)).then(() => {
          log('Nuked Tracker!');
-      })
+         
+         // DEFAULT HISTORY CONTENT
+         var historyDefault = {
+            "current": {
+               "name": "",
+               "hash": "",
+               "timestamp": 0
+            },
+         
+            "old": {
+            }
+         }
+
+         // NUKE HISTORY
+         this.write('history.json', JSON.stringify(historyDefault)).then(() => {
+            log('Nuked History!');
+
+            // DEFAULT LOG CONTENT
+            var logDefault = {};
+            
+            // NUKE LOG
+            this.write('log.json', JSON.stringify(logDefault)).then(() => {
+               log('Nuked Log!');
+
+               // DEFAULT SETTINGS CONTENT
+               var settingsDefault = {};
+
+               // NUKE SETTINGS
+               this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
+                  log('Nuked Settings!');
+
+                  // LOG VIRTUAL CONTENT
+                  this.ls().then((ls) => {
+                     log(ls);
+                     log('Nuking Complete!')
+                  });
+
+               });
+            });
+         });
+      });
    }
 
    // ADD TO IPFS

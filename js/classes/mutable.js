@@ -86,9 +86,11 @@ class Mutable {
 
    // READ
    read(path) {
-      ipfs.files.read('/' + path, (error, buf) => {
-         log(buf.toString('utf8'));
-       });
+      return new Promise(function(resolve, reject) {
+         ipfs.files.read('/' + path, (error, buf) => {
+            resolve(buf.toString('utf8'));
+         });
+      });
    }
 
    // WRITE
@@ -204,6 +206,23 @@ class Mutable {
                log('Check found no isses!');
             }
          }
+      });
+   }
+
+   nukeTracker() {
+      this.write('tracker.json', '{}').then(() => {
+         log('Nuked Tracker!');
+      })
+   }
+
+   // ADD TO IPFS
+   add(cacheName) {
+      return new Promise(function(resolve, reject) {
+         var content = localStorage.getItem(cacheName);
+
+         ipfs.files.add(Buffer.from(content), function (err, res) {
+            resolve(res);
+         });
       });
    }
 

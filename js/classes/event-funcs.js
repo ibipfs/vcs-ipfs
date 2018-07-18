@@ -101,32 +101,45 @@ function upload() {
    if (cache != undefined && metamask.isLogged) {
       var mutable = new Mutable();
 
-      // LISTING FILES
-      mutable.ls().then((files) => {
-         log(files);
+      // NUKE TRACKER
+      //mutable.nukeTracker();
 
-         // WRITE VIRTUAL TEMP FILE
-         mutable.write(cache, localStorage.getItem(cache)).then((result) => {
-            log('Wrote file!');
+      // ADD TO IPFS
+      mutable.add(cache).then((ret) => {
+         log('Added to IPFS.')
 
-            // FLUSH TO SAVE
-            mutable.flush(cache).then((res) => {
-               log('Flushed file!')
-               
-               // LISTING NEW FILES 
-               mutable.ls().then((files) => {
-                  log(files);
+         // NEW FILES HASH
+         var hash = ret["0"].hash;
 
-                  // REMOVE TEMP FILE
-                  mutable.rmFile(cache).then(() => {
-                     log('Removed file!');
+         // READ TRACKER FILE TO VAR
+         mutable.read('tracker.json').then((file) => {
 
-                     // LISTING FILES
-                     mutable.ls().then((files) => {
-                        log(files);
-                     });
-                  });
-               });
+            // PARSE TRACKER FILE
+            var tracker = JSON.parse(file);
+
+            // RELEVANT DATA
+            var split = cache.split('-');
+            var original_file = split[0];
+            var user = split[1];
+            var unix = Math.round(+new Date()/1000);
+
+            // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
+            if (tracker[original_file] == undefined) {
+               tracker[original_file] = {};
+            };
+
+            // PUSH NEW USER ENTRY
+            tracker[original_file][user] = {
+               hash: hash,
+               timestamp: unix
+            }
+
+            // STRINGIFY AGAIN
+            var tracker = JSON.stringify(tracker);
+
+            // OVERWRITE OLD TRACKER LOG
+            mutable.write('tracker.json', tracker).then((a) => {
+               log('Wrote new Tracker log.')
             });
          });
       });

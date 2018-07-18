@@ -102,18 +102,17 @@ function upload() {
    if (cache != undefined && metamask.isLogged) {
       var mutable = new Mutable();
 
-      // NUKE TRACKER
-      //mutable.nukeTracker();
-
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
          log('Added to IPFS.')
 
-         // NEW FILES HASH
+         // ADDED FILES HASH
          var hash = ret["0"].hash;
 
          // READ TRACKER FILE TO VAR
          mutable.read('tracker.json').then((file) => {
+
+            log(file);
 
             // PARSE TRACKER FILE
             var tracker = JSON.parse(file);
@@ -124,26 +123,9 @@ function upload() {
             var user = split[1];
             var unix = Math.round(+new Date()/1000);
 
-            // MAKE NESTED ATTR IF IT DOESNT EXIST
-            if (tracker[original_file] == undefined) {
-               tracker[original_file] = {};
-            };
-
             // PUSH NEW ENTRY
-            tracker[original_file][user] = {
-               hash: hash,
-               timestamp: unix
+            tracker[original_file] = {
             }
-
-            // PUSH NEW ENTRY
-            /* tracker[original_file][user] = {
-               hash: hash,
-               timestamp: unix
-            } */
-
-            
-
-            log(tracker)
 
             // STRINGIFY AGAIN
             var tracker = JSON.stringify(tracker);
@@ -151,10 +133,44 @@ function upload() {
             // OVERWRITE OLD TRACKER LOG
             mutable.write('tracker.json', tracker).then((a) => {
                log('Wrote new Tracker log.')
+
+               mutable.read('tracker.json').then((l) => {
+                  log(l);
+               })
             });
          });
 
       });
+
+      /* // LISTING FILES
+      mutable.ls().then((files) => {
+         log(files);
+
+         // WRITE VIRTUAL TEMP FILE
+         mutable.write(cache, localStorage.getItem(cache)).then((result) => {
+            log('Wrote file!');
+
+            // FLUSH TO SAVE
+            mutable.flush(cache).then((res) => {
+               log('Flushed file!')
+               
+               // LISTING NEW FILES 
+               mutable.ls().then((files) => {
+                  log(files);
+
+                  // REMOVE TEMP FILE
+                  mutable.rmFile(cache).then(() => {
+                     log('Removed file!');
+
+                     // LISTING FILES
+                     mutable.ls().then((files) => {
+                        log(files);
+                     });
+                  });
+               });
+            });
+         });
+      }); */
 
    } else {
       log('Tried to Upload.');
@@ -543,12 +559,6 @@ class Mutable {
             }
          }
       });
-   }
-
-   nukeTracker() {
-      this.write('tracker.json', '{}').then(() => {
-         log('Nuked Tracker!');
-      })
    }
 
    // ADD TO IPFS

@@ -30,7 +30,7 @@ function promisify(query, value = null) {
          // FETCH IPFS FILE DATA
          case 'file':
             ipfs.files.cat(value, function (err, file) {
-               resolve(file);
+               resolve(file.toString('utf8'));
             });
          break;
 

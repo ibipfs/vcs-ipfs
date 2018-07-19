@@ -39,7 +39,7 @@ class Activities {
 
             // FETCH VALUES
             string = logz[keys[x]].string;
-            timestamp = moment.unix(keys[x]).format('D/M/YY @ h:mm:ss');
+            timestamp = moment.unix(keys[x]).format('D/MM @ H:mm');
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
 
@@ -83,11 +83,6 @@ class Activities {
             $("#activity").css('opacity', '1');
          });
       });
-   }
-
-   nuke() {
-      var mutable = new Mutable();
-      mutable.nukeLogs();
    }
 }
 

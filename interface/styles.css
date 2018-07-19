@@ -275,21 +275,28 @@ hr {
    border-radius: 4px;
 }
 
+#filter-inner {
+   background: url('img/inner-bg.png');
+   padding: 5px;
+   border-radius: 4px;
+}
+
 #filter {
    background: url('img/success.png');
-   border: 1px solid rgb(116, 163, 146);
+   border: 0px solid black;
+   border-bottom: 1px solid #B5D0C6;
+   padding: 10px;
    padding: 8px;
    outline: none;
    width: 100%;
-   border-radius: 4px;
-   color: white;
    transition: .2s;
    font: 13px 'Open Sans', verdana;
+   color: #505050;
 }
 
 #filter:placeholder-shown {
-   background: url('img/inner-bg.png');
-   border: 1px solid white;
+   background: url('img/caution.png');
+   border-bottom: 1px solid #dada8b;
 }
 
 /* -- FOOTER -- */

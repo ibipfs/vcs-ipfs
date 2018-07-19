@@ -128,3 +128,23 @@ function beautify(code, type) {
 
    return code;
 }
+
+// CHECK IF TWO ARRAYS ARE THE SAME
+function compareArrays(first, second) {
+   var value = false;
+   var num = 0;
+
+   if (first.length == second.length) {
+      for (var x = 0; x < first.length; x++) {
+         if (first[x] == second[x]) {
+            num++;
+         }
+      }
+
+      if (num == first.length) {
+         value = true;
+      }
+   }
+
+   return value;
+}

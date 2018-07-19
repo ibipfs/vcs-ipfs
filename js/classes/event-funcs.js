@@ -146,7 +146,7 @@ function upload() {
 
                   // PARSE LOG FILE
                   var logz = JSON.parse(file);
-                  var string = capitalize(user) + ' uploaded a rendition of ' + original_file;
+                  var string = capitalize(user) + ' published a version of ' + original_file;
                   
                   // ADD ENTRY
                   logz[unix] = {

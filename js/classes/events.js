@@ -5,6 +5,7 @@ $(document).on('keyup',function(evt) {
    
    // ESC KEY
    if (evt.keyCode == 27) {
+      event.preventDefault();
       funcs.closePrompt();
    }
 

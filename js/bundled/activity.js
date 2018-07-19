@@ -108,7 +108,7 @@ class Activities {
          table = '<table><tbody>' + rows + '</tbody></table>';
          var cont = $('#activity').html();
 
-         // CHECK IF OLD AND NEW SELECTOR HTML CONTENT IS THE SAME
+         // COMPARE OLD AND NEW SELECTOR CONTENT
          if (table == cont) {
 
             // RENDER TO SELECTOR

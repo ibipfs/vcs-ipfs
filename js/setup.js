@@ -1,5 +1,5 @@
 // BLOCKCHAIN & IPFS PEER IP
-var host_addr = '192.168.1.150';
+var host_addr = 'localhost';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {

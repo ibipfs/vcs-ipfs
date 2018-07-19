@@ -4,18 +4,18 @@ class Metamask {
    constructor() {
 
       // MEMBER WHITELIST & NAMELIST
-      this.whitelist = ['0x107aaf87edde390a81e400e096f3c6caee0034a7', '0xb690bf90706104d43a65d81f744343d72c7562a6'];
-      this.namelist = ['wickstjo', 'testuser'];
+      this.whitelist = ['0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
+      this.namelist = ['wickstjo', 'mydude'];
    
       // MEMBERSINFO OBJECT
       this.memberInfo = {
-         "0x107aaf87edde390a81e400e096f3c6caee0034a7": {
+         "0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e": {
             name: "wickstjo",
             timestamp: 1530321302
          },
          
-         "0xb690bf90706104d43a65d81f744343d72c7562a6": {
-            name: "testuser",
+         "0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b": {
+            name: "mydude",
             timestamp: 1530324655
          },
       }

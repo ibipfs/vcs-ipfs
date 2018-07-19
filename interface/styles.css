@@ -195,12 +195,12 @@ hr {
    min-width: 600px;
 }
 
-#files {
+#files, #activity {
    background: url('img/inner-bg.png');
    border-radius: 4px;
    padding: 5px;
-   padding-bottom: 0px;
    transition: .2s;
+   padding-bottom: 0px;
    opacity: 0;
 }
 
@@ -216,7 +216,7 @@ hr {
    border-bottom: 1px solid #CCAAAA;
 }
 
-#files table tr#content td div {
+#files table tr#content td div, #activity table tr td div {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
    padding: 10px;
@@ -254,6 +254,42 @@ hr {
 
 #files table td div {
    margin-bottom: 5px;
+}
+
+#activity table tr td div {
+   margin-bottom: 5px;
+}
+
+#activity table tr td:nth-child(2) div {
+   text-align: right;
+}
+
+#activity table tr:nth-child(odd) td div {
+   background: url('img/blue-bg.png');
+}
+
+#filter-outer {
+   background: url('img/dark.png');
+   padding: 10px;
+   margin-bottom: 10px;
+   border-radius: 4px;
+}
+
+#filter {
+   background: url('img/success.png');
+   border: 1px solid rgb(116, 163, 146);
+   padding: 8px;
+   outline: none;
+   width: 100%;
+   border-radius: 4px;
+   color: white;
+   transition: .2s;
+   font: 13px 'Open Sans', verdana;
+}
+
+#filter:placeholder-shown {
+   background: url('img/inner-bg.png');
+   border: 1px solid white;
 }
 
 /* -- FOOTER -- */

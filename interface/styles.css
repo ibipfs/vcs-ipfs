@@ -260,7 +260,7 @@ hr {
    margin-bottom: 5px;
 }
 
-#activity table tr td:nth-child(2) div {
+#activity table tr td:nth-child(2) {
    text-align: right;
 }
 
@@ -268,14 +268,18 @@ hr {
    background: url('img/blue-bg.png');
 }
 
-#filter-outer {
+#activity table tr td:nth-child(2) {
+   width: 120px;
+}
+
+#filter-outer, #tracker-outer {
    background: url('img/dark.png');
    padding: 10px;
    margin-bottom: 10px;
    border-radius: 4px;
 }
 
-#filter-inner {
+#filter-inner, #tracker-inner {
    background: url('img/inner-bg.png');
    padding: 5px;
    border-radius: 4px;

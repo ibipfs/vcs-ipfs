@@ -39,7 +39,7 @@ class Activities {
 
             // FETCH VALUES
             string = logz[keys[x]].string;
-            timestamp = moment.unix(keys[x]).format('D/MM @ H:mm');
+            timestamp = moment.unix(keys[x]).format('D/MM @ HH:mm');
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
 
@@ -47,7 +47,14 @@ class Activities {
             if (filter == '') {
 
                // GENERATE ROW
-               row = '<tr><td><div>' + string + '</div></td><td><div>' + timestamp + '</div></td></tr>';
+               row = `
+                  <tr><td><div>
+                     <table><tbody><tr>
+                        <td>` + string + `</td>
+                        <td>` + timestamp + `</td>
+                     </tr></tbody></table>
+                  </div></td></tr>
+               `;
 
                // CONCAT TO ROWS
                rows += row;
@@ -58,7 +65,14 @@ class Activities {
                if (filter.toLowerCase() == user.toLowerCase() || filter == original) {
 
                   // GENERATE ROW
-                  row = '<tr><td><div>' + string + '</div></td><td><div>' + timestamp + '</div></td></tr>';
+                  row = `
+                     <tr><td><div>
+                        <table><tbody><tr>
+                           <td>` + string + `</td>
+                           <td>` + timestamp + `</td>
+                        </tr></tbody></table>
+                     </div></td></tr>
+                  `;
 
                   // CONCAT TO ROWS
                   rows += row;
@@ -68,20 +82,35 @@ class Activities {
 
          // FALLBACK IF NO ROWS ARE FOUND
          if (rows == '') {
-            rows = '<tr><td><div>No entries found.</div></td><td><div>-</div></td></tr>';
+            rows = '<tr><td><div>No entries found.</div></td></tr>';
          }
 
          // GENERATE FULL TABLE
-         table = '<table>' + rows + '</table>';
+         table = '<table><tbody>' + rows + '</tbody></table>';
+         var cont = $('#activity').html();
 
-         sleep(180).then(() => {
+         // CHECK IF OLD AND NEW SELECTOR HTML CONTENT IS THE SAME
+         if (table == cont) {
 
             // RENDER TO SELECTOR
             $('#activity').html(table);
 
-            // TURN OPACITY UP
-            $("#activity").css('opacity', '1');
-         });
+         // WHEN CONTENT HAS CHANGED
+         } else {
+
+            // TURN OPACITY OFF
+            $('#activity').css('opacity', '0');
+
+            sleep(180).then(() => {
+
+               // RENDER TO SELECTOR
+               $('#activity').html(table);
+
+               // TURN OPACITY UP
+               $("#activity").css('opacity', '1');
+
+            });  
+         }
       });
    }
 }

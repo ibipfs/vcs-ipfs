@@ -1,0 +1,43 @@
+// RENDER IN INDEX WHEN PAGE IS FIRST LOADED
+require('./index.js')();
+var current = 'files';
+
+// WHEN MENULINK IS CLICKED
+$('body').on('click', '#menu a', () => {
+ 
+   // CLICKED MENU ELEMENT VALUE
+   var val = $(event.target).text();
+   val = val.toLowerCase();
+ 
+   if (current != val) {
+
+      $('#menu a').css('text-decoration', 'none');
+      $(event.target).css('text-decoration', 'underline');
+
+      // PLACEHOLDER MODULE
+      var sectionModule;
+   
+      switch (val) {
+   
+         // ACTIVITY
+         case 'activity':
+            sectionModule = require('./activity.js');
+            current = 'activity';
+         break;
+
+         // TRACKER
+         case 'tracker':
+            sectionModule = require('./tracker.js');
+            current = 'tracker';
+         break;
+   
+         // FALLBACK & INDEX
+         default:
+            sectionModule = require('./index.js');
+            current = 'files';
+         break;
+      }
+
+      sectionModule();
+   }
+});

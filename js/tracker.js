@@ -1,17 +1,36 @@
-var Tracker = require('./classes/tracker.js');
+function render() {
 
-// METAMASK CHECK
-var metamask = new Metamask();
-metamask.check();
+      // GENERATE PARENT SELECTORS
+      var filter = `
+         <div id="filter-outer">
+            <div id="filter-inner">
+               <input type="text" id="filter" placeholder="Filter by Original File Hash" tabindex="1">
+            </div>
+         </div>
+      `;
 
-// ACTIVITIES
-var tracker = new Tracker();
-tracker.body();
+   var container = `
+      <div id="container"></div>
+   `;
 
-// FILTER
-$("#filter").on('keyup', function() {
-   var query = $('#filter').val();
+   // RENDER IT IN
+   $('#content-body').html(filter + container);
 
-   // RENDER FILTERED LIST
-   tracker.body(query);
-});
+   // FETCH MODULE
+   var Tracker = require('./classes/tracker.js');
+
+   // TRACKER
+   var tracker = new Tracker();
+   tracker.body();
+
+   // FILTER
+   $("#filter").on('keyup', function() {
+      var query = $('#filter').val();
+
+      // RENDER FILTERED LIST
+      tracker.body(query);
+   });
+}
+
+// EXPORT CLASS
+module.exports = render;

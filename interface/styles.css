@@ -383,3 +383,7 @@ ul {
 #menu-tbl td:last-child {
    text-align: right;
 }
+
+#menu a[href='#Files'] {
+   text-decoration: underline;
+}

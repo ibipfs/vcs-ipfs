@@ -195,7 +195,7 @@ hr {
    min-width: 600px;
 }
 
-#files, #activity {
+#files, #activity, #tracker {
    background: url('img/inner-bg.png');
    border-radius: 4px;
    padding: 5px;
@@ -216,16 +216,23 @@ hr {
    border-bottom: 1px solid #CCAAAA;
 }
 
-#files table tr#content td div, #activity table tr td div {
+#files table tr#content td div, #activity table tr td div, #tracker-inner table #gray {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
    padding: 10px;
+   margin-bottom: 5px;
 }
 
-#files table tr#current td div {
+#files table tr#current td div, #tracker-inner table #header {
    background: url('img/caution.png');
    border-bottom: 1px solid #dada8b;
    padding: 10px;
+}
+
+#tracker-inner table #header {
+   background: url('img/blue-bg.png');
+   border-bottom: 1px solid #C3CDE1;
+   margin-bottom: 5px;
 }
 
 #files table tr#content td div:hover, #files table tr#header td div:hover {
@@ -260,11 +267,15 @@ hr {
    margin-bottom: 10px;
 }
 
+#tracker-outer:last-child {
+   margin-bottom: 0px;
+}
+
 #activity table tr td div {
    margin-bottom: 5px;
 }
 
-#activity table tr td:nth-child(2) {
+#activity table tr td:nth-child(2), #tracker-inner table td:nth-child(2) {
    text-align: right;
 }
 
@@ -279,6 +290,7 @@ hr {
 #filter-inner, #tracker-inner {
    background: url('img/inner-bg.png');
    padding: 5px;
+   padding-bottom: 0px;
    border-radius: 4px;
 }
 
@@ -292,11 +304,22 @@ hr {
    transition: .2s;
    font: 13px 'Open Sans', verdana;
    color: #505050;
+   margin-bottom: 5px;
 }
 
 #filter:placeholder-shown {
    background: url('img/caution.png');
    border-bottom: 1px solid #dada8b;
+}
+
+#tracker-inner table #gray hr {
+   border-top: 1px dotted #CECECE;
+   border-bottom: 1px dotted white;
+}
+
+#container {
+   opacity: 0;
+   transition: .2s;
 }
 
 /* -- FOOTER -- */

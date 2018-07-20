@@ -216,7 +216,7 @@ hr {
    border-bottom: 1px solid #CCAAAA;
 }
 
-#files table tr#content td div, #activity table tr td div, #tracker-inner table #gray {
+#files table tr#content td div, #activity table tr td div, #tracker-inner table #gray, #error {
    background: url('img/gray-bg.png');
    border-bottom: 1px solid #CECECE;
    padding: 10px;
@@ -287,11 +287,15 @@ hr {
    width: 120px;
 }
 
-#filter-inner, #tracker-inner {
+#filter-inner, #tracker-inner, #tracker-query {
    background: url('img/inner-bg.png');
    padding: 5px;
    padding-bottom: 0px;
    border-radius: 4px;
+}
+
+#tracker-query {
+   margin-bottom: 5px;
 }
 
 #filter {

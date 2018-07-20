@@ -9,9 +9,9 @@ var tracker = new Tracker();
 tracker.body();
 
 // FILTER
-/* $("#filter").on('keyup', function() {
+$("#filter").on('keyup', function() {
    var query = $('#filter').val();
 
    // RENDER FILTERED LIST
-   activities.body(query);
-}); */
+   tracker.body(query);
+});

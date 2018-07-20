@@ -11,7 +11,10 @@ $('body').on('click', '#menu a', () => {
  
    if (current != val) {
 
+      // REMOVE UNDERLINE FROM EVERY ELEMENT
       $('#menu a').css('text-decoration', 'none');
+
+      // UNDERLINE TARGET
       $(event.target).css('text-decoration', 'underline');
 
       // PLACEHOLDER MODULE

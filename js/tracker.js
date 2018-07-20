@@ -4,7 +4,7 @@ function render() {
       var filter = `
          <div id="filter-outer">
             <div id="filter-inner">
-               <input type="text" id="filter" placeholder="Filter by Original File Hash" tabindex="1">
+               <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
             </div>
          </div>
       `;
@@ -13,7 +13,7 @@ function render() {
       <div id="container"></div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(filter + container);
 
    // FETCH MODULE

@@ -15,9 +15,10 @@ function render() {
       </div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(filter + files);
 
+   // FETCH MODULE
    var Activities = require('./classes/activities.js');
 
    // ACTIVITIES

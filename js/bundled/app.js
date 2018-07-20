@@ -16,9 +16,10 @@ function render() {
       </div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(filter + files);
 
+   // FETCH MODULE
    var Activities = require('./classes/activities.js');
 
    // ACTIVITIES
@@ -51,7 +52,10 @@ $('body').on('click', '#menu a', () => {
  
    if (current != val) {
 
+      // REMOVE UNDERLINE FROM EVERY ELEMENT
       $('#menu a').css('text-decoration', 'none');
+
+      // UNDERLINE TARGET
       $(event.target).css('text-decoration', 'underline');
 
       // PLACEHOLDER MODULE
@@ -561,7 +565,7 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(files + footer);
 
    // RENDER CONTENT
@@ -579,7 +583,7 @@ function render() {
       var filter = `
          <div id="filter-outer">
             <div id="filter-inner">
-               <input type="text" id="filter" placeholder="Filter by Original File Hash" tabindex="1">
+               <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
             </div>
          </div>
       `;
@@ -588,7 +592,7 @@ function render() {
       <div id="container"></div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(filter + container);
 
    // FETCH MODULE

@@ -11,7 +11,7 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
-   // RENDER IT IN
+   // RENDER THEM IN
    $('#content-body').html(files + footer);
 
    // RENDER CONTENT

@@ -2,50 +2,38 @@ function render() {
    var Mutable = require('./classes/mutable.js');
    var mutable = new Mutable();
 
-   // REMOVE RELEASE DIR
-   mutable.rm('temp/release').then(() => {
-      log('Removed release dir!');
+   var fileArray = [];
+   var base = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP'
 
-   // MAKE NEW DIRECTORY
-   mutable.mkdir('temp/release').then(() => {
-      log('Created release dir!');
+   promisify('get', base).then((result) => {
+      var keys = Object.keys(result);
+      log(result);
 
-      // WRITE FIRST FILE
-      mutable.write('temp/release/first.js', 'first file').then(() => {
-         log('Created first file!');
+      for (var x = 0; x < keys.length; x++) {
+         var instance = result[keys[x]];
+         var obj = {};
 
-         // WRITE SECOND FILE
-         mutable.write('temp/release/second.js', 'second file').then(() => {
-            log('Created second file!');
-   
-            // LIST OUT TEMP DIRECTORY
-            mutable.ls('temp/release').then((stuff) => {
-               log(stuff);
+         // CHECK IF TARGET IS A FILE
+         if (instance.content != undefined) {
 
-               var fileArray = [
-                  {
-                     path: '/release/first.js',
-                     content: 'first'
-                  },
-                  {
-                     path: '/release/second.js',
-                     content: 'second'
-                  }
-               ];
+            // BUILD OBJECT
+            obj = {
+               path: instance.path,
+               content: instance.content
+            }
 
-               // UPLOAD FILES
-               mutable.release(fileArray).then((answer) => {
-                  var parentHash = answer[answer.length - 1].hash
+            // PUSH OBJECT INTO GATHERING ARRAY
+            fileArray.push(obj);
+         }
+      }
 
-                  promisify('dir', parentHash).then((r) => {
-                     log(r);
-                  })
-
-               });
-            });
-         });
+      // PUBLISH TO IPFS
+      mutable.release(fileArray).then((response) => {
+         
+         // FETCH HASH OF ROOT DIR
+         var hash = response[response.length - 1].hash;
+         log(hash);
       });
-   });
    });
 }
 

@@ -3,50 +3,35 @@ function render() {
    var Mutable = require('./classes/mutable.js');
    var mutable = new Mutable();
 
-   // REMOVE RELEASE DIR
-   mutable.rm('temp/release').then(() => {
-      log('Removed release dir!');
+   var fileArray = [];
 
-   // MAKE NEW DIRECTORY
-   mutable.mkdir('temp/release').then(() => {
-      log('Created release dir!');
+   promisify('get', 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP').then((result) => {
+      var keys = Object.keys(result);
+      log(result);
 
-      // WRITE FIRST FILE
-      mutable.write('temp/release/first.js', 'first file').then(() => {
-         log('Created first file!');
+      for (var x = 0; x < keys.length; x++) {
+         var instance = result[keys[x]];
+         var obj = {};
 
-         // WRITE SECOND FILE
-         mutable.write('temp/release/second.js', 'second file').then(() => {
-            log('Created second file!');
-   
-            // LIST OUT TEMP DIRECTORY
-            mutable.ls('temp/release').then((stuff) => {
-               log(stuff);
+         // CHECK IF TARGET IS A FILE
+         if (instance.content != undefined) {
 
-               var fileArray = [
-                  {
-                     path: '/release/first.js',
-                     content: 'first'
-                  },
-                  {
-                     path: '/release/second.js',
-                     content: 'second'
-                  }
-               ];
+            // BUILD OBJECT
+            obj = {
+               path: instance.path,
+               content: instance.content
+            }
 
-               // UPLOAD FILES
-               mutable.release(fileArray).then((answer) => {
-                  var parentHash = answer[answer.length - 1].hash
+            // PUSH OBJECT INTO GATHERING ARRAY
+            fileArray.push(obj);
+         }
+      }
 
-                  promisify('dir', parentHash).then((r) => {
-                     log(r);
-                  })
-
-               });
-            });
-         });
+      // PUBLISH TO IPFS
+      mutable.release(fileArray).then((response) => {
+         var hash = response[response.length - 1].hash;
+         log(hash);
       });
-   });
    });
 }
 
@@ -713,7 +698,7 @@ class Mutable {
          }
 
          // WHITELIST
-         var whitelist = ['history.json', 'log.json', 'settings.json', 'temp', 'tracker.json'];
+         var whitelist = ['history.json', 'log.json', 'settings.json', 'tracker.json'];
 
          // IF BOTH ARRAYS ARE THE SAME
          if (compareArrays(list, whitelist) == false) {
@@ -775,17 +760,12 @@ class Mutable {
                   this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
                      log('Settings created!');
 
-                     // NUKE SETTINGS
-                     this.mkdir('temp').then(() => {
-                        log('Temp directory created!');
-
-                        // LOG VIRTUAL CONTENT
-                        this.ls().then((ls) => {
-                           log(ls);
-                           log('Nuking Complete!')
-                        });
-
+                     // LOG VIRTUAL CONTENT
+                     this.ls().then((ls) => {
+                        log(ls);
+                        log('Nuking Complete!')
                      });
+                     
                   });
                });
             });
@@ -806,11 +786,6 @@ class Mutable {
 
    // RELEASE NEW VERSION
    release(fileArray) {
-      
-      for (var x = 0; x < fileArray.length; x++) {
-         fileArray[x].content = Buffer.from(fileArray[x].content);
-      }
-
       return new Promise(function(resolve, reject) {
          ipfs.files.add(fileArray, function (err, res) {
             if (err) {

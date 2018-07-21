@@ -2,9 +2,8 @@ var Buffer = require('buffer/').Buffer
 
 class Mutable {
 
+   // CHECK THAT LOG FILES EXIST
    constructor() {
-
-      // CHECK THAT LOG FILES EXIST
       this.check();
    }
 

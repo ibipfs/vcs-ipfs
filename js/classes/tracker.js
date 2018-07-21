@@ -27,15 +27,15 @@ class Tracker {
 
          // HELP VARS
          var fileName = '';
-         var instanceData = {};
+         var fileData = {};
          var subKeys = [];
-         var foofoo = '';
+         var blobHolder = '';
 
-         // ANALYZE FILE
+         // LOOP THROUGH FILES WITH SUBMISSIONS
          for (var x = 0; x < keys.length; x++) {
             fileName = keys[x];
-            instanceData = content[fileName];
-            subKeys = Object.keys(instanceData);
+            fileData = content[fileName];
+            subKeys = Object.keys(fileData);
 
             // REVERSE TO GET NEWEST FIRST
             subKeys.reverse();
@@ -44,7 +44,6 @@ class Tracker {
             var user = '';
             var hash = '';
             var timestamp = 0;
-            var targetData = {};
 
             // STRUCTURE VARS
             var wrap = '';
@@ -57,15 +56,13 @@ class Tracker {
             header = '<tr><td><div id="header">' + fileName + '</div></td></tr>';
             rows += header;
 
-            // ANALYZE CONTRIBUTORS
+            // LOOP THROUGH SUBMISSIONS
             for (var y = 0; y < subKeys.length; y++) {
                user = subKeys[y];
-               targetData = instanceData[user];
+               hash = fileData[user].hash;
+               timestamp = fileData[user].timestamp;
 
-               hash = targetData.hash;
-               timestamp = targetData.timestamp;
-
-               // GENERATE ROW & CONCAT
+               // GENERATE ROW
                row = `
                   <tr><td>
                      <div id="gray">
@@ -87,38 +84,30 @@ class Tracker {
                   </td></tr>
                `;
 
-               // CONCAT TO PARENT
+               // CONCAT ROW TO PARENT
                rows += row;
-
-               // BUILD STRUCTURE
-               table = '<table><tbody>' + rows + '</tbody></table>';
-               wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
-               
-               // IF FILTER QUERY IS EMPTY
-               if (filter == '') {
-                  foofoo += wrap;
-               
-               // IF QUERY IS FOUND
-               } else {
-
-                  // IF FILENAME EQUALS FILTER
-                  if (filter == fileName) {
-                     foofoo += wrap;
-                  }
-               }
             }
+
+            // GENERATE ENTIRE STRUCTURE
+            table = '<table><tbody>' + rows + '</tbody></table>';
+            wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
+
+            // ONLY CONCAT IF QUERY IS EMPTY OR MATCHES FILENAME
+            if (filter == '' || filter == fileName) {
+               blobHolder += wrap;
+            }
+         }
+
+         // ADD ERROR MSG IF NOTHING IF FOUND
+         if (blobHolder == '') {
+            blobHolder = '<div id="tracker-outer"><div id="tracker-inner"><table><tbody><tr><td><div id="header">No entries found.</div></td></tr></tbody></table></div></div>';
          }
 
          // PARENT CONTENT
          var cont = $('#container').html();
 
-         // FALLBACK IF NOTHING IS FOUND
-         if (foofoo == '') {
-            foofoo = '<div id="tracker-outer"><div id="tracker-inner"><table><tbody><tr><td><div id="header">No entries found.</div></td></tr></tbody></table></div></div>';
-         }
-
          // CHECK IF CONTENT IS SAME AS BEFORE QUERY - TO STOP FLICKERING
-         if (foofoo == cont) {
+         if (blobHolder == cont) {
 
             // RENDER TO SELECTOR
             $('#container').html(cont);
@@ -127,7 +116,7 @@ class Tracker {
          } else {
 
             // FADE IN
-            fadeIn('container', foofoo);
+            fadeIn('container', blobHolder);
          }
       });
    }

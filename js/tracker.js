@@ -1,13 +1,13 @@
 function render() {
 
-      // GENERATE PARENT SELECTORS
-      var filter = `
-         <div id="filter-outer">
-            <div id="filter-inner">
-               <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
-            </div>
+   // GENERATE PARENT SELECTORS
+   var filter = `
+      <div id="filter-outer">
+         <div id="filter-inner">
+            <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
          </div>
-      `;
+      </div>
+   `;
 
    var container = `
       <div id="container"></div>

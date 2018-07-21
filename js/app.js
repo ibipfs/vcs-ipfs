@@ -33,6 +33,12 @@ $('body').on('click', '#menu a', () => {
             sectionModule = require('./tracker.js');
             current = 'tracker';
          break;
+
+         // TRACKER
+         case 'actions':
+            sectionModule = require('./actions.js');
+            current = 'actions';
+         break;
    
          // FALLBACK & INDEX
          default:

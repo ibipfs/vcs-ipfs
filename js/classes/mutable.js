@@ -9,12 +9,14 @@ class Mutable {
 
    // MAKE DIRECTORY
    mkdir(dir) {
-      ipfs.files.mkdir('/' + dir, (err) => {
-         if (err) {
-            log(err)
-         } else {
-            log('Added: "' + dir + '"');
-         }
+      return new Promise(function(resolve, reject) {
+         ipfs.files.mkdir('/' + dir, (err) => {
+            if (err) {
+               log(err)
+            } else {
+               resolve(dir);
+            }
+         });
       });
    }
    
@@ -104,7 +106,7 @@ class Mutable {
          }
 
          // WHITELIST
-         var whitelist = ['history.json', 'log.json', 'settings.json', 'tracker.json'];
+         var whitelist = ['history.json', 'log.json', 'settings.json', 'temp', 'tracker.json'];
 
          // IF BOTH ARRAYS ARE THE SAME
          if (compareArrays(list, whitelist) == false) {
@@ -166,12 +168,17 @@ class Mutable {
                   this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
                      log('Settings created!');
 
-                     // LOG VIRTUAL CONTENT
-                     this.ls().then((ls) => {
-                        log(ls);
-                        log('Nuking Complete!')
-                     });
+                     // NUKE SETTINGS
+                     this.mkdir('temp').then(() => {
+                        log('Temp directory created!');
 
+                        // LOG VIRTUAL CONTENT
+                        this.ls().then((ls) => {
+                           log(ls);
+                           log('Nuking Complete!')
+                        });
+
+                     });
                   });
                });
             });
@@ -186,6 +193,24 @@ class Mutable {
 
          ipfs.files.add(Buffer.from(content), function (err, res) {
             resolve(res);
+         });
+      });
+   }
+
+   // RELEASE NEW VERSION
+   release(fileArray) {
+      
+      for (var x = 0; x < fileArray.length; x++) {
+         fileArray[x].content = Buffer.from(fileArray[x].content);
+      }
+
+      return new Promise(function(resolve, reject) {
+         ipfs.files.add(fileArray, function (err, res) {
+            if (err) {
+               log(err);
+            } else {
+               resolve(res);
+            }
          });
       });
    }

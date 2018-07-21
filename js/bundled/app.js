@@ -1,5 +1,59 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 function render() {
+   var Mutable = require('./classes/mutable.js');
+   var mutable = new Mutable();
+
+   // REMOVE RELEASE DIR
+   mutable.rm('temp/release').then(() => {
+      log('Removed release dir!');
+
+   // MAKE NEW DIRECTORY
+   mutable.mkdir('temp/release').then(() => {
+      log('Created release dir!');
+
+      // WRITE FIRST FILE
+      mutable.write('temp/release/first.js', 'first file').then(() => {
+         log('Created first file!');
+
+         // WRITE SECOND FILE
+         mutable.write('temp/release/second.js', 'second file').then(() => {
+            log('Created second file!');
+   
+            // LIST OUT TEMP DIRECTORY
+            mutable.ls('temp/release').then((stuff) => {
+               log(stuff);
+
+               var fileArray = [
+                  {
+                     path: '/release/first.js',
+                     content: 'first'
+                  },
+                  {
+                     path: '/release/second.js',
+                     content: 'second'
+                  }
+               ];
+
+               // UPLOAD FILES
+               mutable.release(fileArray).then((answer) => {
+                  var parentHash = answer[answer.length - 1].hash
+
+                  promisify('dir', parentHash).then((r) => {
+                     log(r);
+                  })
+
+               });
+            });
+         });
+      });
+   });
+   });
+}
+
+// EXPORT MODULE
+module.exports = render;
+},{"./classes/mutable.js":7}],2:[function(require,module,exports){
+function render() {
 
    // GENERATE PARENT SELECTORS
    var filter = `
@@ -38,7 +92,7 @@ function render() {
 
 // EXPORT CLASS
 module.exports = render;
-},{"./classes/activities.js":3}],2:[function(require,module,exports){
+},{"./classes/activities.js":4}],3:[function(require,module,exports){
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
 require('./index.js')();
 var current = 'files';
@@ -74,6 +128,12 @@ $('body').on('click', '#menu a', () => {
             sectionModule = require('./tracker.js');
             current = 'tracker';
          break;
+
+         // TRACKER
+         case 'actions':
+            sectionModule = require('./actions.js');
+            current = 'actions';
+         break;
    
          // FALLBACK & INDEX
          default:
@@ -85,7 +145,7 @@ $('body').on('click', '#menu a', () => {
       sectionModule();
    }
 });
-},{"./activity.js":1,"./index.js":8,"./tracker.js":9}],3:[function(require,module,exports){
+},{"./actions.js":1,"./activity.js":2,"./index.js":9,"./tracker.js":10}],4:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -195,7 +255,7 @@ class Activities {
 
 // EXPORT CLASS
 module.exports = Activities;
-},{"./mutable.js":6,"moment":13}],4:[function(require,module,exports){
+},{"./mutable.js":7,"moment":14}],5:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 
 // CLOSE PROMPT WINDOW
@@ -379,7 +439,7 @@ module.exports = {
    removeCache: removeCache,
    upload: upload
 }
-},{"./mutable.js":6}],5:[function(require,module,exports){
+},{"./mutable.js":7}],6:[function(require,module,exports){
 var funcs = require('../classes/event-funcs.js');
 
 // HIDE PROMPT ON ESC
@@ -544,7 +604,7 @@ $('body').on('click', '#remove', () => {
 $('body').on('click', '#upload', () => {
    funcs.upload();
 });
-},{"../classes/event-funcs.js":4}],6:[function(require,module,exports){
+},{"../classes/event-funcs.js":5}],7:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
 class Mutable {
@@ -556,12 +616,14 @@ class Mutable {
 
    // MAKE DIRECTORY
    mkdir(dir) {
-      ipfs.files.mkdir('/' + dir, (err) => {
-         if (err) {
-            log(err)
-         } else {
-            log('Added: "' + dir + '"');
-         }
+      return new Promise(function(resolve, reject) {
+         ipfs.files.mkdir('/' + dir, (err) => {
+            if (err) {
+               log(err)
+            } else {
+               resolve(dir);
+            }
+         });
       });
    }
    
@@ -651,7 +713,7 @@ class Mutable {
          }
 
          // WHITELIST
-         var whitelist = ['history.json', 'log.json', 'settings.json', 'tracker.json'];
+         var whitelist = ['history.json', 'log.json', 'settings.json', 'temp', 'tracker.json'];
 
          // IF BOTH ARRAYS ARE THE SAME
          if (compareArrays(list, whitelist) == false) {
@@ -713,12 +775,17 @@ class Mutable {
                   this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
                      log('Settings created!');
 
-                     // LOG VIRTUAL CONTENT
-                     this.ls().then((ls) => {
-                        log(ls);
-                        log('Nuking Complete!')
-                     });
+                     // NUKE SETTINGS
+                     this.mkdir('temp').then(() => {
+                        log('Temp directory created!');
 
+                        // LOG VIRTUAL CONTENT
+                        this.ls().then((ls) => {
+                           log(ls);
+                           log('Nuking Complete!')
+                        });
+
+                     });
                   });
                });
             });
@@ -737,11 +804,29 @@ class Mutable {
       });
    }
 
+   // RELEASE NEW VERSION
+   release(fileArray) {
+      
+      for (var x = 0; x < fileArray.length; x++) {
+         fileArray[x].content = Buffer.from(fileArray[x].content);
+      }
+
+      return new Promise(function(resolve, reject) {
+         ipfs.files.add(fileArray, function (err, res) {
+            if (err) {
+               log(err);
+            } else {
+               resolve(res);
+            }
+         });
+      });
+   }
+
 }
 
 // EXPORT CLASS
 module.exports = Mutable;
-},{"buffer/":11}],7:[function(require,module,exports){
+},{"buffer/":12}],8:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -868,7 +953,7 @@ class Tracker {
 
 // EXPORT CLASS
 module.exports = Tracker;
-},{"./mutable.js":6,"moment":13}],8:[function(require,module,exports){
+},{"./mutable.js":7,"moment":14}],9:[function(require,module,exports){
 function render() {
 
    // GENERATE PARENT SELECTOR
@@ -896,17 +981,17 @@ function render() {
 
 // EXPORT MODULE
 module.exports = render;
-},{"./classes/events.js":5}],9:[function(require,module,exports){
+},{"./classes/events.js":6}],10:[function(require,module,exports){
 function render() {
 
-      // GENERATE PARENT SELECTORS
-      var filter = `
-         <div id="filter-outer">
-            <div id="filter-inner">
-               <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
-            </div>
+   // GENERATE PARENT SELECTORS
+   var filter = `
+      <div id="filter-outer">
+         <div id="filter-inner">
+            <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
          </div>
-      `;
+      </div>
+   `;
 
    var container = `
       <div id="container"></div>
@@ -933,7 +1018,7 @@ function render() {
 
 // EXPORT CLASS
 module.exports = render;
-},{"./classes/tracker.js":7}],10:[function(require,module,exports){
+},{"./classes/tracker.js":8}],11:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -1086,7 +1171,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -2824,7 +2909,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":10,"ieee754":12}],12:[function(require,module,exports){
+},{"base64-js":11,"ieee754":13}],13:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -2910,7 +2995,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 //! moment.js
 
 ;(function (global, factory) {
@@ -7418,4 +7503,4 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 })));
 
-},{}]},{},[2]);
+},{}]},{},[3]);

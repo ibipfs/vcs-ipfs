@@ -98,18 +98,8 @@ class Activities {
          // WHEN CONTENT HAS CHANGED
          } else {
 
-            // TURN OPACITY OFF
-            $('#activity').css('opacity', '0');
-
-            sleep(180).then(() => {
-
-               // RENDER TO SELECTOR
-               $('#activity').html(table);
-
-               // TURN OPACITY UP
-               $("#activity").css('opacity', '1');
-
-            });  
+            // FADE IN
+            fadeIn('activity', table);
          }
       });
    }

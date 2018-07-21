@@ -85,7 +85,7 @@ $('body').on('click', '#menu a', () => {
       sectionModule();
    }
 });
-},{"./activity.js":1,"./index.js":6,"./tracker.js":7}],3:[function(require,module,exports){
+},{"./activity.js":1,"./index.js":8,"./tracker.js":9}],3:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -186,18 +186,8 @@ class Activities {
          // WHEN CONTENT HAS CHANGED
          } else {
 
-            // TURN OPACITY OFF
-            $('#activity').css('opacity', '0');
-
-            sleep(180).then(() => {
-
-               // RENDER TO SELECTOR
-               $('#activity').html(table);
-
-               // TURN OPACITY UP
-               $("#activity").css('opacity', '1');
-
-            });  
+            // FADE IN
+            fadeIn('activity', table);
          }
       });
    }
@@ -205,7 +195,356 @@ class Activities {
 
 // EXPORT CLASS
 module.exports = Activities;
-},{"./mutable.js":4,"moment":11}],4:[function(require,module,exports){
+},{"./mutable.js":6,"moment":13}],4:[function(require,module,exports){
+var Mutable = require('./mutable.js')
+
+// CLOSE PROMPT WINDOW
+function closePrompt() {
+
+   // CHECK CURRENT DISPLAY VALUE
+   var value = $("#prompt").css('display');
+
+   if (value == 'table') {
+
+      // MAKE PARENT OPACITY ZERO AGAIN
+      $('#prompt-space').css('opacity', '0');
+
+      // WAIT FOR 0.2 SECONDS
+      sleep(180).then(() => {
+
+         // CSS HIDE SELECTOR
+         $("#prompt").css('display', 'none');
+
+         // REMOVE FROM DOM
+         $('#prompt').remove();
+      });
+   }
+}
+
+// TRANSITION PROMPT BUTTONS EVENTS
+function transitionButtons(_hash) {
+
+   // TURN OPACITY TO ZERO
+   $('#left').css('opacity', '0');
+   $('#right').css('opacity', '0');
+
+   // SLEEP FOR 1.8s
+   sleep(180).then(() => {
+
+      // RECALIBRATE BUTTONS
+      var buttons = new Buttons(_hash);
+      buttons.recalibrate();
+
+      // TURN OPACITY TO MAX AGAIN
+      $('#left').css('opacity', '1');
+      $('#right').css('opacity', '1');
+   });
+}
+
+// SAVE CACHE
+function saveCache() {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+
+      var value = 'I LOVE MEMES';
+      var split = cache.split('-');
+
+      // SAVE TO CACHE
+      localStorage.setItem(cache, value);
+      log('Cache Set.');
+
+      // TRANSITION
+      transitionButtons(split[0]);
+   } else {
+
+      // FALLBACK ERROR
+      log('Trying to save.')
+   }
+}
+
+// REMOVE CACHE
+function removeCache() {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#remove-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+      var split = cache.split('-');
+
+      // SAVE TO CACHE
+      localStorage.removeItem(cache);
+      log('Cache Purged.')
+
+      // TRANSITION
+      transitionButtons(split[0]);
+   
+   } else {
+
+      // FALLBACK ERROR
+      log('Nothing is cached.')
+   }
+}
+
+function upload() {
+
+   // PICK UP CACHE ID & VALUE
+   var cache = $('#save-cache').attr('storage');
+
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined && metamask.isLogged) {
+      var mutable = new Mutable();
+
+      // NUKE TRACKER
+      //mutable.nukeLogs();
+
+      // ADD TO IPFS
+      mutable.add(cache).then((ret) => {
+         log('Added to IPFS.')
+
+         // NEW FILES HASH
+         var hash = ret["0"].hash;
+
+         // READ TRACKER FILE TO VAR
+         mutable.read('tracker.json').then((file) => {
+
+            // PARSE TRACKER FILE
+            var tracker = JSON.parse(file);
+
+            // RELEVANT DATA
+            var split = cache.split('-');
+            var original_file = split[0];
+            var user = split[1];
+            var unix = Math.round(+new Date()/1000);
+
+            // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
+            if (tracker[original_file] == undefined) {
+               tracker[original_file] = {};
+            };
+
+            // PUSH NEW USER ENTRY
+            tracker[original_file][user] = {
+               hash: hash,
+               timestamp: unix
+            }
+
+            // STRINGIFY AGAIN
+            var tracker = JSON.stringify(tracker);
+
+            // OVERWRITE OLD TRACKER LOG
+            mutable.write('tracker.json', tracker).then((a) => {
+               log('Added entry to Tracker.')
+
+               // READ LOG FILE
+               mutable.read('log.json').then((file) => {
+
+                  // PARSE LOG FILE
+                  var logz = JSON.parse(file);
+                  var string = capitalize(user) + ' published a version of ' + original_file;
+                  
+                  // ADD ENTRY
+                  logz[unix] = {
+                     string: string,
+                     original: original_file,
+                     user: user
+                  }
+
+                  // STRINGIFY AGAIN
+                  logz = JSON.stringify(logz);
+
+                  // OVERWRITE OLD LOG
+                  mutable.write('log.json', logz).then(() => {
+                     log('Added entry to log.');
+
+                  });
+               });
+            });
+         });
+      });
+
+   } else {
+      log('Tried to Upload.');
+   }
+}
+
+// EXPORT ALL FUNCTIONS
+module.exports = {
+   closePrompt: closePrompt,
+   transitionButtons: transitionButtons,
+   saveCache: saveCache,
+   removeCache: removeCache,
+   upload: upload
+}
+},{"./mutable.js":6}],5:[function(require,module,exports){
+var funcs = require('../classes/event-funcs.js');
+
+// HIDE PROMPT ON ESC
+$(document).on('keyup',function(evt) {
+   
+   // ESC KEY
+   if (evt.keyCode == 27) {
+      event.preventDefault();
+      funcs.closePrompt();
+   }
+
+});
+
+// HIDE PRObuttonsMPT WITH DISCARD BUTTON
+$('body').on('click', '#discard', () => {
+   funcs.closePrompt();
+});
+
+// CTRL + X KEYBINDS
+$(window).bind('keydown', function(event) {
+   if (event.ctrlKey || event.metaKey) {
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+
+         // CTRL + S
+         case 's':
+            event.preventDefault();
+            funcs.saveCache();
+         break;
+
+         // CTRL + X
+         case 'x':
+            event.preventDefault();
+            funcs.removeCache();
+         break;
+      }
+   }
+});
+
+// ONCLICK FILE
+$('body').on('click', 'a#show', () => {
+
+   // FILE PATH
+   var path = $(event.target).attr('key');
+   var split = path.split('/');
+
+   // REFS
+   var file = split.pop();
+   var dir = split.join('/');
+
+   // GENERATE PROMISES
+   var first = promisify('file', path);
+   var second = promisify('dir', dir);
+
+   // AFTER BOTH PROMISES ARE RESOLVED
+   Promise.all([first, second]).then(function(values) {
+
+      // FILE PROPS
+      var content = values[0].toString('utf8');
+      var info = fetchData(values[1], file);
+
+      // FETCH FILETYPE FOR HIGHLIGHT JS
+      var type = info.name.split('.');
+      type = findLang(type.pop());
+
+      // FETCH AND CONCAT FULL PATH TO FILE
+      var location = $('#location').text();
+      location += ' / ' + capitalize(file);
+
+      // BUTTONS
+      var buttons = new Buttons(info.hash);
+
+      // GENERATE TABLE
+      var selector = `
+         <table id="prompt">
+            <tr>
+               <td>
+                  <div id="prompt-outer">
+
+                     <div id="prompt-header">
+                        <div id="item">
+
+                           <table>
+                              <tr>
+                                 <td>Name/Path:</td>
+                                 <td>` + location + `</td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Direct Link:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + info.hash + `" target="_blank">` + info.hash + `</a></td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Size:</td>
+                                 <td>` + info.size / 1000 + ` KB</td>
+                              </tr>
+                           </table>
+
+                        </div>
+                     </div>
+
+                     <div id="prompt-inner">
+                        <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
+                     </div>
+      `;
+
+      // STITCH IN BUTTON ROW IF USER IS LOGGED
+      if (metamask.isLogged) {
+         selector += buttons.render();
+      }
+
+      // STITCH IN END OF SELECTORS
+      selector += `
+                  </div>
+               </td>
+            </tr>
+         </table>
+      `;
+
+      // PREPEND TO BODY
+      $('#prompt-space').prepend(selector);
+
+      // CODE HIGHLIGHTING
+      $('pre code').each(function(i, block) {
+         hljs.highlightBlock(block);
+      });
+
+      $("#prompt-space").css('opacity', '1');
+   });
+});
+
+// ONCLICK DIRECTORY
+$('body').on('click', 'a#open', () => {
+
+   // NEW DIR HASH
+   var hash = $(event.target).attr('key');
+
+   // RENDER NEW CONTENT
+   var files = new Files(hash);
+   files.body();
+});
+
+// SAVE FILE RENDITION TO CACHE
+$('body').on('click', '#save', () => {
+   funcs.saveCache();
+});
+
+// REMOVE CACHED FILE
+$('body').on('click', '#remove', () => {
+   funcs.removeCache();
+});
+
+// UPLOAD VIRTUAL FILE TO IPFS
+$('body').on('click', '#upload', () => {
+   funcs.upload();
+});
+},{"../classes/event-funcs.js":4}],6:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
 class Mutable {
@@ -403,7 +742,7 @@ class Mutable {
 
 // EXPORT CLASS
 module.exports = Mutable;
-},{"buffer/":9}],5:[function(require,module,exports){
+},{"buffer/":11}],7:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -532,18 +871,8 @@ class Tracker {
          // OTHERWISE CHANGE CONTENT & TRANSITION
          } else {
 
-            // TURN OPACITY DOWN
-            $("#container").css('opacity', '0');
-
-            sleep(180).then(() => {
-
-               // RENDER TO SELECTOR
-               $('#container').html(foofoo);
-               
-               // TURN OPACITY UP
-               $("#container").css('opacity', '1');
-
-            });
+            // FADE IN
+            fadeIn('container', foofoo);
          }
       });
    }
@@ -551,7 +880,7 @@ class Tracker {
 
 // EXPORT CLASS
 module.exports = Tracker;
-},{"./mutable.js":4,"moment":11}],6:[function(require,module,exports){
+},{"./mutable.js":6,"moment":13}],8:[function(require,module,exports){
 function render() {
 
    // GENERATE PARENT SELECTOR
@@ -565,18 +894,21 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
+   // FETCH EVENTS MODULE
+   require('./classes/events.js');
+
    // RENDER THEM IN
    $('#content-body').html(files + footer);
 
    // RENDER CONTENT
-   var render = new Render(root);
-   render.body();
-   render.footer();
+   var files = new Files(root);
+   files.body();
+   files.footer();
 }
 
 // EXPORT MODULE
 module.exports = render;
-},{}],7:[function(require,module,exports){
+},{"./classes/events.js":5}],9:[function(require,module,exports){
 function render() {
 
       // GENERATE PARENT SELECTORS
@@ -613,7 +945,7 @@ function render() {
 
 // EXPORT CLASS
 module.exports = render;
-},{"./classes/tracker.js":5}],8:[function(require,module,exports){
+},{"./classes/tracker.js":7}],10:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -766,7 +1098,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -2504,7 +2836,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":8,"ieee754":10}],10:[function(require,module,exports){
+},{"base64-js":10,"ieee754":12}],12:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -2590,7 +2922,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 //! moment.js
 
 ;(function (global, factory) {

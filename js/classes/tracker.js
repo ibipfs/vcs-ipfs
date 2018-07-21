@@ -126,18 +126,8 @@ class Tracker {
          // OTHERWISE CHANGE CONTENT & TRANSITION
          } else {
 
-            // TURN OPACITY DOWN
-            $("#container").css('opacity', '0');
-
-            sleep(180).then(() => {
-
-               // RENDER TO SELECTOR
-               $('#container').html(foofoo);
-               
-               // TURN OPACITY UP
-               $("#container").css('opacity', '1');
-
-            });
+            // FADE IN
+            fadeIn('container', foofoo);
          }
       });
    }

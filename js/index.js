@@ -11,13 +11,16 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
+   // FETCH EVENTS MODULE
+   require('./classes/events.js');
+
    // RENDER THEM IN
    $('#content-body').html(files + footer);
 
    // RENDER CONTENT
-   var render = new Render(root);
-   render.body();
-   render.footer();
+   var files = new Files(root);
+   files.body();
+   files.footer();
 }
 
 // EXPORT MODULE

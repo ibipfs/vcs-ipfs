@@ -1,4 +1,4 @@
-class Render {
+class Files {
 
    constructor(_hash) {
 
@@ -130,28 +130,17 @@ class Render {
          // CONSTRUCT FULL TABLE
          var table = '<table>' + rows + '</table>';
 
-         // OPACITY 0
-         $("#files").css('opacity', '0');
-
-         sleep(180).then(() => {
-
-            // EMPTY SELECTOR
-            $('#files').html('');
-
-            // TURN OPACITY UP
-            $("#files").css('opacity', '1');
-
-            // RENDER TO SELECTOR
-            $('#files').html(table);
-         });
-
+         // FADE IN
+         fadeIn('files', table);
       });
    }
 
    // RENDER FOOTER
    footer() {
       var link = 'Root: <a href="https://ipfs.io/ipfs/' + this.hash + '" target="_blank">' + this.hash + '</a>';
-      $('#footer').html(link)
+      
+      // FADE IN
+      fadeIn('footer', link);
    }
 
 }

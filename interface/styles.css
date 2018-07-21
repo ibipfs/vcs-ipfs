@@ -332,6 +332,8 @@ hr {
    padding: 10px 0px;
    text-align: center;
    color: #9b9b9b;
+   transition: .2s;
+   opacity: 0;
 }
 
 #footer a:link, #footer a:visited {
@@ -384,6 +386,6 @@ ul {
    text-align: right;
 }
 
-#menu a[href='#Files'] {
+#menu li:first-child a {
    text-decoration: underline;
 }

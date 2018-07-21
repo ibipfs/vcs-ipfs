@@ -148,3 +148,24 @@ function compareArrays(first, second) {
 
    return value;
 }
+
+// CSS TRANSITION WITH OPACITY
+function fadeIn(selector, content, purge = false) {
+
+   // TURN OPACITY DOWN
+   $('#' + selector).css('opacity', '0');
+
+   sleep(180).then(() => {
+
+      // PURGE SELECTOR IF TRUE
+      if (purge == true) {
+         $('#' + selector).html('');
+      }
+
+      // TURN OPACITY UP
+      $('#' + selector).css('opacity', '1');
+
+      // RENDER TO SELECTOR
+      $('#' + selector).html(content)
+   });
+}

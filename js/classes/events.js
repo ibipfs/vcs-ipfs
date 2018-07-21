@@ -144,8 +144,8 @@ $('body').on('click', 'a#open', () => {
    var hash = $(event.target).attr('key');
 
    // RENDER NEW CONTENT
-   var render = new Render(hash);
-   render.body();
+   var files = new Files(hash);
+   files.body();
 });
 
 // SAVE FILE RENDITION TO CACHE

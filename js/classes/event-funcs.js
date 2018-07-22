@@ -96,6 +96,12 @@ function upload() {
 
    // PICK UP CACHE ID & VALUE
    var cache = $('#save-cache').attr('storage');
+   var path = $('#path').text();
+
+   // FORMAT PATH
+   path = path.split(' / ');
+   path = path.join('/');
+   path = path.toLowerCase();
 
    // MAKE SURE SOMETHING IS CACHED
    if (cache != undefined && metamask.isLogged) {
@@ -106,7 +112,7 @@ function upload() {
 
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
-         log('Added to IPFS.')
+         log('Added to IPFS.');
 
          // NEW FILES HASH
          var hash = ret["0"].hash;
@@ -126,6 +132,7 @@ function upload() {
             // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
             if (tracker[original_file] == undefined) {
                tracker[original_file] = {};
+               tracker[original_file]['path'] = path;
             };
 
             // PUSH NEW USER ENTRY
@@ -146,13 +153,14 @@ function upload() {
 
                   // PARSE LOG FILE
                   var logz = JSON.parse(file);
-                  var string = capitalize(user) + ' published a version of ' + original_file;
+                  var type = 'publish';
                   
                   // ADD ENTRY
                   logz[unix] = {
-                     string: string,
+                     type: type,
                      original: original_file,
-                     user: user
+                     user: user,
+                     path: path
                   }
 
                   // STRINGIFY AGAIN

@@ -302,6 +302,11 @@ hr {
    margin-bottom: 5px;
 }
 
+#tracker-inner table #gray hr {
+   border-top: 1px dotted #CECECE;
+   border-bottom: 1px dotted white;
+}
+
 #filter {
    background: url('img/success.png');
    border: 0px solid black;
@@ -320,14 +325,13 @@ hr {
    border-bottom: 1px solid #dada8b;
 }
 
-#tracker-inner table #gray hr {
-   border-top: 1px dotted #CECECE;
-   border-bottom: 1px dotted white;
-}
-
 #container {
    opacity: 0;
    transition: .2s;
+}
+
+#filepath {
+   color: #0073A9;
 }
 
 /* -- FOOTER -- */

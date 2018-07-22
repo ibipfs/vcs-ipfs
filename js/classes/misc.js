@@ -169,3 +169,15 @@ function fadeIn(selector, content, purge = false) {
       $('#' + selector).html(content)
    });
 }
+
+// FORMAT FILE PATH
+function headerify(path) {
+   path = path.split('/');
+
+   for (var x = 0; x < path.length; x++) {
+      path[x] = capitalize(path[x]);
+   }
+
+   path = path.join(' / ');
+   return path;
+}

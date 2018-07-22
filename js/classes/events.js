@@ -82,7 +82,7 @@ $('body').on('click', 'a#show', () => {
                            <table>
                               <tr>
                                  <td>Name/Path:</td>
-                                 <td>` + location + `</td>
+                                 <td id="path">` + location + `</td>
                               </tr>
                            </table>
 

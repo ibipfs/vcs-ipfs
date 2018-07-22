@@ -4,8 +4,9 @@ function render() {
    var mutable = new Mutable();
 
    var fileArray = [];
+   var base = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP'
 
-   promisify('get', 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP').then((result) => {
+   promisify('get', base).then((result) => {
       var keys = Object.keys(result);
       log(result);
 
@@ -29,6 +30,8 @@ function render() {
 
       // PUBLISH TO IPFS
       mutable.release(fileArray).then((response) => {
+         
+         // FETCH HASH OF ROOT DIR
          var hash = response[response.length - 1].hash;
          log(hash);
       });
@@ -161,7 +164,9 @@ class Activities {
          // HELP ARRS
          var rows = '';
          var row = '';
+         var type = '';
          var string = '';
+         var path = '';
          var timestamp = 0;
          var table = '';
          var user = '';
@@ -171,10 +176,20 @@ class Activities {
          for (var x = 0; x < keys.length; x++) {
 
             // FETCH VALUES
-            string = logz[keys[x]].string;
+            type = logz[keys[x]].type;
             timestamp = moment.unix(keys[x]).format('D/MM @ HH:mm');
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
+            path = logz[keys[x]].path;
+
+            // GENERATE ENTRY STRING
+            switch (type) {
+               
+               // PUBLISH
+               case 'publish':
+                  string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
+               break;
+            }
 
             // IF FILTER IF UNDEFINED
             if (filter == '') {
@@ -201,7 +216,7 @@ class Activities {
                   row = `
                      <tr><td><div>
                         <table><tbody><tr>
-                           <td>` + string + `</td>
+                           <td>` + type + `</td>
                            <td>` + timestamp + `</td>
                         </tr></tbody></table>
                      </div></td></tr>
@@ -339,6 +354,12 @@ function upload() {
 
    // PICK UP CACHE ID & VALUE
    var cache = $('#save-cache').attr('storage');
+   var path = $('#path').text();
+
+   // FORMAT PATH
+   path = path.split(' / ');
+   path = path.join('/');
+   path = path.toLowerCase();
 
    // MAKE SURE SOMETHING IS CACHED
    if (cache != undefined && metamask.isLogged) {
@@ -349,7 +370,7 @@ function upload() {
 
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
-         log('Added to IPFS.')
+         log('Added to IPFS.');
 
          // NEW FILES HASH
          var hash = ret["0"].hash;
@@ -369,6 +390,7 @@ function upload() {
             // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
             if (tracker[original_file] == undefined) {
                tracker[original_file] = {};
+               tracker[original_file]['path'] = path;
             };
 
             // PUSH NEW USER ENTRY
@@ -389,13 +411,14 @@ function upload() {
 
                   // PARSE LOG FILE
                   var logz = JSON.parse(file);
-                  var string = capitalize(user) + ' published a version of ' + original_file;
+                  var type = 'publish';
                   
                   // ADD ENTRY
                   logz[unix] = {
-                     string: string,
+                     type: type,
                      original: original_file,
-                     user: user
+                     user: user,
+                     path: path
                   }
 
                   // STRINGIFY AGAIN
@@ -509,7 +532,7 @@ $('body').on('click', 'a#show', () => {
                            <table>
                               <tr>
                                  <td>Name/Path:</td>
-                                 <td>` + location + `</td>
+                                 <td id="path">` + location + `</td>
                               </tr>
                            </table>
 
@@ -832,6 +855,7 @@ class Tracker {
          // HELP VARS
          var fileName = '';
          var fileData = {};
+         var filePath = '';
          var subKeys = [];
          var blobHolder = '';
 
@@ -839,6 +863,7 @@ class Tracker {
          for (var x = 0; x < keys.length; x++) {
             fileName = keys[x];
             fileData = content[fileName];
+            filePath = fileData.path;
             subKeys = Object.keys(fileData);
 
             // REVERSE TO GET NEWEST FIRST
@@ -857,39 +882,52 @@ class Tracker {
             var row = '';
 
             // GENERATE HEADER
-            header = '<tr><td><div id="header">' + fileName + '</div></td></tr>';
+            header = `
+               <tr><td><div id="header">
+                  <table><tbody><tr>
+                     <td>` + headerify(filePath) + `</td>
+                     <td>` + fileName + `</td>
+                  </tr></tbody></table>
+               </div></td></tr>
+            `;
+
+            // CONCAT TO PARENT
             rows += header;
 
             // LOOP THROUGH SUBMISSIONS
             for (var y = 0; y < subKeys.length; y++) {
                user = subKeys[y];
-               hash = fileData[user].hash;
-               timestamp = fileData[user].timestamp;
 
-               // GENERATE ROW
-               row = `
-                  <tr><td>
-                     <div id="gray">
-                        <table><tbody><tr>
-                           <td>Author:</td>
-                           <td>` + capitalize(user) + `</td>
-                        </tr></tbody></table>
-                        <hr>
-                        <table><tbody><tr>
-                           <td>Hash Location:</td>
-                           <td><a href="http://ipfs.io/ipfs/` + hash + `" target="_blank">` + hash + `</a></td>
-                        </tr></tbody></table>
-                        <hr>
-                        <table><tbody><tr>
-                           <td>Submitted:</td>
-                           <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
-                        </tr></tbody></table>
-                     </div>
-                  </td></tr>
-               `;
+               // FILTER OUT PATH PROPERTY
+               if (user != 'path') {
+                  hash = fileData[user].hash;
+                  timestamp = fileData[user].timestamp;
 
-               // CONCAT ROW TO PARENT
-               rows += row;
+                  // GENERATE ROW
+                  row = `
+                     <tr><td>
+                        <div id="gray">
+                           <table><tbody><tr>
+                              <td>Author:</td>
+                              <td>` + capitalize(user) + `</td>
+                           </tr></tbody></table>
+                           <hr>
+                           <table><tbody><tr>
+                              <td>Hash Location:</td>
+                              <td><a href="http://ipfs.io/ipfs/` + hash + `" target="_blank">` + hash + `</a></td>
+                           </tr></tbody></table>
+                           <hr>
+                           <table><tbody><tr>
+                              <td>Submitted:</td>
+                              <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
+                           </tr></tbody></table>
+                        </div>
+                     </td></tr>
+                  `;
+
+                  // CONCAT ROW TO PARENT
+                  rows += row;
+               }
             }
 
             // GENERATE ENTIRE STRUCTURE
@@ -897,7 +935,7 @@ class Tracker {
             wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
 
             // ONLY CONCAT IF QUERY IS EMPTY OR MATCHES FILENAME
-            if (filter == '' || filter == fileName) {
+            if (filter == '' || filter == fileName || filter == filePath) {
                blobHolder += wrap;
             }
          }
@@ -963,7 +1001,7 @@ function render() {
    var filter = `
       <div id="filter-outer">
          <div id="filter-inner">
-            <input type="text" id="filter" placeholder="Filter by File Hash" tabindex="1">
+            <input type="text" id="filter" placeholder="Filter by File Name or File Hash" tabindex="1">
          </div>
       </div>
    `;

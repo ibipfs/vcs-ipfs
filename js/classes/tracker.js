@@ -28,6 +28,7 @@ class Tracker {
          // HELP VARS
          var fileName = '';
          var fileData = {};
+         var filePath = '';
          var subKeys = [];
          var blobHolder = '';
 
@@ -35,6 +36,7 @@ class Tracker {
          for (var x = 0; x < keys.length; x++) {
             fileName = keys[x];
             fileData = content[fileName];
+            filePath = fileData.path;
             subKeys = Object.keys(fileData);
 
             // REVERSE TO GET NEWEST FIRST
@@ -53,39 +55,52 @@ class Tracker {
             var row = '';
 
             // GENERATE HEADER
-            header = '<tr><td><div id="header">' + fileName + '</div></td></tr>';
+            header = `
+               <tr><td><div id="header">
+                  <table><tbody><tr>
+                     <td>` + headerify(filePath) + `</td>
+                     <td>` + fileName + `</td>
+                  </tr></tbody></table>
+               </div></td></tr>
+            `;
+
+            // CONCAT TO PARENT
             rows += header;
 
             // LOOP THROUGH SUBMISSIONS
             for (var y = 0; y < subKeys.length; y++) {
                user = subKeys[y];
-               hash = fileData[user].hash;
-               timestamp = fileData[user].timestamp;
 
-               // GENERATE ROW
-               row = `
-                  <tr><td>
-                     <div id="gray">
-                        <table><tbody><tr>
-                           <td>Author:</td>
-                           <td>` + capitalize(user) + `</td>
-                        </tr></tbody></table>
-                        <hr>
-                        <table><tbody><tr>
-                           <td>Hash Location:</td>
-                           <td><a href="http://ipfs.io/ipfs/` + hash + `" target="_blank">` + hash + `</a></td>
-                        </tr></tbody></table>
-                        <hr>
-                        <table><tbody><tr>
-                           <td>Submitted:</td>
-                           <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
-                        </tr></tbody></table>
-                     </div>
-                  </td></tr>
-               `;
+               // FILTER OUT PATH PROPERTY
+               if (user != 'path') {
+                  hash = fileData[user].hash;
+                  timestamp = fileData[user].timestamp;
 
-               // CONCAT ROW TO PARENT
-               rows += row;
+                  // GENERATE ROW
+                  row = `
+                     <tr><td>
+                        <div id="gray">
+                           <table><tbody><tr>
+                              <td>Author:</td>
+                              <td>` + capitalize(user) + `</td>
+                           </tr></tbody></table>
+                           <hr>
+                           <table><tbody><tr>
+                              <td>Hash Location:</td>
+                              <td><a href="http://ipfs.io/ipfs/` + hash + `" target="_blank">` + hash + `</a></td>
+                           </tr></tbody></table>
+                           <hr>
+                           <table><tbody><tr>
+                              <td>Submitted:</td>
+                              <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
+                           </tr></tbody></table>
+                        </div>
+                     </td></tr>
+                  `;
+
+                  // CONCAT ROW TO PARENT
+                  rows += row;
+               }
             }
 
             // GENERATE ENTIRE STRUCTURE
@@ -93,7 +108,7 @@ class Tracker {
             wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
 
             // ONLY CONCAT IF QUERY IS EMPTY OR MATCHES FILENAME
-            if (filter == '' || filter == fileName) {
+            if (filter == '' || filter == fileName || filter == filePath) {
                blobHolder += wrap;
             }
          }

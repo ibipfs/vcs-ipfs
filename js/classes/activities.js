@@ -28,7 +28,9 @@ class Activities {
          // HELP ARRS
          var rows = '';
          var row = '';
+         var type = '';
          var string = '';
+         var path = '';
          var timestamp = 0;
          var table = '';
          var user = '';
@@ -38,10 +40,20 @@ class Activities {
          for (var x = 0; x < keys.length; x++) {
 
             // FETCH VALUES
-            string = logz[keys[x]].string;
+            type = logz[keys[x]].type;
             timestamp = moment.unix(keys[x]).format('D/MM @ HH:mm');
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
+            path = logz[keys[x]].path;
+
+            // GENERATE ENTRY STRING
+            switch (type) {
+               
+               // PUBLISH
+               case 'publish':
+                  string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
+               break;
+            }
 
             // IF FILTER IF UNDEFINED
             if (filter == '') {
@@ -68,7 +80,7 @@ class Activities {
                   row = `
                      <tr><td><div>
                         <table><tbody><tr>
-                           <td>` + string + `</td>
+                           <td>` + type + `</td>
                            <td>` + timestamp + `</td>
                         </tr></tbody></table>
                      </div></td></tr>

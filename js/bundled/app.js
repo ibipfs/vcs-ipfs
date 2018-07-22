@@ -1,40 +1,83 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 function render() {
+
+   // FETCH MUTABLE MODULE
    var Mutable = require('./classes/mutable.js');
    var mutable = new Mutable();
 
    var fileArray = [];
-   var base = 'QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP'
 
-   promisify('get', base).then((result) => {
-      var keys = Object.keys(result);
-      log(result);
+   // READ FROM HISTORY LOG
+   mutable.read('history.json').then((history) => {
+      
+      // PARSE HISTORY
+      history = JSON.parse(history);
 
-      for (var x = 0; x < keys.length; x++) {
-         var instance = result[keys[x]];
-         var obj = {};
+      // FETCH HASH OF LATEST RELEASE
+      var base = history.current.hash
 
-         // CHECK IF TARGET IS A FILE
-         if (instance.content != undefined) {
+      // READ FROM TRACKER LOG
+      mutable.read('tracker.json').then((tracker) => {
 
-            // BUILD OBJECT
-            obj = {
-               path: instance.path,
-               content: instance.content
+         // PARSE TRACKER
+         tracker = JSON.parse(tracker);
+
+         // TRACKER KEYS
+         var keys = Object.keys(tracker);
+         var toChange = [];
+
+         // MAKE ARRAY OF FILES THAT NEED TO BE EDITED
+         for (var y = 0; y < keys.length; y++) {
+
+            // CHANGE ELEM1 FROM ROOT TO ACTUAL BASE
+            var data = tracker[keys[y]].path;
+            data = data.split('/');
+            data[0] = base;
+            data = data.join('/');
+
+            toChange.push(data);
+         }
+
+         promisify('get', base).then((result) => {
+
+            var keys = Object.keys(result);
+
+            for (var x = 0; x < keys.length; x++) {
+               var instance = result[keys[x]];
+               var obj = {};
+
+               // CHECK IF TARGET IS A FILE
+               if (instance.content != undefined) {
+
+                  // CHECK IF FILE IS IN ARRAY
+                  var check = $.inArray(instance.path, toChange);
+
+                  // IF IT EXISTS
+                  if (check != -1) {
+                     log(instance.path + ' needs to change!');
+                  }
+
+                  // BUILD OBJECT
+                  obj = {
+                     path: instance.path,
+                     content: instance.content
+                  }
+
+                  // PUSH OBJECT INTO GATHERING ARRAY
+                  fileArray.push(obj);
+               }
             }
 
-            // PUSH OBJECT INTO GATHERING ARRAY
-            fileArray.push(obj);
-         }
-      }
-
-      // PUBLISH TO IPFS
-      mutable.release(fileArray).then((response) => {
-         
-         // FETCH HASH OF ROOT DIR
-         var hash = response[response.length - 1].hash;
-         log(hash);
+            // PUBLISH TO IPFS
+            mutable.release(fileArray).then((response) => {
+               
+               // FETCH HASH OF ROOT DIR
+               var hash = response[response.length - 1].hash;
+               log(hash);
+            });
+         });
       });
+
    });
 }
 
@@ -183,8 +226,10 @@ class Activities {
             original = logz[keys[x]].original;
             path = logz[keys[x]].path;
 
+            var suffix = path.split('/').pop();
+
             // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path) {
+            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path || filter.toLowerCase() == suffix) {
 
                // GENERATE ENTRY STRING
                switch (type) {
@@ -367,7 +412,7 @@ function upload() {
             var split = cache.split('-');
             var original_file = split[0];
             var user = split[1];
-            var unix = Math.round(+new Date()/1000);
+            var unix = unixTime();
 
             // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
             if (tracker[original_file] == undefined) {
@@ -738,9 +783,9 @@ class Mutable {
             // DEFAULT HISTORY CONTENT
             var historyDefault = {
                "current": {
-                  "name": "",
-                  "hash": "",
-                  "timestamp": 0
+                  "name": "1.0",
+                  "hash": "QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP",
+                  "timestamp": unixTime()
                },
             
                "old": {
@@ -848,8 +893,11 @@ class Tracker {
             filePath = fileData.path;
             subKeys = Object.keys(fileData);
 
+            // SLICE ONLY FILE FROM PATH
+            var suffix = filePath.split('/').pop();
+
             // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter == fileName || filter == filePath || filter == headerify(filePath)) {
+            if (filter == '' || filter == fileName || filter.toLowerCase() == suffix || filter == headerify(filePath)) {
 
                // REVERSE TO GET NEWEST FIRST
                subKeys.reverse();
@@ -963,21 +1011,35 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
-   // FETCH EVENTS MODULE
-   require('./classes/events.js');
-
    // RENDER THEM IN
    $('#content-body').html(files + footer);
 
-   // RENDER CONTENT
-   var files = new Files(root);
-   files.body();
-   files.footer();
+   // FETCH EVENTS MODULE
+   require('./classes/events.js');
+
+   // FETCH & INSTANCIATE MUTABLE MODULE
+   var Mutable = require('./classes/mutable.js');
+   var mutable = new Mutable();
+
+   // FETCH HASH OF LATEST RELEASE
+   mutable.read('history.json').then((history) => {
+      
+      // PARSE HISTORY
+      history = JSON.parse(history);
+
+      // FETCH HASH OF LATEST RELEASE
+      var base = history.current.hash
+
+      // RENDER CONTENT
+      var files = new Files(base);
+      files.body();
+      files.footer();
+   });
 }
 
 // EXPORT MODULE
 module.exports = render;
-},{"./classes/events.js":6}],10:[function(require,module,exports){
+},{"./classes/events.js":6,"./classes/mutable.js":7}],10:[function(require,module,exports){
 function render() {
 
    // GENERATE PARENT SELECTORS

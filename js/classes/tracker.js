@@ -39,8 +39,11 @@ class Tracker {
             filePath = fileData.path;
             subKeys = Object.keys(fileData);
 
+            // SLICE ONLY FILE FROM PATH
+            var suffix = filePath.split('/').pop();
+
             // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter == fileName || filter == filePath || filter == headerify(filePath)) {
+            if (filter == '' || filter == fileName || filter.toLowerCase() == suffix || filter == headerify(filePath)) {
 
                // REVERSE TO GET NEWEST FIRST
                subKeys.reverse();

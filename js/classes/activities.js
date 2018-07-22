@@ -47,8 +47,10 @@ class Activities {
             original = logz[keys[x]].original;
             path = logz[keys[x]].path;
 
+            var suffix = path.split('/').pop();
+
             // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path) {
+            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path || filter.toLowerCase() == suffix) {
 
                // GENERATE ENTRY STRING
                switch (type) {

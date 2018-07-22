@@ -181,3 +181,8 @@ function headerify(path) {
    path = path.join(' / ');
    return path;
 }
+
+function unixTime() {
+   var time = Math.round(+new Date()/1000);
+   return time;
+}

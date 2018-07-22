@@ -11,16 +11,30 @@ function render() {
       <div id="footer">Cannot locate IPFS directory</div>
    `;
 
-   // FETCH EVENTS MODULE
-   require('./classes/events.js');
-
    // RENDER THEM IN
    $('#content-body').html(files + footer);
 
-   // RENDER CONTENT
-   var files = new Files(root);
-   files.body();
-   files.footer();
+   // FETCH EVENTS MODULE
+   require('./classes/events.js');
+
+   // FETCH & INSTANCIATE MUTABLE MODULE
+   var Mutable = require('./classes/mutable.js');
+   var mutable = new Mutable();
+
+   // FETCH HASH OF LATEST RELEASE
+   mutable.read('history.json').then((history) => {
+      
+      // PARSE HISTORY
+      history = JSON.parse(history);
+
+      // FETCH HASH OF LATEST RELEASE
+      var base = history.current.hash
+
+      // RENDER CONTENT
+      var files = new Files(base);
+      files.body();
+      files.footer();
+   });
 }
 
 // EXPORT MODULE

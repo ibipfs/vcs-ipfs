@@ -141,9 +141,9 @@ class Mutable {
             // DEFAULT HISTORY CONTENT
             var historyDefault = {
                "current": {
-                  "name": "",
-                  "hash": "",
-                  "timestamp": 0
+                  "name": "1.0",
+                  "hash": "QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP",
+                  "timestamp": unixTime()
                },
             
                "old": {

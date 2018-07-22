@@ -127,7 +127,7 @@ function upload() {
             var split = cache.split('-');
             var original_file = split[0];
             var user = split[1];
-            var unix = Math.round(+new Date()/1000);
+            var unix = unixTime();
 
             // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
             if (tracker[original_file] == undefined) {

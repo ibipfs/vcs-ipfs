@@ -4,7 +4,7 @@ function render() {
    var filter = `
       <div id="filter-outer">
          <div id="filter-inner">
-            <input type="text" id="filter" placeholder="Filter by Username or File Hash" tabindex="1">
+            <input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1">
          </div>
       </div>
    `;

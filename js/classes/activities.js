@@ -28,11 +28,12 @@ class Activities {
          // HELP ARRS
          var rows = '';
          var row = '';
+         var table = '';
+
          var type = '';
          var string = '';
          var path = '';
          var timestamp = 0;
-         var table = '';
          var user = '';
          var original = '';
 
@@ -46,17 +47,17 @@ class Activities {
             original = logz[keys[x]].original;
             path = logz[keys[x]].path;
 
-            // GENERATE ENTRY STRING
-            switch (type) {
-               
-               // PUBLISH
-               case 'publish':
-                  string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
-               break;
-            }
+            // CONTINUE IF A REQUIREMENT IS FILLED
+            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path) {
 
-            // IF FILTER IF UNDEFINED
-            if (filter == '') {
+               // GENERATE ENTRY STRING
+               switch (type) {
+                  
+                  // PUBLISH
+                  case 'publish':
+                     string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
+                  break;
+               }
 
                // GENERATE ROW
                row = `
@@ -70,25 +71,6 @@ class Activities {
 
                // CONCAT TO ROWS
                rows += row;
-
-            } else {
-
-               // IF FILTER QUERY EQUALS ROW AUTHOR
-               if (filter.toLowerCase() == user.toLowerCase() || filter == original) {
-
-                  // GENERATE ROW
-                  row = `
-                     <tr><td><div>
-                        <table><tbody><tr>
-                           <td>` + type + `</td>
-                           <td>` + timestamp + `</td>
-                        </tr></tbody></table>
-                     </div></td></tr>
-                  `;
-
-                  // CONCAT TO ROWS
-                  rows += row;
-               }
             }
          }
 

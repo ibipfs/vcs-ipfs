@@ -102,7 +102,7 @@ pre, code {
    color: #505050;
    border-radius: 4px;
    height: 650px;
-   padding: 10px;
+   padding: 0px;
    overflow: auto;
 }
 
@@ -232,6 +232,7 @@ hr {
    border-bottom: 1px solid #dada8b;
    padding: 10px;
 }
+
 
 #tracker-inner table #header {
    background: url('img/blue-bg.png');

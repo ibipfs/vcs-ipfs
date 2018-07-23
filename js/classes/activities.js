@@ -36,6 +36,7 @@ class Activities {
          var timestamp = 0;
          var user = '';
          var original = '';
+         var hash = '';
 
          // MAKE ROW FOR EACH ENTRY
          for (var x = 0; x < keys.length; x++) {
@@ -46,6 +47,7 @@ class Activities {
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
             path = logz[keys[x]].path;
+            hash = logz[keys[x]].hash;
 
             var suffix = path.split('/').pop();
 
@@ -57,7 +59,7 @@ class Activities {
                   
                   // PUBLISH
                   case 'publish':
-                     string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
+                     string = capitalize(user) + ' published an entry of <a id="show" hash="' + hash + '" viewonly="true">' + path + '</a>';
                   break;
                }
 

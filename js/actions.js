@@ -34,6 +34,7 @@ function render() {
             data[0] = base;
             data = data.join('/');
 
+            // PUSH TO CHANGE ARRAY
             toChange.push(data);
          }
 

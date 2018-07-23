@@ -71,10 +71,10 @@ class Files {
                // CONSTRUCT ROW
                row = `
                   <tr id="header">
-                     <td><a id="open"><div key="` + item.path + `">
+                     <td><a id="open" hash="` + item.path + `"><div>
                         <table><tr>
-                           <td key="` + item.path + `">` + capitalize(item.name) + `/</td>
-                           <td key="` + item.path + `">` + item.hash + `</td>
+                           <td>` + capitalize(item.name) + `/</td>
+                           <td>` + item.hash + `</td>
                         </tr></table>
                      </div></a></td>
                   </tr>
@@ -100,10 +100,10 @@ class Files {
                // CONSTRUCT ROW
                var row = `
                   <tr id="content">
-                     <td><a id="show"><div key="` + item.path + `">
+                     <td><a id="show" hash="` + item.path + `" viewonly="true"><div>
                         <table><tr>
-                           <td key="` + item.path + `">` + capitalize(item.name) + `</td>
-                           <td key="` + item.path + `">` + item.hash + `</td>
+                           <td>` + capitalize(item.name) + `</td>
+                           <td>` + item.hash + `</td>
                         </tr></table>
                      </div></a></td>
                   </tr>
@@ -118,9 +118,9 @@ class Files {
          if (this.showBack == true) {
             rows += `
                <tr id="back">
-                  <td><a id="open"><div key="` + this.parent + `">
+                  <td><a id="open" hash="` + this.parent + `"><div>
                      <table><tr>
-                        <td key="` + this.parent + `">Back</td>
+                        <td>Back</td>
                      </tr></table>
                   </div></a></td>
                </tr>

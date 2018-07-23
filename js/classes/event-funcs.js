@@ -160,7 +160,8 @@ function upload() {
                      type: type,
                      original: original_file,
                      user: user,
-                     path: path
+                     path: path,
+                     hash: hash
                   }
 
                   // STRINGIFY AGAIN

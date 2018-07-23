@@ -37,10 +37,16 @@ $(window).bind('keydown', function(event) {
 });
 
 // ONCLICK FILE
-$('body').on('click', 'a#show', () => {
+$('body').on('click', 'a#show', (target) => {
+
+   // MAKE SHORTHAND
+   var target = target.currentTarget;
+
+   // CHECK IF VIEW ONLY STATUS
+   var viewOnly = $(target).attr('viewonly');
 
    // FILE PATH
-   var path = $(event.target).attr('key');
+   var path = $(target).attr('hash');
    var split = path.split('/');
 
    // REFS
@@ -113,7 +119,7 @@ $('body').on('click', 'a#show', () => {
       `;
 
       // STITCH IN BUTTON ROW IF USER IS LOGGED
-      if (metamask.isLogged) {
+      if (metamask.isLogged && viewOnly != true) {
          selector += buttons.render();
       }
 
@@ -138,10 +144,13 @@ $('body').on('click', 'a#show', () => {
 });
 
 // ONCLICK DIRECTORY
-$('body').on('click', 'a#open', () => {
+$('body').on('click', 'a#open', (target) => {
 
-   // NEW DIR HASH
-   var hash = $(event.target).attr('key');
+   // MAKE SHORTHAND
+   var target = target.currentTarget;
+
+   // FILE PATH
+   var hash = $(target).attr('hash');
 
    // RENDER NEW CONTENT
    var files = new Files(hash);

@@ -35,6 +35,7 @@ function render() {
             data[0] = base;
             data = data.join('/');
 
+            // PUSH TO CHANGE ARRAY
             toChange.push(data);
          }
 
@@ -215,6 +216,7 @@ class Activities {
          var timestamp = 0;
          var user = '';
          var original = '';
+         var hash = '';
 
          // MAKE ROW FOR EACH ENTRY
          for (var x = 0; x < keys.length; x++) {
@@ -225,6 +227,7 @@ class Activities {
             user = logz[keys[x]].user;
             original = logz[keys[x]].original;
             path = logz[keys[x]].path;
+            hash = logz[keys[x]].hash;
 
             var suffix = path.split('/').pop();
 
@@ -236,7 +239,7 @@ class Activities {
                   
                   // PUBLISH
                   case 'publish':
-                     string = capitalize(user) + ' published an entry of <font id="filepath">' + path + '</font>';
+                     string = capitalize(user) + ' published an entry of <a id="show" hash="' + hash + '" viewonly="true">' + path + '</a>';
                   break;
                }
 
@@ -445,7 +448,8 @@ function upload() {
                      type: type,
                      original: original_file,
                      user: user,
-                     path: path
+                     path: path,
+                     hash: hash
                   }
 
                   // STRINGIFY AGAIN
@@ -514,10 +518,16 @@ $(window).bind('keydown', function(event) {
 });
 
 // ONCLICK FILE
-$('body').on('click', 'a#show', () => {
+$('body').on('click', 'a#show', (target) => {
+
+   // MAKE SHORTHAND
+   var target = target.currentTarget;
+
+   // CHECK IF VIEW ONLY STATUS
+   var viewOnly = $(target).attr('viewonly');
 
    // FILE PATH
-   var path = $(event.target).attr('key');
+   var path = $(target).attr('hash');
    var split = path.split('/');
 
    // REFS
@@ -590,7 +600,7 @@ $('body').on('click', 'a#show', () => {
       `;
 
       // STITCH IN BUTTON ROW IF USER IS LOGGED
-      if (metamask.isLogged) {
+      if (metamask.isLogged && viewOnly != true) {
          selector += buttons.render();
       }
 
@@ -615,10 +625,13 @@ $('body').on('click', 'a#show', () => {
 });
 
 // ONCLICK DIRECTORY
-$('body').on('click', 'a#open', () => {
+$('body').on('click', 'a#open', (target) => {
 
-   // NEW DIR HASH
-   var hash = $(event.target).attr('key');
+   // MAKE SHORTHAND
+   var target = target.currentTarget;
+
+   // FILE PATH
+   var hash = $(target).attr('hash');
 
    // RENDER NEW CONTENT
    var files = new Files(hash);

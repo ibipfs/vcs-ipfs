@@ -100,7 +100,7 @@ class Files {
                // CONSTRUCT ROW
                var row = `
                   <tr id="content">
-                     <td><a id="show" hash="` + item.path + `" viewonly="true"><div>
+                     <td><a id="show" hash="` + item.path + `"><div>
                         <table><tr>
                            <td>` + capitalize(item.name) + `</td>
                            <td>` + item.hash + `</td>

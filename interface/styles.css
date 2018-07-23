@@ -26,6 +26,10 @@ a:hover {
    text-decoration: underline;
 }
 
+a[viewonly='true'] {
+   color: #0073A9;
+}
+
 table {
 	width: 100%;
 	border-spacing: 0px;
@@ -263,7 +267,8 @@ hr {
    margin-bottom: 5px;
 }
 
-#files a:hover {
+
+#files a:hover, #files a[viewonly='true'] {
    color: #505050;
 } 
 

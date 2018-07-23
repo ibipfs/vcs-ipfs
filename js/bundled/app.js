@@ -197,88 +197,109 @@ class Activities {
    // RENDER BODY
    body(filter = '') {
       this.init().then((content) => {
+         var mutable = new Mutable();
 
-         // PARSE LOG
-         var logz = JSON.parse(content);
+         mutable.read('history.json').then((history) => {
 
-         // FETCH & REVERSE KEYS
-         var keys = Object.keys(logz);
-         keys.reverse();
+            // PARSE HISTORY & FETCH HASH OF PROJ ROOT
+            history = JSON.parse(history);
+            var base = history.current.hash;
 
-         // HELP ARRS
-         var rows = '';
-         var row = '';
-         var table = '';
+            // PARSE LOG
+            var logz = JSON.parse(content);
 
-         var type = '';
-         var string = '';
-         var path = '';
-         var timestamp = 0;
-         var user = '';
-         var original = '';
-         var hash = '';
+            // FETCH & REVERSE KEYS
+            var keys = Object.keys(logz);
+            keys.reverse();
 
-         // MAKE ROW FOR EACH ENTRY
-         for (var x = 0; x < keys.length; x++) {
+            // HELP ARRS
+            var rows = '';
+            var row = '';
+            var table = '';
 
-            // FETCH VALUES
-            type = logz[keys[x]].type;
-            timestamp = moment.unix(keys[x]).format('D/MM @ HH:mm');
-            user = logz[keys[x]].user;
-            original = logz[keys[x]].original;
-            path = logz[keys[x]].path;
-            hash = logz[keys[x]].hash;
+            var type = '';
+            var timestamp = 0;
+            var user = '';
+            var original = '';
+            var path = '';
+            var realPath = '';
+            var hash = '';
 
-            var suffix = path.split('/').pop();
+            var string = '';
 
-            // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path || filter.toLowerCase() == suffix) {
+            // MAKE ROW FOR EACH ENTRY
+            for (var x = 0; x < keys.length; x++) {
 
-               // GENERATE ENTRY STRING
-               switch (type) {
-                  
-                  // PUBLISH
-                  case 'publish':
-                     string = capitalize(user) + ' published an entry of <a id="show" hash="' + hash + '" viewonly="true">' + path + '</a>';
-                  break;
+               // FETCH VALUES
+               type = logz[keys[x]].type;
+               timestamp = moment.unix(keys[x]).format('D/MM @ HH:mm');
+               user = logz[keys[x]].user;
+               original = logz[keys[x]].original;
+
+               // SHORTHAND PATH
+               path = logz[keys[x]].path;
+
+               // REAL PATH
+               realPath = path.split('/');
+               realPath[0] = base;
+               realPath = realPath.join('/');
+
+               // FILE HASH
+               hash = logz[keys[x]].hash;
+
+               // FILENAME FOR FILTER QUERY
+               var suffix = path.split('/').pop();
+
+               // CONTINUE IF A REQUIREMENT IS FILLED
+               if (filter == '' || filter.toLowerCase() == user.toLowerCase() || filter == original || filter == path || filter.toLowerCase() == suffix) {
+
+                  // GENERATE ENTRY STRING
+                  switch (type) {
+                     
+                     // PUBLISH
+                     case 'publish':
+                        string = capitalize(user) + ' published an entry of <a id="show" hash="' + realPath + '" viewonly="true">' + path + '</a>';
+                     break;
+                  }
+
+                  // GENERATE ROW
+                  row = `
+                     <tr><td><div>
+                        <table><tbody><tr>
+                           <td>` + string + `</td>
+                           <td>` + timestamp + `</td>
+                        </tr></tbody></table>
+                     </div></td></tr>
+                  `;
+
+                  // CONCAT TO ROWS
+                  rows += row;
                }
-
-               // GENERATE ROW
-               row = `
-                  <tr><td><div>
-                     <table><tbody><tr>
-                        <td>` + string + `</td>
-                        <td>` + timestamp + `</td>
-                     </tr></tbody></table>
-                  </div></td></tr>
-               `;
-
-               // CONCAT TO ROWS
-               rows += row;
             }
-         }
 
-         // FALLBACK IF NO ROWS ARE FOUND
-         if (rows == '') {
-            rows = '<tr><td><div>No entries found.</div></td></tr>';
-         }
+            // FALLBACK IF NO ROWS ARE FOUND
+            if (rows == '') {
+               rows = '<tr><td><div>No entries found.</div></td></tr>';
+            }
 
-         // GENERATE FULL TABLE
-         table = '<table><tbody>' + rows + '</tbody></table>';
-         var cont = $('#activity').html();
+            // GENERATE FULL TABLE
+            table = '<table><tbody>' + rows + '</tbody></table>';
+            var cont = $('#activity').html();
 
-         // COMPARE OLD AND NEW SELECTOR CONTENT
-         if (table == cont) {
+            // COMPARE OLD AND NEW SELECTOR CONTENT
+            if (table == cont) {
 
-            // RENDER TO SELECTOR
-            $('#activity').html(table);
+               // RENDER TO SELECTOR
+               $('#activity').html(table);
 
-         // WHEN CONTENT HAS CHANGED
-         } else {
+            // WHEN CONTENT HAS CHANGED
+            } else {
 
-            // FADE IN
-            fadeIn('activity', table);
-         }
+               // FADE IN
+               fadeIn('activity', table);
+            }
+
+         });
       });
    }
 }
@@ -380,6 +401,7 @@ function removeCache() {
    }
 }
 
+// UPLOAD
 function upload() {
 
    // PICK UP CACHE ID & VALUE
@@ -525,39 +547,44 @@ $('body').on('click', 'a#show', (target) => {
 
    // CHECK IF VIEW ONLY STATUS
    var viewOnly = $(target).attr('viewonly');
-
+   
    // FILE PATH
    var path = $(target).attr('hash');
-   var split = path.split('/');
 
-   // REFS
-   var file = split.pop();
-   var dir = split.join('/');
+   // CHECK WHAT TYPE OF HASH WAS PASSED
+   var typeCheck = path.split('/').length;
 
-   // GENERATE PROMISES
-   var first = promisify('file', path);
-   var second = promisify('dir', dir);
+   // FULL HASH
+   if (typeCheck > 1) {
 
-   // AFTER BOTH PROMISES ARE RESOLVED
-   Promise.all([first, second]).then(function(values) {
+      // REFS
+      var split = path.split('/');
+      var file = split.pop();
+      var dir = split.join('/');
+      
+      // GENERATE PROMISES
+      var first = promisify('file', path);
+      var second = promisify('dir', dir);
 
-      // FILE PROPS
-      var content = values[0].toString('utf8');
-      var info = fetchData(values[1], file);
+      // AFTER BOTH PROMISES ARE RESOLVED
+      Promise.all([first, second]).then(function(values) {
 
-      // FETCH FILETYPE FOR HIGHLIGHT JS
-      var type = info.name.split('.');
-      type = findLang(type.pop());
+         // FILE PROPS
+         var content = values[0].toString('utf8');
+         var info = fetchData(values[1], file);
 
-      // FETCH AND CONCAT FULL PATH TO FILE
-      var location = $('#location').text();
-      location += ' / ' + capitalize(file);
+         // FIGURE OUT FILE TYPE
+         var type = info.name.split('.');
+         type = type[type.length - 1];
 
-      // BUTTONS
-      var buttons = new Buttons(info.hash);
+         // FORMAT PATH TO BE MORE AESTHETIC
+         var location = info.path.split('/');
+         location[0] = 'root';
+         location = location.join('/');
+         location = headerify(location);
 
-      // GENERATE TABLE
-      var selector = `
+         // GENERATE TABLE
+         var selector = `
          <table id="prompt">
             <tr>
                <td>
@@ -597,31 +624,87 @@ $('body').on('click', 'a#show', (target) => {
                      <div id="prompt-inner">
                         <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
                      </div>
-      `;
+         `;
 
-      // STITCH IN BUTTON ROW IF USER IS LOGGED
-      if (metamask.isLogged && viewOnly != true) {
-         selector += buttons.render();
-      }
+         // STITCH IN BUTTON ROW IF USER IS LOGGED
+         if (metamask.isLogged == true && viewOnly == undefined) {
 
-      // STITCH IN END OF SELECTORS
-      selector += `
-                  </div>
-               </td>
-            </tr>
-         </table>
-      `;
+            // FETCH BUTTONS MODULE
+            var buttons = new Buttons(info.hash);
 
-      // PREPEND TO BODY
-      $('#prompt-space').prepend(selector);
+            // RENDER BUTTON ROW
+            selector += buttons.render();
+         }
 
-      // CODE HIGHLIGHTING
-      $('pre code').each(function(i, block) {
-         hljs.highlightBlock(block);
+         // STITCH IN END OF SELECTORS
+         selector += `
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         `;
+
+         // PREPEND TO BODY
+         $('#prompt-space').prepend(selector);
+
+         // CODE HIGHLIGHTING
+         $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+         });
+
+         $("#prompt-space").css('opacity', '1');
       });
 
-      $("#prompt-space").css('opacity', '1');
-   });
+   // PARTIAL PATH
+   } else {
+
+      // READ FILE CONTENT
+      promisify('file', path).then((content) => {
+
+         // UNKNOWN, DEFAULTING TO JSON
+         var type = 'JSON';
+
+         // GENERATE TABLE
+         var selector = `
+            <table id="prompt">
+               <tr>
+                  <td>
+                     <div id="prompt-outer">
+
+                        <div id="prompt-header">
+                           <div id="item">
+
+                              <table>
+                                 <tr>
+                                    <td>Name/Direct Link:</td>
+                                    <td><a href="http://ipfs.io/ipfs/` + path + `" target="_blank">` + path + `</a></td>
+                                 </tr>
+                              </table>
+
+                           </div>
+                        </div>
+
+                        <div id="prompt-inner">
+                           <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         `;
+
+         // PREPEND TO BODY
+         $('#prompt-space').prepend(selector);
+
+         // CODE HIGHLIGHTING
+         $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+         });
+
+         $("#prompt-space").css('opacity', '1');
+      });
+
+   }
 });
 
 // ONCLICK DIRECTORY
@@ -885,125 +968,137 @@ class Tracker {
    body(filter = '') {
       this.init().then((content) => {
 
-         // PARSE OBJECT & FETCH KEYS
-         content = JSON.parse(content);
-         var keys = Object.keys(content);
+         // FETCH MUTABLE MODULE
+         var mutable = new Mutable();
+         
+         mutable.read('history.json').then((history) => {
+            history = JSON.parse(history);
+            var base = history.current.hash;
 
-         // REVERSE TO GET NEWEST FIRST
-         keys.reverse();
+            // PARSE OBJECT & FETCH KEYS
+            content = JSON.parse(content);
+            var keys = Object.keys(content);
 
-         // HELP VARS
-         var fileName = '';
-         var fileData = {};
-         var filePath = '';
-         var subKeys = [];
-         var blobHolder = '';
+            // REVERSE TO GET NEWEST FIRST
+            keys.reverse();
 
-         // LOOP THROUGH FILES WITH SUBMISSIONS
-         for (var x = 0; x < keys.length; x++) {
-            fileName = keys[x];
-            fileData = content[fileName];
-            filePath = fileData.path;
-            subKeys = Object.keys(fileData);
+            // HELP VARS
+            var fileName = '';
+            var fileData = {};
+            var filePath = '';
+            var subKeys = [];
+            var blobHolder = '';
 
-            // SLICE ONLY FILE FROM PATH
-            var suffix = filePath.split('/').pop();
+            // LOOP THROUGH FILES WITH SUBMISSIONS
+            for (var x = 0; x < keys.length; x++) {
+               fileName = keys[x];
+               fileData = content[fileName];
+               filePath = fileData.path;
+               subKeys = Object.keys(fileData);
 
-            // CONTINUE IF A REQUIREMENT IS FILLED
-            if (filter == '' || filter == fileName || filter.toLowerCase() == suffix || filter == headerify(filePath)) {
+               var realPath = filePath.split('/');
+               realPath[0] = base;
+               realPath = realPath.join('/');
 
-               // REVERSE TO GET NEWEST FIRST
-               subKeys.reverse();
+               // SLICE ONLY FILE FROM PATH
+               var suffix = filePath.split('/').pop();
 
-               // HELP VARS
-               var user = '';
-               var hash = '';
-               var timestamp = 0;
+               // CONTINUE IF A REQUIREMENT IS FILLED
+               if (filter == '' || filter == fileName || filter.toLowerCase() == suffix || filter == headerify(filePath)) {
 
-               // STRUCTURE VARS
-               var wrap = '';
-               var table = '';
-               var header = '';
-               var rows = '';
-               var row = '';
+                  // REVERSE TO GET NEWEST FIRST
+                  subKeys.reverse();
 
-               // GENERATE HEADER
-               header = `
-                  <tr><td><div id="header">
-                     <table><tbody><tr>
-                        <td>` + headerify(filePath) + `</td>
-                        <td>` + fileName + `</td>
-                     </tr></tbody></table>
-                  </div></td></tr>
-               `;
+                  // HELP VARS
+                  var user = '';
+                  var hash = '';
+                  var timestamp = 0;
 
-               // CONCAT TO PARENT
-               rows += header;
+                  // STRUCTURE VARS
+                  var wrap = '';
+                  var table = '';
+                  var header = '';
+                  var rows = '';
+                  var row = '';
 
-               // LOOP THROUGH SUBMISSIONS
-               for (var y = 0; y < subKeys.length; y++) {
-                  user = subKeys[y];
+                  // GENERATE HEADER
+                  header = `
+                     <tr><td><div id="header">
+                        <table><tbody><tr>
+                           <td>` + headerify(filePath) + `</td>
+                           <td><a id="show" hash="` + realPath + `" viewonly="true">` + fileName + `</a></td>
+                        </tr></tbody></table>
+                     </div></td></tr>
+                  `;
 
-                  // FILTER OUT PATH PROPERTY
-                  if (user != 'path') {
-                     hash = fileData[user].hash;
-                     timestamp = fileData[user].timestamp;
+                  // CONCAT TO PARENT
+                  rows += header;
 
-                     // GENERATE ROW
-                     row = `
-                        <tr><td>
-                           <div id="gray">
-                              <table><tbody><tr>
-                                 <td>Author:</td>
-                                 <td>` + capitalize(user) + `</td>
-                              </tr></tbody></table>
-                              <hr>
-                              <table><tbody><tr>
-                                 <td>Hash Location:</td>
-                                 <td><a href="http://ipfs.io/ipfs/` + hash + `" target="_blank">` + hash + `</a></td>
-                              </tr></tbody></table>
-                              <hr>
-                              <table><tbody><tr>
-                                 <td>Submitted:</td>
-                                 <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
-                              </tr></tbody></table>
-                           </div>
-                        </td></tr>
-                     `;
+                  // LOOP THROUGH SUBMISSIONS
+                  for (var y = 0; y < subKeys.length; y++) {
+                     user = subKeys[y];
 
-                     // CONCAT ROW TO PARENT
-                     rows += row;
+                     // FILTER OUT PATH PROPERTY
+                     if (user != 'path') {
+                        hash = fileData[user].hash;
+                        timestamp = fileData[user].timestamp;
+
+                        // GENERATE ROW
+                        row = `
+                           <tr><td>
+                              <div id="gray">
+                                 <table><tbody><tr>
+                                    <td>Author:</td>
+                                    <td>` + capitalize(user) + `</td>
+                                 </tr></tbody></table>
+                                 <hr>
+                                 <table><tbody><tr>
+                                    <td>Hash Location:</td>
+                                    <td><a id="show" hash="` + hash + `" viewonly="true">` + hash + `</a></td>
+                                 </tr></tbody></table>
+                                 <hr>
+                                 <table><tbody><tr>
+                                    <td>Submitted:</td>
+                                    <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
+                                 </tr></tbody></table>
+                              </div>
+                           </td></tr>
+                        `;
+
+                        // CONCAT ROW TO PARENT
+                        rows += row;
+                     }
                   }
+
+                  // GENERATE ENTIRE STRUCTURE
+                  table = '<table><tbody>' + rows + '</tbody></table>';
+                  wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
+
+                  blobHolder += wrap;
                }
-
-               // GENERATE ENTIRE STRUCTURE
-               table = '<table><tbody>' + rows + '</tbody></table>';
-               wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
-
-               blobHolder += wrap;
             }
-         }
 
-         // ADD ERROR MSG IF NOTHING IF FOUND
-         if (blobHolder == '') {
-            blobHolder = '<div id="tracker-outer"><div id="tracker-inner"><table><tbody><tr><td><div id="header">No entries found.</div></td></tr></tbody></table></div></div>';
-         }
+            // ADD ERROR MSG IF NOTHING IF FOUND
+            if (blobHolder == '') {
+               blobHolder = '<div id="tracker-outer"><div id="tracker-inner"><table><tbody><tr><td><div id="header">No entries found.</div></td></tr></tbody></table></div></div>';
+            }
 
-         // PARENT CONTENT
-         var cont = $('#container').html();
+            // PARENT CONTENT
+            var cont = $('#container').html();
 
-         // CHECK IF CONTENT IS SAME AS BEFORE QUERY - TO STOP FLICKERING
-         if (blobHolder == cont) {
+            // CHECK IF CONTENT IS SAME AS BEFORE QUERY - TO STOP FLICKERING
+            if (blobHolder == cont) {
 
-            // RENDER TO SELECTOR
-            $('#container').html(cont);
+               // RENDER TO SELECTOR
+               $('#container').html(cont);
 
-         // OTHERWISE CHANGE CONTENT & TRANSITION
-         } else {
+            // OTHERWISE CHANGE CONTENT & TRANSITION
+            } else {
 
-            // FADE IN
-            fadeIn('container', blobHolder);
-         }
+               // FADE IN
+               fadeIn('container', blobHolder);
+            }
+         });
       });
    }
 }

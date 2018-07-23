@@ -92,6 +92,7 @@ function removeCache() {
    }
 }
 
+// UPLOAD
 function upload() {
 
    // PICK UP CACHE ID & VALUE

@@ -44,39 +44,44 @@ $('body').on('click', 'a#show', (target) => {
 
    // CHECK IF VIEW ONLY STATUS
    var viewOnly = $(target).attr('viewonly');
-
+   
    // FILE PATH
    var path = $(target).attr('hash');
-   var split = path.split('/');
 
-   // REFS
-   var file = split.pop();
-   var dir = split.join('/');
+   // CHECK WHAT TYPE OF HASH WAS PASSED
+   var typeCheck = path.split('/').length;
 
-   // GENERATE PROMISES
-   var first = promisify('file', path);
-   var second = promisify('dir', dir);
+   // FULL HASH
+   if (typeCheck > 1) {
 
-   // AFTER BOTH PROMISES ARE RESOLVED
-   Promise.all([first, second]).then(function(values) {
+      // REFS
+      var split = path.split('/');
+      var file = split.pop();
+      var dir = split.join('/');
+      
+      // GENERATE PROMISES
+      var first = promisify('file', path);
+      var second = promisify('dir', dir);
 
-      // FILE PROPS
-      var content = values[0].toString('utf8');
-      var info = fetchData(values[1], file);
+      // AFTER BOTH PROMISES ARE RESOLVED
+      Promise.all([first, second]).then(function(values) {
 
-      // FETCH FILETYPE FOR HIGHLIGHT JS
-      var type = info.name.split('.');
-      type = findLang(type.pop());
+         // FILE PROPS
+         var content = values[0].toString('utf8');
+         var info = fetchData(values[1], file);
 
-      // FETCH AND CONCAT FULL PATH TO FILE
-      var location = $('#location').text();
-      location += ' / ' + capitalize(file);
+         // FIGURE OUT FILE TYPE
+         var type = info.name.split('.');
+         type = type[type.length - 1];
 
-      // BUTTONS
-      var buttons = new Buttons(info.hash);
+         // FORMAT PATH TO BE MORE AESTHETIC
+         var location = info.path.split('/');
+         location[0] = 'root';
+         location = location.join('/');
+         location = headerify(location);
 
-      // GENERATE TABLE
-      var selector = `
+         // GENERATE TABLE
+         var selector = `
          <table id="prompt">
             <tr>
                <td>
@@ -116,31 +121,87 @@ $('body').on('click', 'a#show', (target) => {
                      <div id="prompt-inner">
                         <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
                      </div>
-      `;
+         `;
 
-      // STITCH IN BUTTON ROW IF USER IS LOGGED
-      if (metamask.isLogged && viewOnly != true) {
-         selector += buttons.render();
-      }
+         // STITCH IN BUTTON ROW IF USER IS LOGGED
+         if (metamask.isLogged == true && viewOnly == undefined) {
 
-      // STITCH IN END OF SELECTORS
-      selector += `
-                  </div>
-               </td>
-            </tr>
-         </table>
-      `;
+            // FETCH BUTTONS MODULE
+            var buttons = new Buttons(info.hash);
 
-      // PREPEND TO BODY
-      $('#prompt-space').prepend(selector);
+            // RENDER BUTTON ROW
+            selector += buttons.render();
+         }
 
-      // CODE HIGHLIGHTING
-      $('pre code').each(function(i, block) {
-         hljs.highlightBlock(block);
+         // STITCH IN END OF SELECTORS
+         selector += `
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         `;
+
+         // PREPEND TO BODY
+         $('#prompt-space').prepend(selector);
+
+         // CODE HIGHLIGHTING
+         $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+         });
+
+         $("#prompt-space").css('opacity', '1');
       });
 
-      $("#prompt-space").css('opacity', '1');
-   });
+   // PARTIAL PATH
+   } else {
+
+      // READ FILE CONTENT
+      promisify('file', path).then((content) => {
+
+         // UNKNOWN, DEFAULTING TO JSON
+         var type = 'JSON';
+
+         // GENERATE TABLE
+         var selector = `
+            <table id="prompt">
+               <tr>
+                  <td>
+                     <div id="prompt-outer">
+
+                        <div id="prompt-header">
+                           <div id="item">
+
+                              <table>
+                                 <tr>
+                                    <td>Name/Direct Link:</td>
+                                    <td><a href="http://ipfs.io/ipfs/` + path + `" target="_blank">` + path + `</a></td>
+                                 </tr>
+                              </table>
+
+                           </div>
+                        </div>
+
+                        <div id="prompt-inner">
+                           <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         `;
+
+         // PREPEND TO BODY
+         $('#prompt-space').prepend(selector);
+
+         // CODE HIGHLIGHTING
+         $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+         });
+
+         $("#prompt-space").css('opacity', '1');
+      });
+
+   }
 });
 
 // ONCLICK DIRECTORY

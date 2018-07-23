@@ -30,6 +30,15 @@ a[viewonly='true'] {
    color: #0073A9;
 }
 
+#header a[viewonly='true'] {
+   color: #C3CDE1;
+}
+
+#header a[viewonly='true']:hover {
+   color: #0073A9;
+   text-decoration: none;
+}
+
 table {
 	width: 100%;
 	border-spacing: 0px;

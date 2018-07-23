@@ -1,5 +1,5 @@
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
-require('./index.js')();
+require('./content/index.js')();
 var current = 'files';
 
 // WHEN MENULINK IS CLICKED
@@ -24,25 +24,25 @@ $('body').on('click', '#menu a', () => {
    
          // ACTIVITY
          case 'activity':
-            sectionModule = require('./activity.js');
+            sectionModule = require('./content/activity.js');
             current = 'activity';
          break;
 
          // TRACKER
          case 'tracker':
-            sectionModule = require('./tracker.js');
+            sectionModule = require('./content/tracker.js');
             current = 'tracker';
          break;
 
          // TRACKER
          case 'actions':
-            sectionModule = require('./actions.js');
+            sectionModule = require('./content/actions.js');
             current = 'actions';
          break;
    
          // FALLBACK & INDEX
          default:
-            sectionModule = require('./index.js');
+            sectionModule = require('./content/index.js');
             current = 'files';
          break;
       }

@@ -1,7 +1,7 @@
 function render() {
 
    // FETCH MUTABLE MODULE
-   var Mutable = require('./classes/mutable.js');
+   var Mutable = require('../classes/mutable.js');
    var mutable = new Mutable();
 
    var fileArray = [];

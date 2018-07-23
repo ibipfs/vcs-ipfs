@@ -17,7 +17,7 @@ function render() {
    $('#content-body').html(filter + container);
 
    // FETCH MODULE
-   var Tracker = require('./classes/tracker.js');
+   var Tracker = require('../classes/tracker.js');
 
    // TRACKER
    var tracker = new Tracker();

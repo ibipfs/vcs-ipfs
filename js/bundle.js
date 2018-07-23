@@ -1,132 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-function render() {
-
-   // FETCH MUTABLE MODULE
-   var Mutable = require('./classes/mutable.js');
-   var mutable = new Mutable();
-
-   var fileArray = [];
-
-   // READ FROM HISTORY LOG
-   mutable.read('history.json').then((history) => {
-      
-      // PARSE HISTORY
-      history = JSON.parse(history);
-
-      // FETCH HASH OF LATEST RELEASE
-      var base = history.current.hash
-
-      // READ FROM TRACKER LOG
-      mutable.read('tracker.json').then((tracker) => {
-
-         // PARSE TRACKER
-         tracker = JSON.parse(tracker);
-
-         // TRACKER KEYS
-         var keys = Object.keys(tracker);
-         var toChange = [];
-
-         // MAKE ARRAY OF FILES THAT NEED TO BE EDITED
-         for (var y = 0; y < keys.length; y++) {
-
-            // CHANGE ELEM1 FROM ROOT TO ACTUAL BASE
-            var data = tracker[keys[y]].path;
-            data = data.split('/');
-            data[0] = base;
-            data = data.join('/');
-
-            // PUSH TO CHANGE ARRAY
-            toChange.push(data);
-         }
-
-         promisify('get', base).then((result) => {
-
-            var keys = Object.keys(result);
-
-            for (var x = 0; x < keys.length; x++) {
-               var instance = result[keys[x]];
-               var obj = {};
-
-               // CHECK IF TARGET IS A FILE
-               if (instance.content != undefined) {
-
-                  // CHECK IF FILE IS IN ARRAY
-                  var check = $.inArray(instance.path, toChange);
-
-                  // IF IT EXISTS
-                  if (check != -1) {
-                     log(instance.path + ' needs to change!');
-                  }
-
-                  // BUILD OBJECT
-                  obj = {
-                     path: instance.path,
-                     content: instance.content
-                  }
-
-                  // PUSH OBJECT INTO GATHERING ARRAY
-                  fileArray.push(obj);
-               }
-            }
-
-            // PUBLISH TO IPFS
-            mutable.release(fileArray).then((response) => {
-               
-               // FETCH HASH OF ROOT DIR
-               var hash = response[response.length - 1].hash;
-               log(hash);
-            });
-         });
-      });
-
-   });
-}
-
-// EXPORT MODULE
-module.exports = render;
-},{"./classes/mutable.js":7}],2:[function(require,module,exports){
-function render() {
-
-   // GENERATE PARENT SELECTORS
-   var filter = `
-      <div id="filter-outer">
-         <div id="filter-inner">
-            <input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1">
-         </div>
-      </div>
-   `;
-
-   var files = `
-      <div id="files-outer">
-         <div id="activity"></div>
-      </div>
-   `;
-
-   // RENDER THEM IN
-   $('#content-body').html(filter + files);
-
-   // FETCH MODULE
-   var Activities = require('./classes/activities.js');
-
-   // ACTIVITIES
-   var activities = new Activities();
-   activities.body();
-
-   // FILTER
-   $("#filter").on('keyup', function() {
-      var query = $('#filter').val();
-
-      // RENDER FILTERED LIST
-      activities.body(query);
-   });
-
-}
-
-// EXPORT CLASS
-module.exports = render;
-},{"./classes/activities.js":4}],3:[function(require,module,exports){
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
-require('./index.js')();
+require('./content/index.js')();
 var current = 'files';
 
 // WHEN MENULINK IS CLICKED
@@ -151,25 +25,25 @@ $('body').on('click', '#menu a', () => {
    
          // ACTIVITY
          case 'activity':
-            sectionModule = require('./activity.js');
+            sectionModule = require('./content/activity.js');
             current = 'activity';
          break;
 
          // TRACKER
          case 'tracker':
-            sectionModule = require('./tracker.js');
+            sectionModule = require('./content/tracker.js');
             current = 'tracker';
          break;
 
          // TRACKER
          case 'actions':
-            sectionModule = require('./actions.js');
+            sectionModule = require('./content/actions.js');
             current = 'actions';
          break;
    
          // FALLBACK & INDEX
          default:
-            sectionModule = require('./index.js');
+            sectionModule = require('./content/index.js');
             current = 'files';
          break;
       }
@@ -177,7 +51,7 @@ $('body').on('click', '#menu a', () => {
       sectionModule();
    }
 });
-},{"./actions.js":1,"./activity.js":2,"./index.js":9,"./tracker.js":10}],4:[function(require,module,exports){
+},{"./content/actions.js":7,"./content/activity.js":8,"./content/index.js":9,"./content/tracker.js":10}],2:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -306,7 +180,7 @@ class Activities {
 
 // EXPORT CLASS
 module.exports = Activities;
-},{"./mutable.js":7,"moment":14}],5:[function(require,module,exports){
+},{"./mutable.js":5,"moment":14}],3:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 
 // CLOSE PROMPT WINDOW
@@ -500,7 +374,7 @@ module.exports = {
    removeCache: removeCache,
    upload: upload
 }
-},{"./mutable.js":7}],6:[function(require,module,exports){
+},{"./mutable.js":5}],4:[function(require,module,exports){
 var funcs = require('../classes/event-funcs.js');
 
 // HIDE PROMPT ON ESC
@@ -735,7 +609,7 @@ $('body').on('click', '#remove', () => {
 $('body').on('click', '#upload', () => {
    funcs.upload();
 });
-},{"../classes/event-funcs.js":5}],7:[function(require,module,exports){
+},{"../classes/event-funcs.js":3}],5:[function(require,module,exports){
 var Buffer = require('buffer/').Buffer
 
 class Mutable {
@@ -947,7 +821,7 @@ class Mutable {
 
 // EXPORT CLASS
 module.exports = Mutable;
-},{"buffer/":12}],8:[function(require,module,exports){
+},{"buffer/":12}],6:[function(require,module,exports){
 var Mutable = require('./mutable.js')
 var moment = require('moment');
 
@@ -1105,7 +979,133 @@ class Tracker {
 
 // EXPORT CLASS
 module.exports = Tracker;
-},{"./mutable.js":7,"moment":14}],9:[function(require,module,exports){
+},{"./mutable.js":5,"moment":14}],7:[function(require,module,exports){
+function render() {
+
+   // FETCH MUTABLE MODULE
+   var Mutable = require('../classes/mutable.js');
+   var mutable = new Mutable();
+
+   var fileArray = [];
+
+   // READ FROM HISTORY LOG
+   mutable.read('history.json').then((history) => {
+      
+      // PARSE HISTORY
+      history = JSON.parse(history);
+
+      // FETCH HASH OF LATEST RELEASE
+      var base = history.current.hash
+
+      // READ FROM TRACKER LOG
+      mutable.read('tracker.json').then((tracker) => {
+
+         // PARSE TRACKER
+         tracker = JSON.parse(tracker);
+
+         // TRACKER KEYS
+         var keys = Object.keys(tracker);
+         var toChange = [];
+
+         // MAKE ARRAY OF FILES THAT NEED TO BE EDITED
+         for (var y = 0; y < keys.length; y++) {
+
+            // CHANGE ELEM1 FROM ROOT TO ACTUAL BASE
+            var data = tracker[keys[y]].path;
+            data = data.split('/');
+            data[0] = base;
+            data = data.join('/');
+
+            // PUSH TO CHANGE ARRAY
+            toChange.push(data);
+         }
+
+         promisify('get', base).then((result) => {
+
+            var keys = Object.keys(result);
+
+            for (var x = 0; x < keys.length; x++) {
+               var instance = result[keys[x]];
+               var obj = {};
+
+               // CHECK IF TARGET IS A FILE
+               if (instance.content != undefined) {
+
+                  // CHECK IF FILE IS IN ARRAY
+                  var check = $.inArray(instance.path, toChange);
+
+                  // IF IT EXISTS
+                  if (check != -1) {
+                     log(instance.path + ' needs to change!');
+                  }
+
+                  // BUILD OBJECT
+                  obj = {
+                     path: instance.path,
+                     content: instance.content
+                  }
+
+                  // PUSH OBJECT INTO GATHERING ARRAY
+                  fileArray.push(obj);
+               }
+            }
+
+            // PUBLISH TO IPFS
+            mutable.release(fileArray).then((response) => {
+               
+               // FETCH HASH OF ROOT DIR
+               var hash = response[response.length - 1].hash;
+               log(hash);
+            });
+         });
+      });
+
+   });
+}
+
+// EXPORT MODULE
+module.exports = render;
+},{"../classes/mutable.js":5}],8:[function(require,module,exports){
+function render() {
+
+   // GENERATE PARENT SELECTORS
+   var filter = `
+      <div id="filter-outer">
+         <div id="filter-inner">
+            <input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1">
+         </div>
+      </div>
+   `;
+
+   var files = `
+      <div id="files-outer">
+         <div id="activity"></div>
+      </div>
+   `;
+
+   // RENDER THEM IN
+   $('#content-body').html(filter + files);
+
+   // FETCH MODULE
+   var Activities = require('../classes/activities.js');
+
+   // ACTIVITIES
+   var activities = new Activities();
+   activities.body();
+
+   // FILTER
+   $("#filter").on('keyup', function() {
+      var query = $('#filter').val();
+
+      // RENDER FILTERED LIST
+      activities.body(query);
+   });
+
+}
+
+// EXPORT CLASS
+module.exports = render;
+},{"../classes/activities.js":2}],9:[function(require,module,exports){
 function render() {
 
    // GENERATE PARENT SELECTOR
@@ -1123,10 +1123,10 @@ function render() {
    $('#content-body').html(files + footer);
 
    // FETCH EVENTS MODULE
-   require('./classes/events.js');
+   require('../classes/events.js');
 
    // FETCH & INSTANCIATE MUTABLE MODULE
-   var Mutable = require('./classes/mutable.js');
+   var Mutable = require('../classes/mutable.js');
    var mutable = new Mutable();
 
    // FETCH HASH OF LATEST RELEASE
@@ -1147,7 +1147,7 @@ function render() {
 
 // EXPORT MODULE
 module.exports = render;
-},{"./classes/events.js":6,"./classes/mutable.js":7}],10:[function(require,module,exports){
+},{"../classes/events.js":4,"../classes/mutable.js":5}],10:[function(require,module,exports){
 function render() {
 
    // GENERATE PARENT SELECTORS
@@ -1167,7 +1167,7 @@ function render() {
    $('#content-body').html(filter + container);
 
    // FETCH MODULE
-   var Tracker = require('./classes/tracker.js');
+   var Tracker = require('../classes/tracker.js');
 
    // TRACKER
    var tracker = new Tracker();
@@ -1184,7 +1184,7 @@ function render() {
 
 // EXPORT CLASS
 module.exports = render;
-},{"./classes/tracker.js":8}],11:[function(require,module,exports){
+},{"../classes/tracker.js":6}],11:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -7669,4 +7669,4 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 })));
 
-},{}]},{},[3]);
+},{}]},{},[1]);

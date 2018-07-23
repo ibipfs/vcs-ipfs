@@ -19,7 +19,7 @@ function render() {
    $('#content-body').html(filter + files);
 
    // FETCH MODULE
-   var Activities = require('./classes/activities.js');
+   var Activities = require('../classes/activities.js');
 
    // ACTIVITIES
    var activities = new Activities();

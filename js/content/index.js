@@ -15,10 +15,10 @@ function render() {
    $('#content-body').html(files + footer);
 
    // FETCH EVENTS MODULE
-   require('./classes/events.js');
+   require('../classes/events.js');
 
    // FETCH & INSTANCIATE MUTABLE MODULE
-   var Mutable = require('./classes/mutable.js');
+   var Mutable = require('../classes/mutable.js');
    var mutable = new Mutable();
 
    // FETCH HASH OF LATEST RELEASE

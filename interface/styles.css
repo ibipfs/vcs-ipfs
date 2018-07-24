@@ -99,7 +99,7 @@ pre, code {
 
 #prompt-outer {
 	background: url('img/dark.png');
-   width: 650px;
+   width: 800px;
 	margin-left: auto;
 	margin-right: auto;
    border-radius: 4px;
@@ -111,8 +111,6 @@ pre, code {
    color: #505050;
    border-radius: 4px;
    height: 650px;
-   padding: 0px;
-   overflow: auto;
 }
 
 #prompt-header {
@@ -280,7 +278,7 @@ hr {
 
 #files a:hover, #files a[viewonly='true'] {
    color: #505050;
-} 
+}
 
 #filter-outer, #tracker-outer {
    margin-bottom: 10px;

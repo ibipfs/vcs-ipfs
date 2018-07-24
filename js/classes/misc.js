@@ -87,6 +87,11 @@ function findLang(suffix) {
          name = 'javascript';
       break;
 
+      // SOLIDITY
+      case 'sol':
+         name = 'solidity';
+      break;
+
       // FALLBACK
       default:
          name = suffix;

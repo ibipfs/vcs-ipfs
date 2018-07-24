@@ -1001,6 +1001,7 @@ function render() {
          // TRACKER KEYS
          var keys = Object.keys(tracker);
          var toChange = [];
+         var hashList = [];
 
          // MAKE ARRAY OF FILES THAT NEED TO BE EDITED
          for (var y = 0; y < keys.length; y++) {
@@ -1012,45 +1013,64 @@ function render() {
             data = data.join('/');
 
             // PUSH TO CHANGE ARRAY
-            toChange.push(data);
+            toChange.push(data.toLowerCase());
+            hashList.push(tracker[keys[y]]['wickstjo'].hash);
          }
 
-         promisify('get', base).then((result) => {
+         var promiseList = [];
 
-            var keys = Object.keys(result);
+         for (var a = 0; a < hashList.length; a++) {
+            var p = promisify('raw', hashList[a]);
+            promiseList.push(p);
+         }
 
-            for (var x = 0; x < keys.length; x++) {
-               var instance = result[keys[x]];
-               var obj = {};
+         // WAIT FOR ALL PROMISES TO BE RESOLVED
+         Promise.all(promiseList).then(function(values) {
+            var kvList = {};
 
-               // CHECK IF TARGET IS A FILE
-               if (instance.content != undefined) {
-
-                  // CHECK IF FILE IS IN ARRAY
-                  var check = $.inArray(instance.path, toChange);
-
-                  // IF IT EXISTS
-                  if (check != -1) {
-                     log(instance.path + ' needs to change!');
-                  }
-
-                  // BUILD OBJECT
-                  obj = {
-                     path: instance.path,
-                     content: instance.content
-                  }
-
-                  // PUSH OBJECT INTO GATHERING ARRAY
-                  fileArray.push(obj);
-               }
+            for (var b = 0; b < toChange.length; b++) {
+               kvList[toChange[b]] = values[b];
             }
 
-            // PUBLISH TO IPFS
-            mutable.release(fileArray).then((response) => {
-               
-               // FETCH HASH OF ROOT DIR
-               var hash = response[response.length - 1].hash;
-               log(hash);
+            log(kvList);
+
+            promisify('get', base).then((result) => {
+
+               var keys = Object.keys(result);
+
+               for (var x = 0; x < keys.length; x++) {
+                  var instance = result[keys[x]];
+                  var obj = {};
+
+                  // CHECK IF TARGET IS A FILE
+                  if (instance.content != undefined) {
+
+                     // CHECK IF FILE IS IN ARRAY
+                     var check = $.inArray(instance.path.toLowerCase(), toChange);
+
+                     // IF IT EXISTS
+                     if (check != -1) {
+                        log(instance.path + ' needs to change!');
+                     }
+
+                     // BUILD OBJECT
+                     obj = {
+                        path: instance.path,
+                        content: instance.content
+                     }
+
+                     // PUSH OBJECT INTO GATHERING ARRAY
+                     fileArray.push(obj);
+                  }
+               }
+
+               // PUBLISH TO IPFS
+               mutable.release(fileArray).then((response) => {
+                  
+                  // FETCH HASH OF ROOT DIR
+                  var hash = response[response.length - 1].hash;
+                  log(hash);
+               });
             });
          });
       });

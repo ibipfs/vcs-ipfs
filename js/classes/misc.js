@@ -34,6 +34,13 @@ function promisify(query, value = null) {
             });
          break;
 
+         // FETCH RAW IPFS FILE DATA
+         case 'raw':
+            ipfs.files.cat(value, function (err, file) {
+               resolve(file);
+            });
+         break;
+
          // GET INFO FROM IPFS SOURCE
          case 'get':
             ipfs.files.get(value, function (err, content) {

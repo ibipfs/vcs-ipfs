@@ -1,12 +1,12 @@
-var Mutable = require('./mutable.js')
+var Mutable = require('./mutable.js');
+var mutable = new Mutable();
+
 var moment = require('moment');
 
 class Tracker {
 
    // FETCH IPFS CONTENT 
    init() {
-      var mutable = new Mutable();
-      
       var p = mutable.read('tracker.json').then((content) => {
          return content;
       });
@@ -17,9 +17,6 @@ class Tracker {
    // RENDER BODY
    body(filter = '') {
       this.init().then((content) => {
-
-         // FETCH MUTABLE MODULE
-         var mutable = new Mutable();
          
          mutable.read('history.json').then((history) => {
             history = JSON.parse(history);

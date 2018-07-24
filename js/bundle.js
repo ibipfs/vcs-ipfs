@@ -52,15 +52,15 @@ $('body').on('click', '#menu a', () => {
    }
 });
 },{"./content/actions.js":7,"./content/activity.js":8,"./content/index.js":9,"./content/tracker.js":10}],2:[function(require,module,exports){
-var Mutable = require('./mutable.js')
+var Mutable = require('./mutable.js');
+var mutable = new Mutable();
+
 var moment = require('moment');
 
 class Activities {
 
    // FETCH IPFS CONTENT 
    init() {
-      var mutable = new Mutable();
-      
       var p = mutable.read('log.json').then((content) => {
          return content;
       });
@@ -71,8 +71,6 @@ class Activities {
    // RENDER BODY
    body(filter = '') {
       this.init().then((content) => {
-         var mutable = new Mutable();
-
          mutable.read('history.json').then((history) => {
 
             // PARSE HISTORY & FETCH HASH OF PROJ ROOT
@@ -754,7 +752,7 @@ class Mutable {
             var historyDefault = {
                "current": {
                   "name": "1.0",
-                  "hash": "QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP",
+                  "hash": "QmNzA1dw3WH7vgHA2k7PSPqknCYpphULWA2X2fdqscpUhY",
                   "timestamp": unixTime()
                },
             
@@ -822,15 +820,15 @@ class Mutable {
 // EXPORT CLASS
 module.exports = Mutable;
 },{"buffer/":12}],6:[function(require,module,exports){
-var Mutable = require('./mutable.js')
+var Mutable = require('./mutable.js');
+var mutable = new Mutable();
+
 var moment = require('moment');
 
 class Tracker {
 
    // FETCH IPFS CONTENT 
    init() {
-      var mutable = new Mutable();
-      
       var p = mutable.read('tracker.json').then((content) => {
          return content;
       });
@@ -841,9 +839,6 @@ class Tracker {
    // RENDER BODY
    body(filter = '') {
       this.init().then((content) => {
-
-         // FETCH MUTABLE MODULE
-         var mutable = new Mutable();
          
          mutable.read('history.json').then((history) => {
             history = JSON.parse(history);

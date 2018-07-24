@@ -142,7 +142,7 @@ class Mutable {
             var historyDefault = {
                "current": {
                   "name": "1.0",
-                  "hash": "QmaQSy8hzDRJRBrc37sAcX17AGTjwti9KTem4KvKXpL6YP",
+                  "hash": "QmNzA1dw3WH7vgHA2k7PSPqknCYpphULWA2X2fdqscpUhY",
                   "timestamp": unixTime()
                },
             

@@ -36,23 +36,14 @@ $(window).bind('keydown', function(event) {
    }
 });
 
-// ONCLICK FILE
+// SHOW FILE
 $('body').on('click', 'a#show', (target) => {
 
    // MAKE SHORTHAND
    var target = target.currentTarget;
-
-   // CHECK IF VIEW ONLY STATUS
-   var viewOnly = $(target).attr('viewonly');
    
    // FILE PATH
    var path = $(target).attr('hash');
-
-   // CHECK WHAT TYPE OF HASH WAS PASSED
-   var typeCheck = path.split('/').length;
-
-   // FULL HASH
-   if (typeCheck > 1) {
 
       // REFS
       var split = path.split('/');
@@ -82,47 +73,47 @@ $('body').on('click', 'a#show', (target) => {
 
          // GENERATE TABLE
          var selector = `
-         <table id="prompt">
-            <tr>
-               <td>
-                  <div id="prompt-outer">
+            <table id="prompt">
+               <tr>
+                  <td>
+                     <div id="prompt-outer">
 
-                     <div id="prompt-header">
-                        <div id="item">
+                        <div id="prompt-header">
+                           <div id="item">
 
-                           <table>
-                              <tr>
-                                 <td>Name/Path:</td>
-                                 <td id="path">` + location + `</td>
-                              </tr>
-                           </table>
+                              <table>
+                                 <tr>
+                                    <td>Name/Path:</td>
+                                    <td id="path">` + location + `</td>
+                                 </tr>
+                              </table>
 
-                           <hr>
+                              <hr>
 
-                           <table>
-                              <tr>
-                                 <td>Direct Link:</td>
-                                 <td><a href="http://ipfs.io/ipfs/` + info.hash + `" target="_blank">` + info.hash + `</a></td>
-                              </tr>
-                           </table>
+                              <table>
+                                 <tr>
+                                    <td>Direct Link:</td>
+                                    <td><a href="http://ipfs.io/ipfs/` + info.hash + `" target="_blank">` + info.hash + `</a></td>
+                                 </tr>
+                              </table>
 
-                           <hr>
+                              <hr>
 
-                           <table>
-                              <tr>
-                                 <td>Size:</td>
-                                 <td>` + info.size / 1000 + ` KB</td>
-                              </tr>
-                           </table>
+                              <table>
+                                 <tr>
+                                    <td>Size:</td>
+                                    <td>` + info.size / 1000 + ` KB</td>
+                                 </tr>
+                              </table>
 
+                           </div>
                         </div>
-                     </div>
 
-                     <div id="prompt-inner"></div>
+                        <div id="prompt-inner"></div>
          `;
 
          // STITCH IN BUTTON ROW IF USER IS LOGGED
-         if (metamask.isLogged == true && viewOnly == undefined) {
+         if (metamask.isLogged) {
 
             // FETCH BUTTONS MODULE
             var buttons = new Buttons(info.hash);
@@ -145,8 +136,8 @@ $('body').on('click', 'a#show', (target) => {
          // FETCH MONACO EDITOR MODULE
          var monaco = require('@timkendrick/monaco-editor');
          
-         // VIEW ONLY SET
-         if (viewOnly == undefined) {
+         // CHECK IF READ ONLY NEEDS TO BE SET
+         if (metamask.isLogged) {
 
             window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
                value: beautify(content, type),
@@ -171,65 +162,9 @@ $('body').on('click', 'a#show', (target) => {
 
          $("#prompt-space").css('opacity', '1');
       });
-
-   // PARTIAL PATH
-   } else {
-
-      // READ FILE CONTENT
-      promisify('file', path).then((content) => {
-
-         // UNKNOWN, DEFAULTING TO JSON
-         var type = 'JSON';
-
-         // GENERATE TABLE
-         var selector = `
-            <table id="prompt">
-               <tr>
-                  <td>
-                     <div id="prompt-outer">
-
-                        <div id="prompt-header">
-                           <div id="item">
-
-                              <table>
-                                 <tr>
-                                    <td>Name/Direct Link:</td>
-                                    <td><a href="http://ipfs.io/ipfs/` + path + `" target="_blank">` + path + `</a></td>
-                                 </tr>
-                              </table>
-
-                           </div>
-                        </div>
-
-                        <div id="prompt-inner"></div>
-                     </div>
-                  </td>
-               </tr>
-            </table>
-         `;
-
-         // PREPEND TO BODY
-         $('#prompt-space').prepend(selector);
-
-         // FETCH MONACO EDITOR MODULE
-         var monaco = require('@timkendrick/monaco-editor');
-         
-         window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-            value: content,
-            language: 'javascript',
-            minimap: {
-               enabled: false
-            },
-            readOnly: true
-         });
-
-         $("#prompt-space").css('opacity', '1');
-      });
-
-   }
 });
 
-// ONCLICK DIRECTORY
+// OPEN DIRECTORY
 $('body').on('click', 'a#open', (target) => {
 
    // MAKE SHORTHAND
@@ -256,4 +191,115 @@ $('body').on('click', '#remove', () => {
 // UPLOAD VIRTUAL FILE TO IPFS
 $('body').on('click', '#upload', () => {
    funcs.upload();
+});
+
+// ONCLICK FILE
+$('body').on('click', 'a#compare', (target) => {
+
+   // MAKE SHORTHAND
+   var target = target.currentTarget;
+   
+   // FETCH RELEVANT HASHES
+   var original = $(target).attr('old');
+   var edited = $(target).attr('new');
+   var author = $(target).attr('author');
+   var path = $(target).attr('path');
+   var time = $(target).attr('time');
+
+   // GENERATE PROMISES
+   var first = promisify('file', original);
+   var second = promisify('file', edited);
+
+   // WAIT FOR BOTH PROMISES TO BE RESOLVED
+   Promise.all([first, second]).then(function(values) {
+
+      // SAVE FETCHES FILE VALUES
+      var original_value = values[0];
+      var edited_value = values[1];
+
+      // GENERATE TABLE
+      var selector = `
+         <table id="prompt">
+            <tr>
+               <td>
+                  <div id="prompt-outer">
+
+                     <div id="prompt-header">
+                        <div id="item">
+
+                           <table>
+                              <tr>
+                                 <td>Name/Path:</td>
+                                 <td id="path">` + headerify(path) + `</td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Original:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + original + `" target="_blank">` + original + `</a></td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Modified:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + edited + `" target="_blank">` + edited + `</a></td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Author:</td>
+                                 <td>` + capitalize(author) + `</td>
+                              </tr>
+                           </table>
+
+                           <hr>
+
+                           <table>
+                              <tr>
+                                 <td>Submitted:</td>
+                                 <td>` + time + `</td>
+                              </tr>
+                           </table>
+
+                        </div>
+                     </div>
+
+                     <div id="prompt-inner"></div>
+                  </div>
+               </td>
+            </tr>
+         </table>
+      `;
+
+      // PREPEND TO BODY
+      $('#prompt-space').prepend(selector);
+
+      // EXPAND WINDOW SIZE
+      //$('#prompt-outer').css('width', '1200px');
+
+      // FETCH MONACO EDITOR MODULE
+      var monaco = require('@timkendrick/monaco-editor');
+
+      var originalModel = monaco.editor.createModel(original_value, 'javascript');
+      var modifiedModel = monaco.editor.createModel(edited_value, 'javascript');
+      
+      var diffEditor = monaco.editor.createDiffEditor(document.getElementById("prompt-inner"), {readOnly: true});
+
+      diffEditor.setModel({
+         original: originalModel,
+         modified: modifiedModel
+      });
+
+      // TURN ON OPACITY
+      $("#prompt-space").css('opacity', '1');
+   });
 });

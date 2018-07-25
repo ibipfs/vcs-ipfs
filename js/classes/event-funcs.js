@@ -108,9 +108,6 @@ function upload() {
    if (cache != undefined && metamask.isLogged) {
       var mutable = new Mutable();
 
-      // NUKE TRACKER
-      //mutable.nukeLogs();
-
       // ADD TO IPFS
       mutable.add(cache).then((ret) => {
          log('Added to IPFS.');

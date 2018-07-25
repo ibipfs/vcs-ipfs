@@ -76,7 +76,7 @@ class Activities {
                      
                      // PUBLISH
                      case 'publish':
-                        string = capitalize(user) + ' published an entry of <a id="show" hash="' + realPath + '" viewonly="true">' + path + '</a>';
+                        string = capitalize(user) + ' published an entry of <a id="compare" old="' + original + '" new="' + hash + '" author="' + user + '" path="' + realPath + '" time="' + timestamp + '">' + path + '</a>';
                      break;
                   }
 

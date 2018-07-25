@@ -190,6 +190,10 @@ function headerify(path) {
       path[x] = capitalize(path[x]);
    }
 
+   if (path[0] != 'Root') {
+      path[0] = 'Root';
+   }
+
    path = path.join(' / ');
    return path;
 }

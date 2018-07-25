@@ -42,11 +42,7 @@ class Tracker {
                fileData = content[fileName];
                filePath = fileData.path;
                subKeys = Object.keys(fileData);
-
-               var realPath = filePath.split('/');
-               realPath[0] = base;
-               realPath = realPath.join('/');
-
+               
                // SLICE ONLY FILE FROM PATH
                var suffix = filePath.split('/').pop();
 
@@ -70,12 +66,7 @@ class Tracker {
 
                   // GENERATE HEADER
                   header = `
-                     <tr><td><div id="header">
-                        <table><tbody><tr>
-                           <td>` + headerify(filePath) + `</td>
-                           <td><a id="show" hash="` + realPath + `" viewonly="true">` + fileName + `</a></td>
-                        </tr></tbody></table>
-                     </div></td></tr>
+                     <tr><td><div id="header">` + headerify(filePath) + `</div></td></tr>
                   `;
 
                   // CONCAT TO PARENT
@@ -88,7 +79,10 @@ class Tracker {
                      // FILTER OUT PATH PROPERTY
                      if (user != 'path') {
                         hash = fileData[user].hash;
+
+                        // FORMAT TIMESTAMP
                         timestamp = fileData[user].timestamp;
+                        timestamp = moment.unix(timestamp).format('D/MM @ HH:mm');
 
                         // GENERATE ROW
                         row = `
@@ -101,12 +95,12 @@ class Tracker {
                                  <hr>
                                  <table><tbody><tr>
                                     <td>Hash Location:</td>
-                                    <td><a id="show" hash="` + hash + `" viewonly="true">` + hash + `</a></td>
+                                    <td><a id="compare" old="` + fileName + `" new="` + hash + `" author="` + user + `" path="` + filePath + `" time="` + timestamp + `">` + hash + `</a></td>
                                  </tr></tbody></table>
                                  <hr>
                                  <table><tbody><tr>
                                     <td>Submitted:</td>
-                                    <td>` + moment.unix(timestamp).format('D/MM @ HH:mm') + `</td>
+                                    <td>` + timestamp + `</td>
                                  </tr></tbody></table>
                               </div>
                            </td></tr>

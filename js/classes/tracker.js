@@ -93,7 +93,7 @@ class Tracker {
                         // GENERATE ROW
                         row = `
                            <tr><td>
-                              <div id="gray">
+                              <div id="gray" class="selected">
                                  <table><tbody><tr>
                                     <td>Author:</td>
                                     <td>` + capitalize(user) + `</td>

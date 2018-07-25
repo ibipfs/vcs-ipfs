@@ -115,7 +115,6 @@ pre, code {
 
 #prompt-header {
    background: url('img/inner-bg.png');
-   border-radius: 4px;
 }
 
 #prompt-header #item {
@@ -152,7 +151,6 @@ hr {
    display: inline-block;
    color: #F1F1F1;
    padding: 6px 10px;
-   border-radius: 4px;
    cursor: pointer;
 }
 
@@ -234,12 +232,15 @@ hr {
    margin-bottom: 5px;
 }
 
+#tracker-inner table .selected {
+   border-left: 10px solid #B5D0C6;
+}
+
 #files table tr#current td div, #tracker-inner table #header {
    background: url('img/caution.png');
    border-bottom: 1px solid #dada8b;
    padding: 10px;
 }
-
 
 #tracker-inner table #header {
    background: url('img/blue-bg.png');

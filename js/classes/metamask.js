@@ -4,24 +4,24 @@ class Metamask {
    constructor() {
 
       // MEMBER WHITELIST & NAMELIST
-      // this.whitelist = ['0xff1a307aac98697cb5112be45a1004dc42225c37', '0xe538a4c47efdf9aec5334365f1bc58b8319e24d9'];
-      // this.namelist = ['wickstjo', 'mydude'];
+      this.whitelist = ['0xff1a307aac98697cb5112be45a1004dc42225c37', '0xe538a4c47efdf9aec5334365f1bc58b8319e24d9'];
+      this.namelist = ['wickstjo', 'mydude'];
 
-      // // MEMBERSINFO OBJECT
-      // this.memberInfo = {
-      //    "0xff1a307aac98697cb5112be45a1004dc42225c37": {
-      //       name: "wickstjo",
-      //       timestamp: 1530321302
-      //    },
+      // MEMBERSINFO OBJECT
+      this.memberInfo = {
+         "0xff1a307aac98697cb5112be45a1004dc42225c37": {
+            name: "wickstjo",
+            timestamp: 1530321302
+         },
          
-      //    "0xe538a4c47efdf9aec5334365f1bc58b8319e24d9": {
-      //       name: "mydude",
-      //       timestamp: 1530324655
-      //    },
-      // }
+         "0xe538a4c47efdf9aec5334365f1bc58b8319e24d9": {
+            name: "mydude",
+            timestamp: 1530324655
+         },
+      }
 
       // MEMBER WHITELIST & NAMELIST
-      this.whitelist = ['0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
+      /* this.whitelist = ['0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
       this.namelist = ['wickstjo', 'mydude'];
    
       // MEMBERSINFO OBJECT
@@ -35,7 +35,7 @@ class Metamask {
             name: "mydude",
             timestamp: 1530324655
          },
-      }
+      } */
    }
 
    // INIT METHOD

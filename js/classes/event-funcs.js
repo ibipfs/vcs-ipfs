@@ -52,7 +52,7 @@ function saveCache() {
    // MAKE SURE SOMETHING IS CACHED
    if (cache != undefined && metamask.isLogged) {
 
-      var value = 'I LOVE MEMES';
+      var value = window.editor.getValue();
       var split = cache.split('-');
 
       // SAVE TO CACHE

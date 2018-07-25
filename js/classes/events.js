@@ -145,13 +145,29 @@ $('body').on('click', 'a#show', (target) => {
          // FETCH MONACO EDITOR MODULE
          var monaco = require('@timkendrick/monaco-editor');
          
-         monaco.editor.create(document.getElementById('prompt-inner'), {
-            value: beautify(content, type),
-            language: findLang(type),
-            minimap: {
-               enabled: false
-            }
-         });
+         // VIEW ONLY SET
+         if (viewOnly == undefined) {
+
+            window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+               value: beautify(content, type),
+               language: findLang(type),
+               minimap: {
+                  enabled: false
+               }
+            });
+
+         } else {
+         
+            window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+               value: beautify(content, type),
+               language: findLang(type),
+               minimap: {
+                  enabled: false
+               },
+               readOnly: true
+            });
+
+         }
 
          $("#prompt-space").css('opacity', '1');
       });
@@ -185,9 +201,7 @@ $('body').on('click', 'a#show', (target) => {
                            </div>
                         </div>
 
-                        <div id="prompt-inner">
-                           <pre><code class="` + type + `">` + beautify(content, type) + `</code></pre>
-                        </div>
+                        <div id="prompt-inner"></div>
                      </div>
                   </td>
                </tr>
@@ -197,9 +211,16 @@ $('body').on('click', 'a#show', (target) => {
          // PREPEND TO BODY
          $('#prompt-space').prepend(selector);
 
-         // CODE HIGHLIGHTING
-         $('pre code').each(function(i, block) {
-            hljs.highlightBlock(block);
+         // FETCH MONACO EDITOR MODULE
+         var monaco = require('@timkendrick/monaco-editor');
+         
+         window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+            value: content,
+            language: 'javascript',
+            minimap: {
+               enabled: false
+            },
+            readOnly: true
          });
 
          $("#prompt-space").css('opacity', '1');

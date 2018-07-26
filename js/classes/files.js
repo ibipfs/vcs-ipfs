@@ -1,9 +1,11 @@
 class Files {
 
-   constructor(_hash) {
+   constructor(_hash, _version, _date) {
 
       // SAVE REQUESTED HASH
       this.hash = _hash;
+      this.version = _version;
+      this.date = _date;
 
       // SPLIT PATH
       var pathing = _hash.split('/');
@@ -137,7 +139,9 @@ class Files {
 
    // RENDER FOOTER
    footer() {
-      var link = 'Root: <a href="https://ipfs.io/ipfs/' + this.hash + '" target="_blank">' + this.hash + '</a>';
+      var link = `
+         <a href="https://ipfs.io/ipfs/` + this.hash + `" target="_blank">Version ` + this.version + ` was released on ` + this.date + `</a>
+      `;
       
       // FADE IN
       fadeIn('footer', link);

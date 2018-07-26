@@ -57,6 +57,7 @@ class Actions {
                   // MEDIUM
                   case 'medium':
                      new_name = old_name + 0.1;
+                     new_name = new_name.toFixed(1);
                   break;
 
                   // LARGE
@@ -72,6 +73,7 @@ class Actions {
                   // SMALL & FALLBACK
                   default:
                      new_name = old_name + 0.01;
+                     new_name = new_name.toFixed(2);
                   break;
                }
 

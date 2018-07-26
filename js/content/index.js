@@ -17,6 +17,9 @@ function render() {
    // FETCH EVENTS MODULE
    require('../classes/events.js');
 
+   // FETCH MOMENT MODULE
+   var moment = require('moment');
+
    // FETCH & INSTANCIATE MUTABLE MODULE
    var Mutable = require('../classes/mutable.js');
    var mutable = new Mutable();
@@ -27,11 +30,8 @@ function render() {
       // PARSE HISTORY
       history = JSON.parse(history);
 
-      // FETCH HASH OF LATEST RELEASE
-      var base = history.current.hash
-
       // RENDER CONTENT
-      var files = new Files(base);
+      var files = new Files(history.current.hash, history.current.name, moment.unix(history.current.timestamp).format('D/MM @ HH:mm'));
       files.body();
       files.footer();
    });

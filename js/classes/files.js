@@ -140,7 +140,7 @@ class Files {
    // RENDER FOOTER
    footer() {
       var link = `
-         <a href="https://ipfs.io/ipfs/` + this.hash + `" target="_blank">Version ` + this.version + ` was released on ` + this.date + `</a>
+         <a href="https://ipfs.io/ipfs/` + this.hash + `" target="_blank">Version ` + this.version + ` &nbsp;&ndash;&nbsp; ` + this.date + `</a>
       `;
       
       // FADE IN

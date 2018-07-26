@@ -1,4 +1,5 @@
 var funcs = require('../classes/event-funcs.js');
+var Mutable = require('../classes/mutable.js');
 
 // HIDE PROMPT ON ESC
 $(document).on('keyup',function(evt) {
@@ -45,21 +46,67 @@ $('body').on('click', 'a#show', (target) => {
    // FILE PATH
    var path = $(target).attr('hash');
 
-      // REFS
-      var split = path.split('/');
-      var file = split.pop();
-      var dir = split.join('/');
-      
-      // GENERATE PROMISES
-      var first = promisify('file', path);
-      var second = promisify('dir', dir);
+   // REFS
+   var split = path.split('/');
+   var file = split.pop();
+   var dir = split.join('/');
+   
+   // FETCH MUTABLE MODULE
+   var mutable = new Mutable();
 
-      // AFTER BOTH PROMISES ARE RESOLVED
-      Promise.all([first, second]).then(function(values) {
+   // GENERATE PROMISES
+   var first = promisify('file', path);
+   var second = promisify('dir', dir);
+   var third = mutable.read('tracker.json');
 
-         // FILE PROPS
-         var content = values[0].toString('utf8');
-         var info = fetchData(values[1], file);
+   // AFTER BOTH PROMISES ARE RESOLVED
+   Promise.all([first, second, third]).then(function(values) {
+
+      // PARSE TRACKER
+      var tracker = JSON.parse(values[2]);
+
+      // IS SOMEONE LOGGED INTO METAMASK
+      var whois = $('#metamask').attr('whois');
+
+      // FILE INFO
+      var info = fetchData(values[1], file);
+      var content = '';
+
+      promisify('file', info.hash).then((tracker_content) => {
+
+         // POTENTIAL CACHE NAME
+         var cacheName = info.hash + '-' + whois;
+         
+         // IF CACHED VERSION DOES NOT EXIST
+         if (localStorage.getItem(cacheName) == undefined) {
+
+            // POTENTIAL TRACKER DATA
+            var check = tracker[info.hash];
+
+            if (check != undefined) {
+               check = check[whois];
+            }
+
+            // IF TRACKER HAS NO RELEVANT ENTRIES
+            if (check == undefined) {
+
+               // FALLBACK TO DEFAULT FILE CONTENT
+               log('From File!');
+               content = values[0].toString('utf8');
+               
+            // IF UPLOAD IS FOUND IN TRACKER
+            } else {
+
+               log('From Tracker!');
+               content = tracker_content;
+            }
+
+         // IF CACHE EXISTS, USE IT
+         } else {
+
+            log('From Cache!');
+            content = localStorage.getItem(cacheName);
+         }
 
          // FIGURE OUT FILE TYPE
          var type = info.name.split('.');
@@ -162,6 +209,7 @@ $('body').on('click', 'a#show', (target) => {
 
          $("#prompt-space").css('opacity', '1');
       });
+   });
 });
 
 // OPEN DIRECTORY

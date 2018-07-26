@@ -9,9 +9,7 @@ function render() {
       </div>
    `;
 
-   var container = `
-      <div id="container"></div>
-   `;
+   var container = '<div id="container"></div>';
 
    // RENDER THEM IN
    $('#content-body').html(filter + container);

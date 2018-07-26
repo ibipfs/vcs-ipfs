@@ -1,104 +1,98 @@
 var Buffer = require('buffer/').Buffer
-
 var Mutable = require('./mutable.js');
-var mutable = new Mutable();
 
 class Actions {
 
-   release() {
-      var fileArray = [];
+   constructor() {
+      this.mutable = new Mutable();
+   }
+
+   release(significance) {
+      var mutable = this.mutable;
+      significance = significance.toLowerCase();
    
       // READ FROM HISTORY LOG
       mutable.read('history.json').then((history) => {
-         
-         // PARSE HISTORY
+
+         // PARSE STRING TO OBJ
          history = JSON.parse(history);
-   
-         // FETCH HASH OF LATEST RELEASE
-         var base = history.current.hash;
-   
-         // READ FROM TRACKER LOG
-         mutable.read('tracker.json').then((tracker) => {
-   
-            // PARSE TRACKER
-            tracker = JSON.parse(tracker);
-   
-            // TRACKER KEYS
-            var keys = Object.keys(tracker);
-            var toChange = [];
-            var hashList = [];
-   
-            // MAKE ARRAY OF FILES THAT NEED TO BE EDITED
-            for (var y = 0; y < keys.length; y++) {
-   
-               // CHANGE ELEM1 FROM ROOT TO ACTUAL BASE
-               var data = tracker[keys[y]].path;
-               data = data.split('/');
-               data[0] = base;
-               data = data.join('/');
-   
-               // PUSH TO CHANGE ARRAY
-               toChange.push(data.toLowerCase());
-               hashList.push(tracker[keys[y]]['wickstjo'].hash);
-            }
-   
-            var promiseList = [];
-   
-            for (var a = 0; a < hashList.length; a++) {
-               var p = promisify('raw', hashList[a]);
-               promiseList.push(p);
-            }
-   
-            // WAIT FOR ALL PROMISES TO BE RESOLVED
-            Promise.all(promiseList).then(function(values) {
-               var kvList = {};
-   
-               for (var b = 0; b < toChange.length; b++) {
-                  kvList[toChange[b]] = values[b];
-               }
-   
-               log(kvList);
-   
-               promisify('get', base).then((result) => {
-   
-                  var keys = Object.keys(result);
-   
-                  for (var x = 0; x < keys.length; x++) {
-                     var instance = result[keys[x]];
-                     var obj = {};
 
-                     // CHECK IF TARGET IS A FILE
-                     if (instance.content != undefined) {
-   
-                        // CHECK IF FILE IS IN ARRAY
-                        var check = $.inArray(instance.path.toLowerCase(), toChange);
-   
-                        // IF IT EXISTS
-                        if (check != -1) {
-                           log(instance.path + ' needs to change!');
-                        }
+         // FETCH CONTENT OF CURRENT VERSION
+         promisify('get', history.current.hash).then((content) => {
+            
+            // ASSIST VARS
+            var files = [];
+            var obj = {};
 
-                        var c = instance.content.toString('utf8');
+            // LOOP THROUGH EACH ENTRY
+            content.forEach(entry => {
 
-                        // BUILD OBJECT
-                        obj = {
-                           path: instance.path,
-                           content: Buffer.from(c)
-                        }
-   
-                        // PUSH OBJECT INTO GATHERING ARRAY
-                        fileArray.push(obj);
-                     }
+               // IF ENTRY IS A FILE
+               if (entry.content != undefined) {
+                  log('File found!');
+
+                  // GENERATE OBJECT FOR ENTRY
+                  obj = {
+                     path: entry.path,
+                     content: Buffer.from('asdaasd')
                   }
 
-                  // PUBLISH TO IPFS
-                  mutable.release(fileArray).then((response) => {
-                     log(response)
+                  // SAVE OBJECT INTO ARRAY
+                  files.push(obj);
+               }
+            });
 
-                     // FETCH HASH OF ROOT DIR
-                     var hash = response[response.length - 1].hash;
-                     log(hash)
-                  });
+            // ADD CONSTRUCTED DIR TO IPFS
+            mutable.release(files).then((response) => {
+
+               // FETCH ROOT DIR HASH
+               var root = response[response.length - 1].hash;
+
+               // ASSESS NEW NAME
+               var old_name = parseFloat(history.current.name);
+               var new_name = '';
+
+               switch(significance) {
+
+                  // MEDIUM
+                  case 'medium':
+                     new_name = old_name + 0.1;
+                  break;
+
+                  // LARGE
+                  case 'large':
+                     if (old_name % 1 != 0) { 
+                        new_name = Math.ceil(old_name);
+                     } else {
+                        new_name = old_name + 1;
+                        new_name = new_name.toFixed(1);
+                     }
+                  break;
+
+                  // SMALL & FALLBACK
+                  default:
+                     new_name = old_name + 0.01;
+                  break;
+               }
+
+               // CONVERT TO STRING
+               new_name = new_name.toString();
+
+               // MODIFY HISTORY LOG
+               history.old[history.current.name] = history.current;
+               history.current = {
+                  name: new_name,
+                  hash: root,
+                  timestamp: unixTime()
+               }
+
+               // STRINGIFY
+               history = JSON.stringify(history);
+
+               // ADD CHANGES TO HISTORY LOG
+               mutable.write('history.json', history).then(() => {
+                  log('Rewrote history!');
+
                });
             });
          });

@@ -146,12 +146,21 @@ hr {
    transition: .2s;
 }
 
-#save-cache, #remove-cache, #discard, #upload {
+#save-cache, #remove-cache, #discard, #upload, #action {
    background: url('img/success.png');
    display: inline-block;
    color: #F1F1F1;
    padding: 6px 10px;
    cursor: pointer;
+}
+
+#action {
+   color: #505050;
+   border: 1px solid #CECECE;
+   font: inherit;
+   margin-bottom: 5px;
+   width: 100%;
+   outline: none;
 }
 
 #save-cache:hover, #remove-cache:hover, #discard:hover, #upload:hover {
@@ -163,7 +172,7 @@ hr {
    border: 1px solid #5D8576;
 }
 
-#save-cache:hover {
+#save-cache:hover, #action:hover {
    background: url('img/save-cache-hover.png');
 }
 
@@ -410,4 +419,18 @@ ul {
 
 #menu li:first-child a {
    text-decoration: underline;
+}
+
+select {
+	font: inherit;
+	color: inherit;
+	background: url('img/caution.png');
+   margin: 0px;
+	padding: 7px;
+	border: 1px solid #CECECE;
+	width: 200px;
+	border-radius: 4px;
+   outline: none;
+   cursor: pointer;
+   -webkit-appearance: textfield;
 }

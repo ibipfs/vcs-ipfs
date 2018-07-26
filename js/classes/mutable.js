@@ -142,7 +142,7 @@ class Mutable {
             var historyDefault = {
                "current": {
                   "name": "1.0",
-                  "hash": "QmNzA1dw3WH7vgHA2k7PSPqknCYpphULWA2X2fdqscpUhY",
+                  "hash": "QmPXsVqEm1RYUNNR1SyGAq84hvTHCELX1Q3z8EyvWdjK8H",
                   "timestamp": unixTime()
                },
             
@@ -195,7 +195,7 @@ class Mutable {
    // RELEASE NEW VERSION
    release(fileArray) {
       return new Promise(function(resolve, reject) {
-         ipfs.files.add(fileArray, function (err, res) {
+         ipfs.files.add(fileArray, (err, res) => {
             if (err) {
                log(err);
             } else {

@@ -1,3 +1,6 @@
+var config = require('./config.js')();
+log(config)
+
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
 require('./content/index.js')();
 var current = 'files';

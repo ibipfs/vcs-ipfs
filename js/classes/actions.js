@@ -60,11 +60,9 @@ class Actions {
 
                // WAIT FOR ALL PROMISES TO BE RESOLVED
                Promise.all(content_promises).then((edited_values) => {
-                  log(edited_values);
 
                   // ASSIST VARS
                   var files = [];
-                  var obj = {};
 
                   // LOOP THROUGH EACH ENTRY
                   content.forEach(entry => {
@@ -74,31 +72,34 @@ class Actions {
                         
                         // CHECK IF MATCH IS FOUND
                         var indexCheck = $.inArray(entry.path.toLowerCase(), edited_names);
-                        var content = '';
+                        var foo = '';
 
-                        // MATCH FOUND
+                        // // MATCH FOUND
                         if (indexCheck != -1) {
                            log(entry.path + ' needs to be edited!');
 
                            // FIX CASE SENSITIVE ISSUES
                            if (entry.path != edited_names[indexCheck]) {
-                              edited_names[indexCheck] = entry.pathM
+                              edited_names[indexCheck] = entry.path;
                            }
 
                            // REWRITE FILE
-                           content = edited_values[indexCheck];
+                           foo = 'edited';
+                           // foo = edited_values[indexCheck];
 
                         // FALLBACK
                         } else {
 
                            // KEEP OLD CONTENT
-                           content = entry.content;
+                           foo = 'default';
+                           // foo = entry.content;
+                           // foo = foo.toString('utf8');
                         }
 
                         // GENERATE OBJECT FOR ENTRY
-                        obj = {
+                        var obj = {
                            path: entry.path,
-                           content: Buffer.from(content)
+                           content: Buffer.from(foo)
                         }
 
                         // SAVE OBJECT INTO ARRAY
@@ -106,8 +107,11 @@ class Actions {
                      }
                   });
 
+                  log(files);
+
                   // ADD CONSTRUCTED DIR TO IPFS
                   mutable.release(files).then((response) => {
+                     log(response);
 
                      // FETCH ROOT DIR HASH
                      var root = response[response.length - 1].hash;

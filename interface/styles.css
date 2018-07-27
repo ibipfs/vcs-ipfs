@@ -246,7 +246,7 @@ hr {
 }
 
 #files table tr#current td div, #tracker-inner table #header {
-   background: url('img/caution.png');
+   background: url('img/caution-hover.png');
    border-bottom: 1px solid #dada8b;
    padding: 10px;
 }
@@ -344,7 +344,7 @@ hr {
 }
 
 #filter:placeholder-shown {
-   background: url('img/caution.png');
+   background: url('img/caution-hover.png');
    border-bottom: 1px solid #dada8b;
 }
 

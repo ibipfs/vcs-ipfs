@@ -136,6 +136,7 @@ function beautify(code, type) {
          code = vkbeautify.jsonmin(code);
          code = vkbeautify.json(code);
       break;
+      
    }
 
    return code;

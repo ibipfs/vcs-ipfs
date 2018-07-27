@@ -187,7 +187,7 @@ $('body').on('click', 'a#show', (target) => {
          if (metamask.isLogged) {
 
             window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-               value: beautify(content, type),
+               value: content,
                language: findLang(type),
                minimap: {
                   enabled: false
@@ -197,7 +197,7 @@ $('body').on('click', 'a#show', (target) => {
          } else {
          
             window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-               value: beautify(content, type),
+               value: content,
                language: findLang(type),
                minimap: {
                   enabled: false

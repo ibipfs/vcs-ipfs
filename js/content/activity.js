@@ -19,18 +19,18 @@ function render() {
    $('#content-body').html(filter + files);
 
    // FETCH MODULE
-   var Activities = require('../classes/activities.js');
+   var Sections = require('../classes/sections.js');
 
    // ACTIVITIES
-   var activities = new Activities();
-   activities.body();
+   var sections = new Sections();
+   sections.activities();
 
    // FILTER
-   $("#filter").on('keyup', function() {
+   $("#filter").on('keyup', () => {
       var query = $('#filter').val();
 
       // RENDER FILTERED LIST
-      activities.body(query);
+      sections.activities(query);
    });
 
 }

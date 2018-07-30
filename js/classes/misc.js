@@ -184,18 +184,29 @@ function fadeIn(selector, content, purge = false) {
 }
 
 // FORMAT FILE PATH
-function headerify(path) {
+function headerify(path, lowercase = false) {
    path = path.split('/');
 
-   for (var x = 0; x < path.length; x++) {
-      path[x] = capitalize(path[x]);
+   // SET FIRST KEY TO ROOT
+   path[0] = 'root';
+
+   // DEFAULT
+   if (lowercase == false) {
+         
+      for (var x = 0; x < path.length; x++) {
+         path[x] = capitalize(path[x]);
+      }
+
+      // WITH SPACES
+      path = path.join(' / ');
+
+   // IF LOWERCASE IS TRUE
+   } else {
+
+      // WITHOUT SPACES
+      path = path.join('/');
    }
 
-   if (path[0] != 'Root') {
-      path[0] = 'Root';
-   }
-
-   path = path.join(' / ');
    return path;
 }
 

@@ -15,18 +15,18 @@ function render() {
    $('#content-body').html(filter + container);
 
    // FETCH MODULE
-   var Tracker = require('../classes/tracker.js');
+   var Sections = require('../classes/sections.js');
 
    // TRACKER
-   var tracker = new Tracker();
-   tracker.body();
+   var sections = new Sections();
+   sections.tracker();
 
    // FILTER
-   $("#filter").on('keyup', function() {
+   $("#filter").on('keyup', () => {
       var query = $('#filter').val();
 
       // RENDER FILTERED LIST
-      tracker.body(query);
+      sections.tracker(query);
    });
 }
 

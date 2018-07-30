@@ -4,6 +4,131 @@ class Sections {
    constructor() {
       this.config = require('../config.js')();
       this.moment = require('moment');
+
+      var Immutable = require('./immutable.js');
+      this.immutable = new Immutable();
+   }
+
+   // FILES
+   files (query = '') {
+      this.config.then((config) => {
+
+         // SHORTHAND
+         var immutable = this.immutable;
+
+         // PLACEHOLDERS
+         var dir = '';
+         var back_button = false;
+         var parent = '';
+
+         // IF NOTHING IS REQUESTED, OPEN ROOT HASH & DISABLE BACK BUTTON
+         if (query == '') {
+            dir = config.history.current.hash;
+         } else {
+            dir = query;
+            back_button = true;
+            parent = dir.split('/').pop().join('/');
+         }
+
+         // OPEN DIRECTORY
+         immutable.dir(dir).then((content) => {
+
+            // ALL ENTRY ROWS
+            var rows = '';
+
+            // GENERATE HEADER
+            var header = `
+               <tr id="current">
+                  <td><div>
+                     <table><tr>
+                        <td id="location">` + headerify(dir) + `</td>
+                     </tr></table>
+                  </div></td>
+               </tr>
+            `;
+
+            // CONCAT HEADER TO ROWS
+            rows += header;
+
+            // LOOP THROUGH ONCE
+            content.forEach((entry) => {
+               
+               // IF ENTRY IS A DIRECTORY
+               if (entry.type == 'dir') {
+
+                  // GENERATE ROW
+                  var row = `
+                     <tr id="header">
+                        <td><a id="open" hash="` + entry.path + `"><div>
+                           <table><tr>
+                              <td>` + entry.name + `/</td>
+                              <td>` + entry.hash + `</td>
+                           </tr></table>
+                        </div></a></td>
+                     </tr>
+                  `;
+
+                  // APPEND ROW TO ROWS
+                  rows += row;
+
+               }
+               
+            });
+
+            // THEN LOOP AGAIN
+            content.forEach((entry) => {
+               
+               // IF ENTRY IS A FILE
+               if (entry.type == 'file') {
+
+                  // GENERATE ROW
+                  var row = `
+                     <tr id="content">
+                        <td><a id="show" hash="` + entry.path + `"><div>
+                           <table><tr>
+                              <td>` + item.name + `</td>
+                              <td>` + entry.hash + `</td>
+                           </tr></table>
+                        </div></a></td>
+                     </tr>
+                  `;
+
+                  // APPEND ROW TO ROWS
+                  rows += row;
+
+               }
+               
+            });
+
+            // ADD BACK BUTTON IF NOT IN ROOT
+            if (back_button == true) {
+               var go_back = `
+                  <tr id="back">
+                     <td><a id="open" hash="` + parent + `"><div>
+                        <table><tr>
+                           <td>Back</td>
+                        </tr></table>
+                     </div></a></td>
+                  </tr>
+               `;
+
+               rows += go_back;
+            }
+
+            // CONSTRUCT FULL TABLE
+            var table = '<table>' + rows + '</table>';
+
+            // GENERATE FOOTER
+            var footer = `
+               <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.history.current.name + ` &nbsp;&ndash;&nbsp; ` + this.moment.unix(config.history.current.timestamp).format('D/MM @ HH:mm') + `</a>
+            `;
+
+            // FADE IN BOTH
+            fadeIn('files', table);
+            fadeIn('footer', footer);
+         });
+
+      });
    }
 
    // ACTIVITIES

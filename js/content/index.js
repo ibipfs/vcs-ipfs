@@ -17,24 +17,12 @@ function render() {
    // FETCH EVENTS MODULE
    require('../classes/events.js');
 
-   // FETCH MOMENT MODULE
-   var moment = require('moment');
+   // FETCH MODULE
+   var Sections = require('../classes/sections.js');
 
-   // FETCH & INSTANCIATE MUTABLE MODULE
-   var Mutable = require('../classes/mutable.js');
-   var mutable = new Mutable();
-
-   // FETCH HASH OF LATEST RELEASE
-   mutable.read('history.json').then((history) => {
-      
-      // PARSE HISTORY
-      history = JSON.parse(history);
-
-      // RENDER CONTENT
-      var files = new Files(history.current.hash, history.current.name, moment.unix(history.current.timestamp).format('D/MM @ HH:mm'));
-      files.body();
-      files.footer();
-   });
+   // FILES
+   var sections = new Sections();
+   sections.files();
 }
 
 // EXPORT MODULE

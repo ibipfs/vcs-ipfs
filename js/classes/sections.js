@@ -70,7 +70,6 @@ class Sections {
 
                   // APPEND ROW TO ROWS
                   rows += row;
-
                }
                
             });
@@ -86,7 +85,7 @@ class Sections {
                      <tr id="content">
                         <td><a id="show" hash="` + entry.path + `"><div>
                            <table><tr>
-                              <td>` + item.name + `</td>
+                              <td>` + entry.name + `</td>
                               <td>` + entry.hash + `</td>
                            </tr></table>
                         </div></a></td>

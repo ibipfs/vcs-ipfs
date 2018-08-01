@@ -56,9 +56,51 @@ function build() {
          }
       }
 
+      metamask_css(config.metamask);
+
       // RETURN CONFIG
       return config;
    });
+}
+
+// CHANGE CSS OF METAMASK BLOCK
+function metamask_css(metamask) {
+
+   // PLACEHOLDERS
+   var text;
+   var bg;
+   var border;
+
+   // CHECK FOR SESSION
+   if (metamask.session == true) {
+
+      // CHECK WHITELIST
+      if (metamask.name != null) {
+
+         text = 'MetaMask Connected - ' + metamask.name;
+         bg = 'success';
+         border = '#B5D0C6';
+
+      } else {
+
+         text = 'MetaMask Found - Unknown User';
+         bg = 'caution';
+         border = '#dada8b';
+
+      }
+
+   // NO SESSION FOUND
+   } else {
+
+      text = 'MetaMask Session Not Found';
+      bg = 'error';
+      border = '#CCAAAA';
+   }
+
+   // FINALLY RENDER APPROPRIATELY
+   $('#metamask').text(text);
+   $('#metamask').css('background', "url('interface/img/" + bg + ".png')");
+   $('#metamask').css('border', 'thin solid' + border);
 }
 
 // EXPORT FUNCTION

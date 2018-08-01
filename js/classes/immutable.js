@@ -31,6 +31,19 @@ class Immutable {
          resolve(content);
       });
    }
+
+   // ANALYZE METAMASK DATA VIA WEB3
+   metamask() {
+      return new Promise(function(resolve, reject) {
+         web3.eth.getAccounts((err, result) => {
+            if (err) {
+               log('MetaMask Error: ' + err)
+            } else {
+               resolve(result);
+            }
+         });
+      });
+   }
 }
 
 // EXPORT CLASS

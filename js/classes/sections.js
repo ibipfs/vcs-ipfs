@@ -19,15 +19,14 @@ class Sections {
          // PLACEHOLDERS
          var dir = '';
          var back_button = false;
-         var parent = '';
 
          // IF NOTHING IS REQUESTED, OPEN ROOT HASH & DISABLE BACK BUTTON
-         if (query == '') {
+         if (query == '' || query == config.history.current.hash) {
             dir = config.history.current.hash;
+            back_button = false;
          } else {
             dir = query;
             back_button = true;
-            parent = dir.split('/').pop().join('/');
          }
 
          // OPEN DIRECTORY
@@ -101,6 +100,11 @@ class Sections {
 
             // ADD BACK BUTTON IF NOT IN ROOT
             if (back_button == true) {
+
+               var parent = query.split('/');
+               parent.pop();
+               parent = parent.join('/');
+
                var go_back = `
                   <tr id="back">
                      <td><a id="open" hash="` + parent + `"><div>

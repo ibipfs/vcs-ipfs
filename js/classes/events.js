@@ -183,28 +183,18 @@ $('body').on('click', 'a#show', (target) => {
          // FETCH MONACO EDITOR MODULE
          var monaco = require('@timkendrick/monaco-editor');
          
-         // CHECK IF READ ONLY NEEDS TO BE SET
-         if (metamask.isLogged) {
+         // GENERATE EDITOR
+         window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+            value: content,
+            language: findLang(type),
+            minimap: {
+               enabled: false
+            }
+         });
 
-            window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-               value: content,
-               language: findLang(type),
-               minimap: {
-                  enabled: false
-               }
-            });
-
-         } else {
-         
-            window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-               value: content,
-               language: findLang(type),
-               minimap: {
-                  enabled: false
-               },
-               readOnly: true
-            });
-
+         // SET EDITOR TO READ ONLY IF USER IS NOT SUCCESSFULLY LOGGED IN
+         if (metamask.isLogged == false) {
+            window.editor.readOnly = true
          }
 
          $("#prompt-space").css('opacity', '1');
@@ -222,8 +212,10 @@ $('body').on('click', 'a#open', (target) => {
    var hash = $(target).attr('hash');
 
    // RENDER NEW CONTENT
-   var files = new Files(hash);
-   files.body();
+   var Sections = require('./sections.js');
+   var sections = new Sections();
+
+   sections.files(hash);
 });
 
 // SAVE FILE RENDITION TO CACHE

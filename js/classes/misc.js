@@ -63,12 +63,12 @@ function sleep (time) {
 }
 
 // FETCH SPECIFIC INFO FROM DIR OBJECT
-function fetchData(obj, fileName) {
+function fetch_data(obj, filename) {
    var keys = Object.keys(obj);
    var data = {};
 
    keys.forEach((key) => {
-      if (obj[key].name == fileName) {
+      if (obj[key].name == filename) {
          data = obj[key];
       }
    });

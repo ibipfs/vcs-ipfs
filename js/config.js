@@ -56,6 +56,7 @@ function build() {
          }
       }
 
+      // CHANGE CSS BASED ON METAMASK PROPS
       metamask_css(config.metamask);
 
       // RETURN CONFIG

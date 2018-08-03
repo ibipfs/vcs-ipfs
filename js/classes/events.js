@@ -1,5 +1,6 @@
 var funcs = require('../classes/event-funcs.js');
-var Mutable = require('../classes/mutable.js');
+var Immutable = require('../classes/immutable.js');
+var config = require('../config.js')();
 
 // HIDE PROMPT ON ESC
 $(document).on('keyup',function(evt) {
@@ -46,159 +47,123 @@ $('body').on('click', 'a#show', (target) => {
    // FILE PATH
    var path = $(target).attr('hash');
 
-   // REFS
+   // PARENT   
    var split = path.split('/');
-   var file = split.pop();
+   var filename = split.pop();
    var dir = split.join('/');
    
-   // FETCH MUTABLE MODULE
-   var mutable = new Mutable();
+   // FIGURE OUT FILE TYPE FOR BEAUTIFY PARSING
+   var type = filename.split('.');
+   type = type.pop();
+
+   // FETCH MODULE
+   var immutable = new Immutable();
 
    // GENERATE PROMISES
-   var first = promisify('file', path);
-   var second = promisify('dir', dir);
-   var third = mutable.read('tracker.json');
+   var first = immutable.file(path);
+   var second = immutable.dir(dir);
 
-   // AFTER BOTH PROMISES ARE RESOLVED
-   Promise.all([first, second, third]).then(function(values) {
+   // WAIT FOR FILE DATA & CONFIG PROMISES TO BE RESOLVED
+   Promise.all([first, second, config]).then((values) => {
+      
+      // ASSIGN RESOLVED VALUES
+      var file_content = values[0];
+      var file_data = fetch_data(values[1], filename);
+      var config = values[2];
 
-      // PARSE TRACKER
-      var tracker = JSON.parse(values[2]);
+      // LOOK FOR LEGIT METAMASK SESSION
+      if (config.rights == true) {
 
-      // IS SOMEONE LOGGED INTO METAMASK
-      var whois = $('#metamask').attr('whois');
+         // FETCH CACHE DATA
+         var cache_name = config.history.current.name + '-' + file_data.hash + '-' + config.metamask.name;
+         var cache = localStorage.getItem(cache_name);
 
-      // FILE INFO
-      var info = fetchData(values[1], file);
-      var content = '';
-
-      promisify('file', info.hash).then((tracker_content) => {
-
-         // POTENTIAL CACHE NAME
-         var cacheName = info.hash + '-' + whois;
-         
-         // IF CACHED VERSION DOES NOT EXIST
-         if (localStorage.getItem(cacheName) == undefined) {
-
-            // POTENTIAL TRACKER DATA
-            var check = tracker[info.hash];
-
-            if (check != undefined) {
-               check = check[whois];
-            }
-
-            // IF TRACKER HAS NO RELEVANT ENTRIES
-            if (check == undefined) {
-
-               // FALLBACK TO DEFAULT FILE CONTENT
-               log('From File!');
-               content = values[0].toString('utf8');
-               
-            // IF UPLOAD IS FOUND IN TRACKER
-            } else {
-
-               log('From Tracker!');
-               content = tracker_content;
-            }
-
-         // IF CACHE EXISTS, USE IT
-         } else {
-
-            log('From Cache!');
-            content = localStorage.getItem(cacheName);
+         // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT
+         if (cache != null) {
+            file_content = cache;
          }
+      }
 
-         // FIGURE OUT FILE TYPE
-         var type = info.name.split('.');
-         type = type[type.length - 1];
+      // GENERATE TABLE
+      var selector = `
+         <table id="prompt">
+            <tr>
+               <td>
+                  <div id="prompt-outer">
 
-         // FORMAT PATH TO BE MORE AESTHETIC
-         var location = info.path.split('/');
-         location[0] = 'root';
-         location = location.join('/');
-         location = headerify(location);
+                     <div id="prompt-header">
+                        <div id="item">
 
-         // GENERATE TABLE
-         var selector = `
-            <table id="prompt">
-               <tr>
-                  <td>
-                     <div id="prompt-outer">
+                           <table>
+                              <tr>
+                                 <td>Name/Path:</td>
+                                 <td id="path">` + headerify(path) + `</td>
+                              </tr>
+                           </table>
 
-                        <div id="prompt-header">
-                           <div id="item">
+                           <hr>
 
-                              <table>
-                                 <tr>
-                                    <td>Name/Path:</td>
-                                    <td id="path">` + location + `</td>
-                                 </tr>
-                              </table>
+                           <table>
+                              <tr>
+                                 <td>Direct Link:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + file_data.hash + `" target="_blank">` + file_data.hash + `</a></td>
+                              </tr>
+                           </table>
 
-                              <hr>
+                           <hr>
 
-                              <table>
-                                 <tr>
-                                    <td>Direct Link:</td>
-                                    <td><a href="http://ipfs.io/ipfs/` + info.hash + `" target="_blank">` + info.hash + `</a></td>
-                                 </tr>
-                              </table>
+                           <table>
+                              <tr>
+                                 <td>Size:</td>
+                                 <td>` + file_data.size / 1000 + ` KB</td>
+                              </tr>
+                           </table>
 
-                              <hr>
-
-                              <table>
-                                 <tr>
-                                    <td>Size:</td>
-                                    <td>` + info.size / 1000 + ` KB</td>
-                                 </tr>
-                              </table>
-
-                           </div>
                         </div>
-
-                        <div id="prompt-inner"></div>
-         `;
-
-         // STITCH IN BUTTON ROW IF USER IS LOGGED
-         if (metamask.isLogged) {
-
-            // FETCH BUTTONS MODULE
-            var buttons = new Buttons(info.hash);
-
-            // RENDER BUTTON ROW
-            selector += buttons.render();
-         }
-
-         // STITCH IN END OF SELECTORS
-         selector += `
                      </div>
-                  </td>
-               </tr>
-            </table>
-         `;
 
-         // PREPEND TO BODY
-         $('#prompt-space').prepend(selector);
+                     <div id="prompt-inner"></div>
+      `;
 
-         // FETCH MONACO EDITOR MODULE
-         var monaco = require('@timkendrick/monaco-editor');
-         
-         // GENERATE EDITOR
-         window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-            value: content,
-            language: findLang(type),
-            minimap: {
-               enabled: false
-            }
-         });
+      // STITCH IN BUTTON ROW IF USER IS LOGGED
+      if (config.rights == true) {
 
-         // SET EDITOR TO READ ONLY IF USER IS NOT SUCCESSFULLY LOGGED IN
-         if (metamask.isLogged == false) {
-            window.editor.readOnly = true
+         // FETCH BUTTONS MODULE
+         var buttons = new Buttons(file_data.hash);
+
+         // RENDER BUTTON ROW
+         selector += buttons.render();
+      }
+
+      // STITCH IN END OF SELECTORS
+      selector += `
+                  </div>
+               </td>
+            </tr>
+         </table>
+      `;
+
+      // PREPEND TO BODY
+      $('#prompt-space').prepend(selector);
+
+      // FETCH MONACO EDITOR MODULE
+      var monaco = require('@timkendrick/monaco-editor');
+      
+      // GENERATE EDITOR
+      window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+         value: file_content,
+         language: findLang(type),
+         minimap: {
+            enabled: false
          }
-
-         $("#prompt-space").css('opacity', '1');
       });
+
+      // SET EDITOR TO READ ONLY IF USER IS NOT SUCCESSFULLY LOGGED IN
+      if (config.rights != true) {
+         window.editor.readOnly = true
+      }
+
+      $("#prompt-space").css('opacity', '1');
    });
 });
 

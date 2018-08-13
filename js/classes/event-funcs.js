@@ -1,4 +1,5 @@
-var Mutable = require('./mutable.js')
+var Mutable = require('./mutable.js');
+var config = require('../config.js')();
 
 // CLOSE PROMPT WINDOW
 function closePrompt() {
@@ -24,7 +25,7 @@ function closePrompt() {
 }
 
 // TRANSITION PROMPT BUTTONS EVENTS
-function transitionButtons(_hash) {
+function transitionButtons(_version, _hash, _user) {
 
    // TURN OPACITY TO ZERO
    $('#left').css('opacity', '0');
@@ -34,7 +35,7 @@ function transitionButtons(_hash) {
    sleep(180).then(() => {
 
       // RECALIBRATE BUTTONS
-      var buttons = new Buttons(_hash);
+      var buttons = new Buttons(_version, _hash, _user);
       buttons.recalibrate();
 
       // TURN OPACITY TO MAX AGAIN
@@ -45,99 +46,108 @@ function transitionButtons(_hash) {
 
 // SAVE CACHE
 function saveCache() {
+   config.then((config) => {
 
-   // PICK UP CACHE ID & VALUE
-   var cache = $('#save-cache').attr('storage');
+      // PICK UP CACHE ID & VALUE
+      var cache = $('#save-cache').attr('storage');
 
-   // MAKE SURE SOMETHING IS CACHED
-   if (cache != undefined && metamask.isLogged) {
+      // MAKE SURE SOMETHING IS CACHED
+      if (cache != undefined && config.rights) {
 
-      var value = window.editor.getValue();
-      var split = cache.split('-');
+         var value = window.editor.getValue();
+         var split = cache.split('-');
 
-      // SAVE TO CACHE
-      localStorage.setItem(cache, value);
-      log('Cache Set.');
+         // SAVE TO CACHE
+         localStorage.setItem(cache, value);
+         log('Cache Set.');
 
-      // TRANSITION
-      transitionButtons(split[0]);
-   } else {
+         // TRANSITION
+         transitionButtons(split[0], split[1], split[2]);
+      } else {
 
-      // FALLBACK ERROR
-      log('Trying to save.')
-   }
+         // FALLBACK ERROR
+         log('Trying to save.')
+      }
+
+   });
 }
 
 // REMOVE CACHE
 function removeCache() {
+   config.then((config) => {
 
-   // PICK UP CACHE ID & VALUE
-   var cache = $('#remove-cache').attr('storage');
+      // PICK UP CACHE ID & VALUE
+      var cache = $('#remove-cache').attr('storage');
 
-   // MAKE SURE SOMETHING IS CACHED
-   if (cache != undefined && metamask.isLogged) {
-      var split = cache.split('-');
+      // MAKE SURE SOMETHING IS CACHED
+      if (cache != undefined && config.rights) {
+         var split = cache.split('-');
 
-      // SAVE TO CACHE
-      localStorage.removeItem(cache);
-      log('Cache Purged.')
+         // SAVE TO CACHE
+         localStorage.removeItem(cache);
+         log('Cache Purged.')
 
-      // TRANSITION
-      transitionButtons(split[0]);
-   
-   } else {
+         // TRANSITION
+         transitionButtons(split[0]);
+      
+      } else {
 
-      // FALLBACK ERROR
-      log('Nothing is cached.')
-   }
+         // FALLBACK ERROR
+         log('Nothing is cached.')
+      }
+
+   });
 }
 
 // UPLOAD
 function upload() {
+   config.then((config) => {
 
-   // PICK UP CACHE ID & VALUE
-   var cache = $('#save-cache').attr('storage');
-   var path = $('#path').text();
+      // PICK UP CACHE ID & VALUE
+      var cache = $('#save-cache').attr('storage');
+      var path = $('#path').text();
 
-   // FORMAT PATH
-   path = path.split(' / ');
-   path = path.join('/');
-   path = path.toLowerCase();
+      // FORMAT PATH
+      path = path.split(' / ');
+      path = path.join('/');
+      path = path.toLowerCase();
 
-   // MAKE SURE SOMETHING IS CACHED
-   if (cache != undefined && metamask.isLogged) {
-      var mutable = new Mutable();
+      // MAKE SURE SOMETHING IS CACHED
+      if (cache != undefined && config.rights) {
+         var mutable = new Mutable();
 
-      // ADD TO IPFS
-      mutable.add(cache).then((ret) => {
-         log('Added to IPFS.');
+         // ADD TO IPFS
+         mutable.add(cache).then((ret) => {
+            log('Added to IPFS.');
 
-         // NEW FILES HASH
-         var hash = ret["0"].hash;
-
-         // READ TRACKER FILE TO VAR
-         mutable.read('tracker.json').then((file) => {
+            // NEW FILES HASH
+            var hash = ret["0"].hash;
 
             // PARSE TRACKER FILE
-            var tracker = JSON.parse(file);
+            var tracker = config.tracker;
 
             // RELEVANT DATA
             var split = cache.split('-');
-            var original_file = split[0];
-            var user = split[1];
+            var version = split[0];
+            var original_file = split[1];
+            var user = split[2];
             var unix = unixTime();
 
-            // MAKE PROP FOR ORG FILE IF IT DOESNT EXIST
-            if (tracker[original_file] == undefined) {
-               tracker[original_file] = {};
-               tracker[original_file]['path'] = path;
-            };
+            // IF FILE PROP DOESNT EXIST, CREATE IT
+            if (tracker[version][original_file] == undefined) {
+               tracker[version][original_file] = {
+                  "selected": "mydude"
+               };
+            }
 
             // PUSH NEW USER ENTRY
-            tracker[original_file][user] = {
+            tracker[version][original_file][user] = {
                hash: hash,
                timestamp: unix
             }
+
+            // PUSH PATH FOR RENDERING PURPOSES
+            tracker[version][original_file]['path'] = path;
 
             // STRINGIFY AGAIN
             var tracker = JSON.stringify(tracker);
@@ -146,11 +156,8 @@ function upload() {
             mutable.write('tracker.json', tracker).then((a) => {
                log('Added entry to Tracker.')
 
-               // READ LOG FILE
-               mutable.read('log.json').then((file) => {
-
                   // PARSE LOG FILE
-                  var logz = JSON.parse(file);
+                  var logz = config.log;
                   var type = 'publish';
                   
                   // ADD ENTRY
@@ -170,14 +177,14 @@ function upload() {
                      log('Added entry to log.');
 
                   });
-               });
             });
          });
-      });
 
-   } else {
-      log('Tried to Upload.');
-   }
+      } else {
+         log('Tried to Upload.');
+      }
+
+   });
 }
 
 // EXPORT ALL FUNCTIONS

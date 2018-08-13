@@ -1,171 +1,112 @@
 var Buffer = require('buffer/').Buffer
 var Mutable = require('./mutable.js');
+var config = require('../config.js')();
 
 class Actions {
 
-   constructor() {
-      this.mutable = new Mutable();
-   }
-
    release(significance) {
-      var mutable = this.mutable;
-      significance = significance.toLowerCase();
-   
-      // READ FROM HISTORY LOG
-      mutable.read('history.json').then((history) => {
+      config.then((config) => {
 
-         // PARSE STRING TO OBJ
-         history = JSON.parse(history);
+         var mutable = new Mutable();
+         significance = significance.toLowerCase();
 
          // CURRENT ROOT DIR
-         var base = history.current.hash;
+         var base = config.history.current.hash;
 
          // FETCH CONTENT OF CURRENT VERSION
-         promisify('get', history.current.hash).then((content) => {
-            
-            // READ TRACKER
-            mutable.read('tracker.json').then((tracker) => {
-               tracker = JSON.parse(tracker);
+         promisify('get', base).then((content) => {
 
-               var trackerKeys = Object.keys(tracker);
-               var edited_names = [];
-               var edited_content = [];
+            // READ TRACKER FOR VERSION
+            var tracker = config.tracker[config.history.current.name];
+            var tracker_keys = Object.keys(tracker);
 
-               // LOOP THROUGH OBJECT
-               trackerKeys.forEach(entry => {
+            // REF ARRAYS "EDITED"
+            var edited_names = [];
+            var edited_content = [];
+
+            // LOOP THROUGH EACH KEY
+            tracker_keys.forEach(entry => {
+
+               // IF SELECTED PROP FOR SUBENTRY IS SET TO TRUE
+               if (tracker[entry].selected != undefined && tracker[entry].selected != '') {
 
                   // FORMAT PATH
                   var path = tracker[entry].path;
                   path = path.split('/');
                   path[0] = base;
                   path = path.join('/');
+                  path = path.toLowerCase()
+
+                  // PUSH INTO EDITED ARRAYS
+                  edited_names.push(path);
+                  edited_content.push(tracker[entry][tracker[entry].selected].hash);
+               }
+            });
+
+            // EDITED PROMISES
+            var edited_promises = [];
+
+            // LOOP THROUGH REF ARRAY
+            edited_content.forEach(entry => {
                   
-                  // PUSH INTO EDITED ARRAY
-                  edited_names.push(path.toLowerCase());                      // FORCE LOWERCASE
-                  edited_content.push(tracker[entry]['wickstjo'].hash);
-               });
+               // GENERATE PROMISE & PUSH
+               var promise = promisify('file', entry);
+               edited_promises.push(promise);
+            });
 
-               // CONTENT PROMISES
-               var content_promises = [];
+            // WAIT FOR ALL PROMISES TO BE RESOLVED
+            Promise.all(edited_promises).then((edited_values) => {
 
-               // CREATE PROMISE FOR FILE
-               edited_content.forEach(entry => {
-                  
-                  // GENERATE PROMISE
-                  var promise = promisify('file', entry);
+               // ARRAY FOR COMPLETED NEW DIR
+               var files = [];
 
-                  // PUSH INTO ARRAY
-                  content_promises.push(promise);
-               });
+               // LOOP THROUGH EACH ORIGINAL FILE
+               content.forEach(entry => {
 
-               // WAIT FOR ALL PROMISES TO BE RESOLVED
-               Promise.all(content_promises).then((edited_values) => {
+                  // IF ENTRY IS A FILE
+                  if (entry.content != undefined) {
 
-                  // ASSIST VARS
-                  var files = [];
+                     // CHECK IF FILE NEEDS TO BE EDITED
+                     var check_index = $.inArray(entry.path.toLowerCase(), edited_names);
 
-                  // LOOP THROUGH EACH ENTRY
-                  content.forEach(entry => {
+                     // NEW CONTENT REF
+                     var new_content = '';
 
-                     // IF ENTRY IS A FILE
-                     if (entry.content != undefined) {
-                        
-                        // CHECK IF MATCH IS FOUND
-                        var indexCheck = $.inArray(entry.path.toLowerCase(), edited_names);
-                        var foo = '';
+                     // MATCH FOUND
+                     if (check_index != -1) {
+                        log(entry.path + ' needs to be edited!');
 
-                        // // MATCH FOUND
-                        if (indexCheck != -1) {
-                           log(entry.path + ' needs to be edited!');
-
-                           // FIX CASE SENSITIVE ISSUES
-                           if (entry.path != edited_names[indexCheck]) {
-                              edited_names[indexCheck] = entry.path;
-                           }
-
-                           // REWRITE FILE
-                           foo = 'edited';
-                           // foo = edited_values[indexCheck];
-
-                        // FALLBACK
-                        } else {
-
-                           // KEEP OLD CONTENT
-                           foo = 'default';
-                           // foo = entry.content;
-                           // foo = foo.toString('utf8');
+                        // FIX CASE SENSITIVE ISSUES
+                        if (entry.path != edited_names[check_index]) {
+                           edited_names[check_index] = entry.path;
                         }
 
-                        // GENERATE OBJECT FOR ENTRY
-                        var obj = {
-                           path: entry.path,
-                           content: Buffer.from(foo)
-                        }
+                        // REPLACE OLD CONTENT WITH NEW
+                        new_content = edited_values[check_index];
 
-                        // SAVE OBJECT INTO ARRAY
-                        files.push(obj);
-                     }
-                  });
+                     // DOESNT MATCH
+                     } else {
 
-                  log(files);
-
-                  // ADD CONSTRUCTED DIR TO IPFS
-                  mutable.release(files).then((response) => {
-                     log(response);
-
-                     // FETCH ROOT DIR HASH
-                     var root = response[response.length - 1].hash;
-
-                     // ASSESS NEW NAME
-                     var old_name = parseFloat(history.current.name);
-                     var new_name = '';
-
-                     switch(significance) {
-
-                        // MEDIUM
-                        case 'medium':
-                           new_name = old_name + 0.1;
-                           new_name = new_name.toFixed(1);
-                        break;
-
-                        // LARGE
-                        case 'large':
-                           if (old_name % 1 != 0) { 
-                              new_name = Math.ceil(old_name);
-                           } else {
-                              new_name = old_name + 1;
-                              new_name = new_name.toFixed(1);
-                           }
-                        break;
-
-                        // SMALL & FALLBACK
-                        default:
-                           new_name = old_name + 0.01;
-                           new_name = new_name.toFixed(2);
-                        break;
+                        // KEEP OLD CONTENT
+                        new_content = entry.content.toString('utf8');;
                      }
 
-                     // CONVERT TO STRING
-                     new_name = new_name.toString();
-
-                     // MODIFY HISTORY LOG
-                     history.old[history.current.name] = history.current;
-                     history.current = {
-                        name: new_name,
-                        hash: root,
-                        timestamp: unixTime()
+                     // GENERATE OBJECT FOR ENTRY
+                     var obj = {
+                        path: entry.path,
+                        content: Buffer.from(new_content)
                      }
 
-                     // STRINGIFY
-                     history = JSON.stringify(history);
-
-                     // ADD CHANGES TO HISTORY LOG
-                     mutable.write('history.json', history).then(() => {
-                        log('Rewrote history!');
-
-                     });
-                  });
+                     // PUSH OBJECT INTO ARRAY
+                     files.push(obj);
+                  }
                });
+
+               // ADD CONSTRUCTED DIR TO IPFS
+               mutable.release(files).then((response) => {
+                  var new_hash = response[response.length - 1].hash;
+               });
+
             });
          });
       });

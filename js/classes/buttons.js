@@ -1,10 +1,11 @@
 class Buttons {
 
-   constructor(_file) {
-      this.user = $('#metamask').attr('whois');
-      this.file = _file;
+   constructor(_version, _file, _user) {
 
-      this.ref = _file + '-' + this.user;
+      // GENERATE CACHE NAME: VERSION-HASH-USERNAME
+      this.ref = _version + '-' + _file + '-' + _user;
+
+      // FETCH CACHE
       this.cache = localStorage.getItem(this.ref);
    }
 

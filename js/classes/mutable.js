@@ -132,7 +132,9 @@ class Mutable {
          log('Old files removed!');
 
          // DEFAULT TRACKER CONTENT
-         var trackerDefault = {};
+         var trackerDefault = {
+            "1.0": {}
+         };
 
          // NUKE TRACKER
          this.write('tracker.json', JSON.stringify(trackerDefault)).then(() => {

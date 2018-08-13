@@ -129,7 +129,7 @@ $('body').on('click', 'a#show', (target) => {
       if (config.rights == true) {
 
          // FETCH BUTTONS MODULE
-         var buttons = new Buttons(file_data.hash);
+         var buttons = new Buttons(config.history.current.name, file_data.hash, config.metamask.name);
 
          // RENDER BUTTON ROW
          selector += buttons.render();

@@ -222,7 +222,7 @@ class Sections {
       this.config.then((config) => {
 
          // FETCH KEYS & REVERSE ORDER
-         var keys = Object.keys(config.tracker);
+         var keys = Object.keys(config.tracker[config.history.current.name]);
          keys.reverse();
 
          // ALL ENTRY BLOCKS
@@ -230,7 +230,7 @@ class Sections {
 
          // GENERATE BLOCK FOR EACH FILE
          keys.forEach((entry) => {
-            var instance = config.tracker[entry];
+            var instance = config.tracker[config.history.current.name][entry];
             var filename = instance.path.split('/').pop();
             var block_name = entry;
 
@@ -255,8 +255,8 @@ class Sections {
                // GENERATE ROW FOR EACH ENTRY
                sub_keys.forEach((sub_entry) => {
 
-                  // SKIP IF SUBKEY IS PATH
-                  if (sub_entry != 'path') {
+                  // SKIP IF SUBKEY IS PATH OR SELECTED
+                  if (sub_entry != 'path' && sub_entry != 'selected') {
                      var sub_instance = instance[sub_entry];
 
                      // GENERATE ROW

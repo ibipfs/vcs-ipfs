@@ -72,10 +72,10 @@ $('body').on('click', 'a#show', (target) => {
       var config = values[2];
 
       // LOOK FOR LEGIT METAMASK SESSION
-      if (config.rights == true) {
+      if (config.metamask.rights == true) {
 
          // FETCH CACHE DATA
-         var cache_name = config.history.current.name + '-' + file_data.hash + '-' + config.metamask.name;
+         var cache_name = file_data.hash + '-' + config.metamask.name;
          var cache = localStorage.getItem(cache_name);
 
          // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT
@@ -126,10 +126,10 @@ $('body').on('click', 'a#show', (target) => {
       `;
 
       // STITCH IN BUTTON ROW IF USER IS LOGGED
-      if (config.rights == true) {
+      if (config.metamask.rights == true) {
 
          // FETCH BUTTONS MODULE
-         var buttons = new Buttons(config.history.current.name, file_data.hash, config.metamask.name);
+         var buttons = new Buttons(file_data.hash, config.metamask.name);
 
          // RENDER BUTTON ROW
          selector += buttons.render();
@@ -159,7 +159,7 @@ $('body').on('click', 'a#show', (target) => {
       });
 
       // SET EDITOR TO READ ONLY IF USER IS NOT SUCCESSFULLY LOGGED IN
-      if (config.rights != true) {
+      if (config.metamask.rights != true) {
          window.editor.readOnly = true
       }
 

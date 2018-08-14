@@ -25,7 +25,7 @@ function closePrompt() {
 }
 
 // TRANSITION PROMPT BUTTONS EVENTS
-function transitionButtons(_version, _hash, _user) {
+function transitionButtons(_hash, _user) {
 
    // TURN OPACITY TO ZERO
    $('#left').css('opacity', '0');
@@ -35,7 +35,7 @@ function transitionButtons(_version, _hash, _user) {
    sleep(180).then(() => {
 
       // RECALIBRATE BUTTONS
-      var buttons = new Buttons(_version, _hash, _user);
+      var buttons = new Buttons(_hash, _user);
       buttons.recalibrate();
 
       // TURN OPACITY TO MAX AGAIN
@@ -52,7 +52,7 @@ function saveCache() {
       var cache = $('#save-cache').attr('storage');
 
       // MAKE SURE SOMETHING IS CACHED
-      if (cache != undefined && config.rights) {
+      if (cache != undefined && config.metamask.rights) {
 
          var value = window.editor.getValue();
          var split = cache.split('-');
@@ -62,7 +62,7 @@ function saveCache() {
          log('Cache Set.');
 
          // TRANSITION
-         transitionButtons(split[0], split[1], split[2]);
+         transitionButtons(split[0], split[1]);
       } else {
 
          // FALLBACK ERROR
@@ -113,7 +113,7 @@ function upload() {
       path = path.toLowerCase();
 
       // MAKE SURE SOMETHING IS CACHED
-      if (cache != undefined && config.rights) {
+      if (cache != undefined && config.metamask.rights) {
          var mutable = new Mutable();
 
          // ADD TO IPFS
@@ -128,40 +128,39 @@ function upload() {
 
             // RELEVANT DATA
             var split = cache.split('-');
-            var version = split[0];
-            var original_file = split[1];
-            var user = split[2];
+            var original_file = split[0];
+            var user = split[1];
             var unix = unixTime();
 
             // IF FILE PROP DOESNT EXIST, CREATE IT
-            if (tracker[version][original_file] == undefined) {
-               tracker[version][original_file] = {
+            if (tracker[original_file] == undefined) {
+               tracker[original_file] = {
                   "selected": "mydude"
                };
             }
 
             // PUSH NEW USER ENTRY
-            tracker[version][original_file][user] = {
+            tracker[original_file][user] = {
                hash: hash,
                timestamp: unix
             }
 
             // PUSH PATH FOR RENDERING PURPOSES
-            tracker[version][original_file]['path'] = path;
+            tracker[original_file]['path'] = path;
 
             // STRINGIFY AGAIN
             var tracker = JSON.stringify(tracker);
 
             // OVERWRITE OLD TRACKER LOG
-            mutable.write('tracker.json', tracker).then((a) => {
+            mutable.write('tracker.json', tracker).then(() => {
                log('Added entry to Tracker.')
 
                   // PARSE LOG FILE
-                  var logz = config.log;
+                  var activity = config.activity;
                   var type = 'publish';
                   
                   // ADD ENTRY
-                  logz[unix] = {
+                  activity[unix] = {
                      type: type,
                      original: original_file,
                      user: user,
@@ -170,10 +169,10 @@ function upload() {
                   }
 
                   // STRINGIFY AGAIN
-                  logz = JSON.stringify(logz);
+                  activity = JSON.stringify(activity);
 
                   // OVERWRITE OLD LOG
-                  mutable.write('log.json', logz).then(() => {
+                  mutable.write('activity.json', activity).then(() => {
                      log('Added entry to log.');
 
                   });

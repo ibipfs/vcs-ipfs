@@ -106,7 +106,7 @@ class Mutable {
          }
 
          // WHITELIST
-         var whitelist = ['history.json', 'log.json', 'settings.json', 'tracker.json'];
+         var whitelist = ['activity.json', 'history.json', 'latest.json', 'tracker.json'];
 
          // IF BOTH ARRAYS ARE THE SAME
          if (compareArrays(list, whitelist) == false) {
@@ -119,7 +119,7 @@ class Mutable {
 
    // RESET ALL LOGS TO THEIR DEFAULT VALUE
    nukeLogs(files) {
-      log('Log file(s) missing. Nuking initiated!');
+      log('Nuking initiated!');
       var promiseList = [];
 
       // CREATE A PROMISE FOR EACH EXISTING FILE/DIR
@@ -132,51 +132,40 @@ class Mutable {
          log('Old files removed!');
 
          // DEFAULT TRACKER CONTENT
-         var trackerDefault = {
-            "1.0": {}
-         };
+         var trackerDefault = {};
 
          // NUKE TRACKER
          this.write('tracker.json', JSON.stringify(trackerDefault)).then(() => {
             log('Tracker Log created!');
             
             // DEFAULT HISTORY CONTENT
-            var historyDefault = {
-               "current": {
-                  "name": "1.0",
-                  "hash": "QmT6dnSEi9BXNBgWjExLHmEr9XpCbt5v1dRPcUM2Nr9D9p",
-                  "timestamp": unixTime()
-               },
-            
-               "old": {
-               }
+            var latestDefault = {
+               "name": "1.0",
+               "hash": "QmT6dnSEi9BXNBgWjExLHmEr9XpCbt5v1dRPcUM2Nr9D9p",
+               "timestamp": unixTime()
             }
 
-            // NUKE HISTORY
-            this.write('history.json', JSON.stringify(historyDefault)).then(() => {
-               log('History Log created!');
+            // NUKE LATEST
+            this.write('latest.json', JSON.stringify(latestDefault)).then(() => {
+               log('Latest Log created!');
 
                // DEFAULT LOG CONTENT
-               var logDefault = {};
+               var historyDefault = {};
                
-               // NUKE LOG
-               this.write('log.json', JSON.stringify(logDefault)).then(() => {
-                  log('Log created!');
+               // NUKE HISTORY
+               this.write('history.json', JSON.stringify(historyDefault)).then(() => {
+                  log('History log created!');
+                  
+                  // DEFAULT ACTIVITY CONTENT
+                  var activityDefault = {};
+                  
+                  // NUKE ACTIVITY
+                  this.write('activity.json', JSON.stringify(activityDefault)).then(() => {
+                     log('Activity log created!');
 
-                  // DEFAULT SETTINGS CONTENT
-                  var settingsDefault = {};
-
-                  // NUKE SETTINGS
-                  this.write('settings.json', JSON.stringify(settingsDefault)).then(() => {
-                     log('Settings created!');
-
-                     // LOG VIRTUAL CONTENT
-                     this.ls().then((ls) => {
-                        log(ls);
-                        log('Nuking Complete!')
-                     });
-                     
+                     log('Nuking complete!')
                   });
+
                });
             });
          });

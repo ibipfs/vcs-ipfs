@@ -21,8 +21,8 @@ class Sections {
          var back_button = false;
 
          // IF NOTHING IS REQUESTED, OPEN ROOT HASH & DISABLE BACK BUTTON
-         if (query == '' || query == config.history.current.hash) {
-            dir = config.history.current.hash;
+         if (query == '' || query == config.latest.hash) {
+            dir = config.latest.hash;
             back_button = false;
          } else {
             dir = query;
@@ -123,7 +123,7 @@ class Sections {
 
             // GENERATE FOOTER
             var footer = `
-               <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.history.current.name + ` &nbsp;&ndash;&nbsp; ` + this.moment.unix(config.history.current.timestamp).format('D/MM @ HH:mm') + `</a>
+               <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.latest.name + ` &nbsp;&ndash;&nbsp; ` + this.moment.unix(config.latest.timestamp).format('D/MM @ HH:mm') + `</a>
             `;
 
             // FADE IN BOTH
@@ -139,7 +139,7 @@ class Sections {
       this.config.then((config) => {
          
          // FETCH KEYS & REVERSE ORDER
-         var keys = Object.keys(config.log);
+         var keys = Object.keys(config.activity);
          keys.reverse();
 
          // ALL ENTRY ROWS
@@ -147,13 +147,13 @@ class Sections {
 
          // GENERATE ROW FOR EACH ENTRY
          keys.forEach((entry) => {
-            var instance = config.log[entry];
+            var instance = config.activity[entry];
             var filename = instance.path.split('/').pop();
             var timestamp = this.moment.unix(entry).format('D/MM @ HH:mm');;
 
             // CHANGE FIRST KEY IN PATH TO ROOT DIR
             instance.path = instance.path.split('/');
-            instance.path[0] = config.history.current.hash;
+            instance.path[0] = config.latest.hash;
             instance.path = instance.path.join('/');
 
             // CHECK FILTER
@@ -222,7 +222,7 @@ class Sections {
       this.config.then((config) => {
 
          // FETCH KEYS & REVERSE ORDER
-         var keys = Object.keys(config.tracker[config.history.current.name]);
+         var keys = Object.keys(config.tracker);
          keys.reverse();
 
          // ALL ENTRY BLOCKS
@@ -230,7 +230,7 @@ class Sections {
 
          // GENERATE BLOCK FOR EACH FILE
          keys.forEach((entry) => {
-            var instance = config.tracker[config.history.current.name][entry];
+            var instance = config.tracker[entry];
             var filename = instance.path.split('/').pop();
             var block_name = entry;
 

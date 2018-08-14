@@ -1,9 +1,9 @@
 class Buttons {
 
-   constructor(_version, _file, _user) {
+   constructor(_file, _user) {
 
       // GENERATE CACHE NAME: VERSION-HASH-USERNAME
-      this.ref = _version + '-' + _file + '-' + _user;
+      this.ref = _file + '-' + _user;
 
       // FETCH CACHE
       this.cache = localStorage.getItem(this.ref);

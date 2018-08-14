@@ -8,27 +8,30 @@ var immutable = new Immutable();
 function build() {
 
    // GENERATE PROMISES
+   var latest = mutable.read('latest.json');
    var history = mutable.read('history.json');
    var tracker = mutable.read('tracker.json');
-   var log = mutable.read('log.json');
+   var activity = mutable.read('activity.json');
    var metamask = immutable.metamask();
 
    // WAIT FOR ALL PROMISES TO BE RESOLVED
-   return Promise.all([history, tracker, log, metamask]).then((values) => {
+   return Promise.all([latest, history, tracker, activity, metamask]).then((values) => {
 
       // PARSE LOGS
-      history = JSON.parse(values[0]);
-      tracker = JSON.parse(values[1]);
-      log = JSON.parse(values[2]);
-      metamask = values[3];
+      latest = JSON.parse(values[0]);
+      history = JSON.parse(values[1]);
+      tracker = JSON.parse(values[2]);
+      activity = JSON.parse(values[3]);
+      metamask = values[4];
 
       // CREATE CONFIG OBJECT
       var config = {};
 
       // ADD LOGS TO CONFIG
+      config.latest = latest;
       config.history = history;
       config.tracker = tracker;
-      config.log = log;
+      config.activity = activity;
 
       // METAMASK LOGIC
       var whitelist = ['0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
@@ -38,7 +41,7 @@ function build() {
       config.metamask = {};
       config.metamask.session = false;
       config.metamask.name = null;
-      config.rights = false;
+      config.metamask.rights = false;
 
       // IF LENGTH EQUALS ONE, USER IS LOGGED IN
       if (metamask.length == 1) {
@@ -52,12 +55,14 @@ function build() {
          // IF HE IS, SET NAME PROP
          if (check != -1) {
             config.metamask.name = names[check];
-            config.rights = true;
+            config.metamask.rights = true;
          }
       }
 
       // CHANGE CSS BASED ON METAMASK PROPS
       metamask_css(config.metamask);
+
+      console.log(config)
 
       // RETURN CONFIG
       return config;

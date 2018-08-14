@@ -30,7 +30,7 @@ function render() {
    $('#container').css('opacity', '1');
 
    // ACTION
-   $('body').on('click', '#action', () => {
+   $('#action').on('click', () => {
       var significance = $("#significance :selected").text();
 
       // FETCH ACTIONS MODULE

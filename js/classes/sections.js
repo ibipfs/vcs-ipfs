@@ -148,13 +148,18 @@ class Sections {
          // GENERATE ROW FOR EACH ENTRY
          keys.forEach((entry) => {
             var instance = config.activity[entry];
-            var filename = instance.path.split('/').pop();
-            var timestamp = this.moment.unix(entry).format('D/MM @ HH:mm');;
+            var timestamp = this.moment.unix(entry).format('D/MM @ HH:mm');
 
-            // CHANGE FIRST KEY IN PATH TO ROOT DIR
-            instance.path = instance.path.split('/');
-            instance.path[0] = config.latest.hash;
-            instance.path = instance.path.join('/');
+            // LIMIT SPLITTING TO ONLY UPLOADS
+            if (instance.type == 'upload') {
+
+               var filename = instance.path.split('/').pop();
+
+               // CHANGE FIRST KEY IN PATH TO ROOT DIR
+               instance.path = instance.path.split('/');
+               instance.path[0] = config.latest.hash;
+               instance.path = instance.path.join('/');
+            }
 
             // CHECK FILTER
             if (filter == '' || filter.toLowerCase() == instance.user.toLowerCase() || filter == instance.original || filter == instance.path || filter.toLowerCase() == filename.toLowerCase()) {
@@ -165,9 +170,14 @@ class Sections {
                // GENERATE STRING BASED ON ENTRY TYPE
                switch (instance.type) {
 
-                  // PUBLISH
-                  case 'publish':
-                     string = capitalize(instance.user) + ' published an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>';
+                  // UPLOAD
+                  case 'upload':
+                     string = capitalize(instance.user) + ' uploaded an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>';
+                  break;
+
+                  // RELEASE
+                  case 'release':
+                     string = capitalize(instance.user) + ' has authorized the release of version <a href="http://ipfs.io/ipfs/' + instance.hash + '">' + instance.name + '</a>';
                   break;
 
                   // FALLBACK

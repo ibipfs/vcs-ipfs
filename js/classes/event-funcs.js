@@ -157,7 +157,7 @@ function upload() {
 
                   // PARSE LOG FILE
                   var activity = config.activity;
-                  var type = 'publish';
+                  var type = 'upload';
                   
                   // ADD ENTRY
                   activity[unix] = {

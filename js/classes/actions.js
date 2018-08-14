@@ -6,19 +6,19 @@ class Actions {
 
    release(significance) {
       config.then((config) => {
-         log('Publishing new version..')
+         log('Releasing new version..\n----')
 
          var mutable = new Mutable();
          significance = significance.toLowerCase();
 
          // CURRENT ROOT DIR
-         var base = config.history.current.hash;
+         var base = config.latest.hash;
 
          // FETCH CONTENT OF CURRENT VERSION
          promisify('get', base).then((content) => {
 
             // READ TRACKER FOR VERSION
-            var tracker = config.tracker[config.history.current.name];
+            var tracker = config.tracker;
             var tracker_keys = Object.keys(tracker);
 
             // REF ARRAYS "EDITED"
@@ -103,19 +103,14 @@ class Actions {
                   }
                });
 
-               log(files)
-
                // ADD CONSTRUCTED DIR TO IPFS
                mutable.release(files).then((response) => {
 
                   // FETCH NEW BASE -- USING SPLIT METHOD BECAUSE OF WEIRD RESPONSE BUG WITH CERTAIN DIRECTORIES
                   var new_base = response[0].path.split('/')[0];
-                  log(new_base)
-
-                  log(response)
 
                   // ASSESS NEW VERSION NAME
-                  var old_name = parseFloat(config.history.current.name);
+                  var old_name = parseFloat(config.latest.name);
                   var new_name = '';
 
                   // INCREMENT VERSION NAME BASED ON ADMIN INPUT
@@ -147,37 +142,85 @@ class Actions {
                   // CONVERT TO STRING
                   new_name = new_name.toString();
 
-                  // MODIFY HISTORY LOG
-                  var new_history = config.history;
-
-                  // TRANSFER OLD CURRENT TO OLD
-                  new_history.old[config.history.current.name] = config.history.current;
-
-                  // SET NEW CURRENT
-                  new_history.current = {
-                     name: new_name,
-                     hash: new_base,
-                     timestamp: unixTime()
+                  // GENERATE HISTORY ENTRY
+                  config.history[old_name] = {
+                     hash: config.latest.hash,
+                     timestamp: config.latest.timestamp,
+                     tracker: config.tracker
                   }
 
-                  // STRINGIFY & ADD CHANGES TO HISTORY LOG
-                  mutable.write('history.json', JSON.stringify(new_history)).then(() => {
-                     log('Rewrote history!');
+                  // WRITE NEW HISTORY LOG
+                  mutable.write('history.json', JSON.stringify(config.history)).then(() => {
+                     log('Wrote into history!');
 
-                     // MODIFY TRACKER
-                     var new_tracker = config.tracker;
-                     new_tracker[new_name] = {}
+                     var new_name = '';
 
-                     // STRINGIFY & ADD CHANGES TO TRACKER
-                     mutable.write('tracker.json', JSON.stringify(new_tracker)).then(() => {
-                        log('Rewrote tracker!');
-                        log('Publishing done!');
+                     // FIGURE OUT NEW NAME BASED ON USER INPUT
+                     switch(significance) {
 
+                        // MEDIUM
+                        case 'medium':
+                           new_name = old_name + 0.1;
+                           new_name = new_name.toFixed(1);
+                        break;
+
+                        // LARGE
+                        case 'large':
+                           if (old_name % 1 != 0) { 
+                              new_name = Math.ceil(old_name);
+                           } else {
+                              new_name = old_name + 1;
+                              new_name = new_name.toFixed(1);
+                           }
+                        break;
+
+                        // SMALL & FALLBACK
+                        default:
+                           new_name = old_name + 0.01;
+                           new_name = new_name.toFixed(2);
+                        break;
+                     }
+
+                     // CONVERT TO STRING
+                     new_name = new_name.toString();
+
+                     // GENERATE LATEST ENTRY
+                     config.latest = {
+                        "name": new_name,
+                        "hash": new_base,
+                        "timestamp": unixTime()
+                     }
+
+                     // WRITE NEW LATEST LOG
+                     mutable.write('latest.json', JSON.stringify(config.latest)).then(() => {
+                        log('Wrote into latest!');
+                        
+                        config.tracker = {};
+
+                        // RESET TRACKER FOR LATEST
+                        mutable.write('tracker.json', JSON.stringify(config.tracker)).then(() => {
+                           log('Reset tracker!');
+
+                           // GENERATE ENTRY FOR ACTIVITY
+                           config.activity[config.latest.timestamp] = {
+                              type: 'release',
+                              hash: new_base,
+                              name: new_name,
+                              user: config.metamask.name
+                           }
+
+                           // WRITE ENTRY INTO ACTIVITY
+                           mutable.write('activity.json', JSON.stringify(config.activity)).then(() => {
+                              log('Wrote into activity!');
+
+                              log('----\nRelease complete!')
+                           });
+                        });
                      });
                   });
                });
             });
-         });   
+         });      
       });
    }
 

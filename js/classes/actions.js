@@ -89,7 +89,7 @@ class Actions {
                      } else {
 
                         // KEEP OLD CONTENT
-                        new_content = entry.content.toString('utf8');;
+                        new_content = entry.content.toString('utf8');
                      }
 
                      // GENERATE OBJECT FOR ENTRY
@@ -106,8 +106,12 @@ class Actions {
                // ADD CONSTRUCTED DIR TO IPFS
                mutable.release(files).then((response) => {
 
+                  log(response);
+
                   // FETCH NEW BASE -- USING SPLIT METHOD BECAUSE OF WEIRD RESPONSE BUG WITH CERTAIN DIRECTORIES
-                  var new_base = response[0].path.split('/')[0];
+                  var new_base = response[response.length - 1].hash;
+
+                  log(new_base);
 
                   // ASSESS NEW VERSION NAME
                   var old_name = parseFloat(config.latest.name);
@@ -152,37 +156,6 @@ class Actions {
                   // WRITE NEW HISTORY LOG
                   mutable.write('history.json', JSON.stringify(config.history)).then(() => {
                      log('Wrote into history!');
-
-                     var new_name = '';
-
-                     // FIGURE OUT NEW NAME BASED ON USER INPUT
-                     switch(significance) {
-
-                        // MEDIUM
-                        case 'medium':
-                           new_name = old_name + 0.1;
-                           new_name = new_name.toFixed(1);
-                        break;
-
-                        // LARGE
-                        case 'large':
-                           if (old_name % 1 != 0) { 
-                              new_name = Math.ceil(old_name);
-                           } else {
-                              new_name = old_name + 1;
-                              new_name = new_name.toFixed(1);
-                           }
-                        break;
-
-                        // SMALL & FALLBACK
-                        default:
-                           new_name = old_name + 0.01;
-                           new_name = new_name.toFixed(2);
-                        break;
-                     }
-
-                     // CONVERT TO STRING
-                     new_name = new_name.toString();
 
                      // GENERATE LATEST ENTRY
                      config.latest = {

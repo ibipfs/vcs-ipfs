@@ -80,7 +80,7 @@ function removeCache() {
       var cache = $('#remove-cache').attr('storage');
 
       // MAKE SURE SOMETHING IS CACHED
-      if (cache != undefined && config.rights) {
+      if (cache != undefined && config.metamask.rights) {
          var split = cache.split('-');
 
          // SAVE TO CACHE

@@ -1,0 +1,38 @@
+Let's start off by defining what exactly a decentralized application is and how they differs from standard web application. The mail goal is to make sure that none of your
+components have a central point of failure, which means that usage of conventional databases and backend logic on a protected server is off limits. A decentralized application
+that uses exclusively decentralized tools is essentially impossible to take down by malicious means or even by governments. The implication of this might be hard to grasp for
+us, but consider how much this means to people that live in countries like China whose government actively censors content it doesn't approve of.
+
+Generally applications are a combination of these three types: https://cdn-images-1.medium.com/max/800/1*IJOBkPMS0j8Q41rhB9bx7g.png
+
+A typical example of a centralized application would be someone hosting a website from their own server at home. Users who want to visit your website request data from
+the IP the website runs on, and gets the appropriate response. If your server goes down for one reason or another, the site is no-longer viewable.
+
+Distributed applications generally have the same foundation as centralized applications, only the scale is way larger. A service like Facebook couldn't possibly run everything
+it does on one server, so it distributes specific actions or different servers that work together. All the servers are still owned and operated by the same party, so any
+entity could just put pressure on that party to bring down everything, which means that distributed applications are still centralized.
+
+Every user of a decentralized application hosts their own instance of said application locally that is administrated by various blockchain proofs that have shown to be essentially
+impenetrable. Because everyone hosts and shares the application, to bring it down completely would require an entity to shut down every single one of its anonymous users, which
+means that both its security and availability grows significantly with each new user.
+
+   ----
+
+The goal was to understand and figure out how to utilize the dapp stack in a usable way. I set out trying not to reinvent the wheel, and strived to mimic the functionality
+that's available when creating a normal website. To preface, while programming has been a hobby of mine for a while - prior to starting here my javascript was far
+from excellent and still isn't, and the rest was pretty much unknown territory.
+
+For someone with a web development background it feels very weird in the beginning to constantly have to assess whether your method of doing something breaks against the
+dapp rulebook. Because the technology is still so new and relatively untested you often times run into very strange issues that might not even have properly added errorhandlers
+or simply haven't been implemented to the framework yet. Developing is nevertheless surprisingly fun and easy to get into if you have the patience.
+
+Javascript ends up being the glue that makes it possible for all the different tools to work together. Almost all logic has be to executed asynchronously with promises which
+is another thing that took a decent amount of time for a backend programmer like me to wrap my head around. The blockchain portion of your logic is written in either Solidity
+or Vyper which are both extremely simple to write in order to minimize syntax errors. Vyper is in a much earlier beta stage than Solidity, but shows great potential.
+
+While it technically is possible to set up a fully functioning test-environment on any operating system, reading from a linux or mac terminal window is significantly more handy
+than any graphical interface. Most things have to be compiled separately and as previously mentioned, weird bugs without proper errorhandlers are common and the best tool to
+figure out what went wrong is the terminal.
+
+   ----
+

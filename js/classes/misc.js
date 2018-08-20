@@ -119,29 +119,6 @@ function capitalize(string) {
    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// BEAUTIFY CODE
-function beautify(code, type) {
-   type.toLowerCase();
-
-   switch (type) {
-
-      // CSS
-      case 'css':
-         code = vkbeautify.cssmin(code);
-         code = vkbeautify.css(code);
-      break;
-
-      // JSON
-      case 'json':
-         code = vkbeautify.jsonmin(code);
-         code = vkbeautify.json(code);
-      break;
-      
-   }
-
-   return code;
-}
-
 // CHECK IF TWO ARRAYS ARE THE SAME
 function compareArrays(first, second) {
    var value = false;

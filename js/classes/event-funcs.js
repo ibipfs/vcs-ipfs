@@ -132,12 +132,13 @@ function upload() {
             var user = split[1];
             var unix = unixTime();
 
-            // IF FILE PROP DOESNT EXIST, CREATE IT
+            // CREATE SUBPROP IF MAIN PROP DOESNT EXIST
             if (tracker[original_file] == undefined) {
-               tracker[original_file] = {
-                  "selected": "mydude"
-               };
+               tracker[original_file] = {};
             }
+
+            // SET SELECTED VALUE AS THE LAST UPLOADED                        --- CHANGE
+            tracker[original_file].selected = config.metamask.name;
 
             // PUSH NEW USER ENTRY
             tracker[original_file][user] = {

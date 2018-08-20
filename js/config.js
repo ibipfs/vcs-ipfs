@@ -33,9 +33,9 @@ function build() {
       config.tracker = tracker;
       config.activity = activity;
 
-      // METAMASK LOGIC
-      var whitelist = ['0x8a1fe5accc4ee542917058236f6c9cbac8f2b74e', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
-      var names = ['wickstjo', 'mydude'];
+      // METAMASK WHITELIST
+      var whitelist = ['0x50e6ca1a37ae0950b2b5c8a1883f64aa05c76d4c', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
+      var names = ['wickstjo', 'testuser'];
 
       // DEFAULT VALUES
       config.metamask = {};

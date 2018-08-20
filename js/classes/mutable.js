@@ -141,7 +141,7 @@ class Mutable {
             // DEFAULT HISTORY CONTENT
             var latestDefault = {
                "name": "1.0",
-               "hash": "QmT6dnSEi9BXNBgWjExLHmEr9XpCbt5v1dRPcUM2Nr9D9p",
+               "hash": "QmSBmWXmCwYYKUTtW8RQ1xivH2M7Zkgfhsa1GLNx7hFmSe",
                "timestamp": unixTime()
             }
 

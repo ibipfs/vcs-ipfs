@@ -4,14 +4,14 @@
    > js/app.js > js/bundle.js
 
    Smart Contracts:
-   > contracts/*
+   > [contracts/](contracts/)*
 
 
-   > migrations/*
+   > [migrations/](migrations/)*
 
-## Tools
+## Development Tools
 
-   Blockchain compiling/deploying:
+   Smart Contract compiling/deployment:
    > [Truffle](https://github.com/trufflesuite)
 
    Local Blockchain:
@@ -20,7 +20,7 @@
    IPFS Gateway:
    > [JS-IPFS-API](https://github.com/ipfs/js-ipfs-api) @ localhost:5001
 
-## Borrowed Modules
+## NPM Modules
 
    Code editor:
    > [Monaco Editor (ported to npm) by Tim Kendrick](https://github.com/timkendrick/monaco-editor)

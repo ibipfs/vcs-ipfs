@@ -4,8 +4,10 @@
    > js/app.js > js/bundle.js
 
    Smart Contracts:
-   > - contracts/*
-   - migrations/*
+   > contracts/*
+
+   
+   > migrations/*
 
 ## Tools & Default Settings
 

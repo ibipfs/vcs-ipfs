@@ -9,7 +9,7 @@
 
    > migrations/*
 
-## Tools & Default Settings
+## Tools
 
    Blockchain compiling/deploying:
    > [Truffle](https://github.com/trufflesuite)
@@ -19,9 +19,6 @@
 
    IPFS Gateway:
    > [JS-IPFS-API](https://github.com/ipfs/js-ipfs-api) @ localhost:5001
-
-   To change either:
-   > [js/setup.js @ row #2](js/setup.js)
 
 ## Borrowed Modules
 
@@ -33,3 +30,11 @@
 
    Unix timestamp to DateTime converter:
    > [Moment](https://www.npmjs.com/package/moment)
+
+## Change Settings
+
+   Change host address for IPFS/Blockchain:
+   > [js/setup.js @ row #2](js/setup.js)
+
+   Change blockchain deployment network:
+   > [truffle.js](truffle.js)

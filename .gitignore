@@ -9,5 +9,3 @@ shell/*
 
 # IGNORE COMPILED SMART CONTRACTS
 build/contracts/*
-build/contracts
-build/

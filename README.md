@@ -5,6 +5,7 @@ NodeJS Bundle:
 
 Smart Contract:
 > contracts/*
+
 > migrations/*
 
 ## Tools & Default Settings

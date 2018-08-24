@@ -1,2 +1,8 @@
-# ignore compiled bundle
+# IGNORE NODEJS BUNDLE
 js/bundle.js
+
+# IGNORE PACKAGE
+package-lock.json
+
+# IGNORE SHELL FILES
+shell/*

@@ -1,4 +1,4 @@
-// BLOCKCHAIN & IPFS PEER IP
+// BLOCKCHAIN & IPFS GATEWAY IP
 var host_addr = 'localhost';
 //var host_addr = '192.168.1.150';
 

@@ -22,3 +22,14 @@
 
    To change either:
    > [js/setup.js @ row #2](js/setup.js)
+
+## Borrowed Modules
+
+   Code editor:
+   > [Monaco Editor (ported to npm) by Tim Kendrick](https://github.com/timkendrick/monaco-editor)
+
+   String to Binary converter:
+   > [Buffer](https://www.npmjs.com/package/buffer)
+
+   Unix timestamp to DateTime converter:
+   > [Moment](https://www.npmjs.com/package/moment)

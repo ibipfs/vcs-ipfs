@@ -14,12 +14,12 @@ body {
 a:link, a:visited, a:hover {
 	color: #0073A9;
    text-decoration: none;
-	-o-transition: .2s;
+   cursor: pointer;
+   -o-transition: .2s;
 	-ms-transition: .2s;
 	-moz-transition: .2s;
 	-webkit-transition: .2s;
    transition: .2s;
-   cursor: pointer;
 }
 
 a:hover {
@@ -143,6 +143,10 @@ hr {
 }
 
 #left, #right {
+   -o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
    transition: .2s;
 }
 
@@ -217,9 +221,13 @@ hr {
    background: url('img/inner-bg.png');
    border-radius: 4px;
    padding: 5px;
-   transition: .2s;
    padding-bottom: 0px;
    opacity: 0;
+   -o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+   transition: .2s;
 }
 
 #files table tr#header td div, #files table tr#back td div, #files table tr#current td div {
@@ -337,10 +345,14 @@ hr {
    padding: 10px;
    outline: none;
    width: 100%;
-   transition: .2s;
    font: 13px 'Open Sans', verdana;
    color: #505050;
    margin-bottom: 5px;
+   -o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+   transition: .2s;
 }
 
 #filter:placeholder-shown {
@@ -350,6 +362,10 @@ hr {
 
 #container {
    opacity: 0;
+   -o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
    transition: .2s;
 }
 
@@ -363,8 +379,12 @@ hr {
    padding: 10px 0px;
    text-align: center;
    color: #9b9b9b;
-   transition: .2s;
    opacity: 0;
+   -o-transition: .2s;
+	-ms-transition: .2s;
+	-moz-transition: .2s;
+	-webkit-transition: .2s;
+   transition: .2s;
 }
 
 #footer a:link, #footer a:visited {
@@ -378,7 +398,7 @@ hr {
 /* -- EXPERIMENTAL -- */
 
 #menu {
-   background: url('img/bg2.png');
+   background: url('img/menu-bg.png');
    border-bottom: 4px solid #747474;
    padding: 10px;
    padding-left: 6px;

@@ -1,6 +1,6 @@
 ## Requires Compiling
 
-   NodeJS Bundle:
+   Browserify:
    > js/app.js > js/bundle.js
 
    Smart Contracts:
@@ -23,7 +23,7 @@
 ## NPM Modules
 
    Code editor:
-   > [Monaco Editor (ported to npm) by Tim Kendrick](https://github.com/timkendrick/monaco-editor)
+   > [Monaco Editor (ported) by Tim Kendrick](https://github.com/timkendrick/monaco-editor)
 
    String to Binary converter:
    > [Buffer](https://www.npmjs.com/package/buffer)
@@ -33,8 +33,8 @@
 
 ## Change Settings
 
-   Change host address for IPFS/Blockchain:
+   Host address for IPFS/Blockchain:
    > [js/setup.js @ row #2](js/setup.js)
 
-   Change blockchain deployment network:
+   Smart Contract deployment network:
    > [truffle.js](truffle.js)

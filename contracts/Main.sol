@@ -4,7 +4,7 @@ contract Main {
 
     // MEMBERS
     mapping(address => User) public memberInfo;
-    address[] public members;
+    uint256 public memberCount;
 
     // CONTRACT ADMIN
     address public admin = 0x2b1ccbb47df9585e513cecac307a1e8ce0b620c5;
@@ -16,7 +16,7 @@ contract Main {
     }
 
     // ADD MEMBER
-    function add(string _name, address _owner) public {
+    function add(string _name, address _owner) public returns (string) {
 
         // MAKE SURE CALLER ADDRESS IS ADMIN
         if (msg.sender == admin) {
@@ -25,13 +25,14 @@ contract Main {
             memberInfo[_owner].name = _name;
             memberInfo[_owner].timestamp = now;
 
-            // PUSH INTO MEMBER ARRAY
-            members.push(_owner);
-        }
-    }
+            // INCREMENT MEMBERCOUNT
+            memberCount++;
+    
+            return 'User was successfully added!';
 
-    // FETCH MEMBERS
-    function fetchMembers() public view returns (address[]) {
-        return members;
+        // ACCESS DENIED
+        } else {
+            return 'You do not have permission do execute this method!';
+        }
     }
 }

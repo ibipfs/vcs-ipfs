@@ -1,20 +1,21 @@
 ## Requires Compiling
 
-NodeJS Bundle:
-> js/app.js > js/bundle.js
+   NodeJS Bundle:
+   > js/app.js > js/bundle.js
 
-Smart Contract:
-> contracts/*
+   Smart Contracts:
+   > contracts/*
 
-> migrations/*
+   Migrations:
+   > migrations/*
 
 ## Tools & Default Settings
 
-Local Blockchain
-> Ganache CLI @ localhost:8485
+   Local Blockchain
+   > Ganache CLI @ localhost:8485
 
-IPFS Gateway:
-> JS-IPFS-API @ localhost:5001
+   IPFS Gateway:
+   > JS-IPFS-API @ localhost:5001
 
-To change either:
-> js/setup.js
+   To change either:
+   > js/setup.js

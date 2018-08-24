@@ -8,4 +8,6 @@ package-lock.json
 shell/*
 
 # IGNORE COMPILED SMART CONTRACTS
-build/*
+build/contracts/*
+build/contracts
+build/

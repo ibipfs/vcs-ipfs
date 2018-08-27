@@ -1,8 +1,3 @@
-## Description
-This application allows you to edit, publish and keep track of older versions of files that are located in a IPFS directory. DHT functionality hasn't yet been implemented in the javascript IPFS framework, so a localized but protected gateway method is used. All original and published edits of files are stored on the immutable side of IPFS while the logsystem that keeps track of everything administrative is on the mutable side.
-
-Everything can and many values should be modified to fit your environment which is why this repository doesn't contain any pre-compiled files or directories.
-
 ## Requires Compiling
 
    Browserify:
@@ -43,3 +38,6 @@ Everything can and many values should be modified to fit your environment which 
 
    Smart Contract deployment network:
    > [truffle.js](truffle.js)
+
+   Initial IPFS directory:
+   > [js/classes/mutable.js @ row #144](js/classes/mutable.js)

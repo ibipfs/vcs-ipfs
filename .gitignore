@@ -9,3 +9,6 @@ shell/*
 
 # IGNORE COMPILED SMART CONTRACTS
 build/contracts/*
+
+# TODO LIST
+TODO.txt

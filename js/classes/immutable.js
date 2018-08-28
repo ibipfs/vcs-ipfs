@@ -44,6 +44,19 @@ class Immutable {
          });
       });
    }
+
+   // FETCH SMART CONTRACT ADMIN ADDRESS
+   admin() {
+      return new Promise(function(resolve, reject) {
+         contract.admin((err, result) => {
+            if (err) {
+               log('Smart Contract Error: ' + err)
+            } else {
+               resolve(result);
+            }
+         });
+      });
+   }
 }
 
 // EXPORT CLASS

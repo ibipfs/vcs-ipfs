@@ -197,6 +197,31 @@ class Actions {
       });
    }
 
+   // ADD USER TO WHITELIST
+   add(_name, _address) {
+      return new Promise(function(resolve, reject) {
+         contract.whitelist(_address, function(error, result) {
+   
+            // IF ENTRY DOESNT ALREADY EXIST IN MAP
+            if (result[0] == '') {
+   
+               // ADD ENTRY
+               contract.add(_name, _address, function(error, result) {
+                  if (error) {
+                     log(error);
+                  } else {
+                     resolve('Added "' + _name + '" to the whitelist!');
+                  }
+               });
+   
+            } else {
+               resolve('That user already exists!');
+            }
+   
+         });
+      });
+   }
+
 }
 
 // EXPORT CLASS

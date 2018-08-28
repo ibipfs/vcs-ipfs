@@ -13,9 +13,10 @@ function build() {
    var tracker = mutable.read('tracker.json');
    var activity = mutable.read('activity.json');
    var metamask = immutable.metamask();
+   var SC_admin = immutable.admin();
 
    // WAIT FOR ALL PROMISES TO BE RESOLVED
-   return Promise.all([latest, history, tracker, activity, metamask]).then((values) => {
+   return Promise.all([latest, history, tracker, activity, metamask, SC_admin]).then((values) => {
 
       // PARSE LOGS
       latest = JSON.parse(values[0]);
@@ -23,6 +24,7 @@ function build() {
       tracker = JSON.parse(values[2]);
       activity = JSON.parse(values[3]);
       metamask = values[4];
+      SC_admin = values[5];
 
       // CREATE CONFIG OBJECT
       var config = {};
@@ -42,6 +44,7 @@ function build() {
       config.metamask.session = false;
       config.metamask.name = null;
       config.metamask.rights = false;
+      config.metamask.admin = false;
 
       // IF LENGTH EQUALS ONE, USER IS LOGGED IN
       if (metamask.length == 1) {
@@ -56,6 +59,11 @@ function build() {
          if (check != -1) {
             config.metamask.name = names[check];
             config.metamask.rights = true;
+         }
+
+         // IF METAMASK USER ADDRESS MATCHES SMART CONTRACT ADMIN
+         if (metamask[0] == SC_admin) {
+            config.metamask.admin = true;
          }
       }
 

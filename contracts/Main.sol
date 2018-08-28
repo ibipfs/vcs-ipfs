@@ -2,12 +2,11 @@ pragma solidity ^0.4.2;
 
 contract Main {
 
-    // MEMBERS
-    mapping(address => User) public memberInfo;
-    uint256 public memberCount;
+    // WHITELIST
+    mapping(address => User) public whitelist;
 
     // CONTRACT ADMIN
-    address public admin = 0x2b1ccbb47df9585e513cecac307a1e8ce0b620c5;
+    address public admin = 0x45597FE80FE0F6dedEbe3359dC6C59A5414Fc9A2;
 
     // USER OBJECT
     struct User {
@@ -16,23 +15,18 @@ contract Main {
     }
 
     // ADD MEMBER
-    function add(string _name, address _owner) public returns (string) {
+    function add(string _name, address _owner) public {
 
         // MAKE SURE CALLER ADDRESS IS ADMIN
         if (msg.sender == admin) {
 
-            // GENERATE STRUCT
-            memberInfo[_owner].name = _name;
-            memberInfo[_owner].timestamp = now;
+            // CHECK THAT ENTRY DOESNT ALREADY EXIST IN MAP
+            if (whitelist[_owner].timestamp == 0) {
 
-            // INCREMENT MEMBERCOUNT
-            memberCount++;
-    
-            return 'User was successfully added!';
-
-        // ACCESS DENIED
-        } else {
-            return 'You do not have permission do execute this method!';
+                // GENERATE & PUSH NEW STRUCT
+                whitelist[_owner].name = _name;
+                whitelist[_owner].timestamp = now;
+            }
         }
     }
 }

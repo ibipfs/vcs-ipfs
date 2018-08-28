@@ -172,12 +172,12 @@ class Sections {
 
                   // UPLOAD
                   case 'upload':
-                     string = capitalize(instance.user) + ' uploaded an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>';
+                     string = capitalize(instance.user) + ' uploaded an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>!';
                   break;
 
                   // RELEASE
                   case 'release':
-                     string = capitalize(instance.user) + ' has authorized the release of version <a href="http://ipfs.io/ipfs/' + instance.hash + '">' + instance.name + '</a>';
+                     string = 'Version <a href="http://ipfs.io/ipfs/' + instance.hash + '">' + instance.name + '</a> has been released!';
                   break;
 
                   // FALLBACK

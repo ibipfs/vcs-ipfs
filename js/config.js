@@ -13,10 +13,9 @@ function build() {
    var tracker = mutable.read('tracker.json');
    var activity = mutable.read('activity.json');
    var metamask = immutable.metamask();
-   var SC_admin = immutable.admin();
 
    // WAIT FOR ALL PROMISES TO BE RESOLVED
-   return Promise.all([latest, history, tracker, activity, metamask, SC_admin]).then((values) => {
+   return Promise.all([latest, history, tracker, activity, metamask]).then((values) => {
 
       // PARSE LOGS
       latest = JSON.parse(values[0]);
@@ -24,7 +23,6 @@ function build() {
       tracker = JSON.parse(values[2]);
       activity = JSON.parse(values[3]);
       metamask = values[4];
-      SC_admin = values[5];
 
       // CREATE CONFIG OBJECT
       var config = {};
@@ -34,10 +32,6 @@ function build() {
       config.history = history;
       config.tracker = tracker;
       config.activity = activity;
-
-      // METAMASK WHITELIST
-      var whitelist = ['0x50e6ca1a37ae0950b2b5c8a1883f64aa05c76d4c', '0x83dea6e4a7d7fdea1e1ee9f1c0284cdf27bac69b'];
-      var names = ['wickstjo', 'testuser'];
 
       // DEFAULT VALUES
       config.metamask = {};
@@ -49,31 +43,50 @@ function build() {
       // IF LENGTH EQUALS ONE, USER IS LOGGED IN
       if (metamask.length == 1) {
 
-         // IF IT IS, SET SESSION PROP
+         // SHORTHAND
+         var logged_user = metamask[0];
+
+         // SET SESSION PROP
          config.metamask.session = true;
 
-         // CHECK IF THAT USER IS WHITELISTED
-         var check = $.inArray(metamask[0], whitelist);
+         // CHECK SMART CONTRACT WHITELIST
+         immutable.isMember(logged_user).then((user_data) => {
 
-         // IF HE IS, SET NAME PROP
-         if (check != -1) {
-            config.metamask.name = names[check];
-            config.metamask.rights = true;
-         }
+            // CHECK SMART CONTRACT ADMIN ADDRESS
+            immutable.admin().then((SC_admin) => {
 
-         // IF METAMASK USER ADDRESS MATCHES SMART CONTRACT ADMIN
-         if (metamask[0] == SC_admin) {
-            config.metamask.admin = true;
-         }
+               // IF STRUCT EXISTS IN MAP
+               if (user_data[1] != 0) {
+
+                  // SAVE ADDRESS NAME PROP TO CONFIG
+                  config.metamask.name = user_data[0];
+                  config.metamask.rights = true;
+
+                  // IF LOGGED USER EQUALS ADMIN
+                  if (logged_user == SC_admin) {
+                     config.metamask.admin = true;
+                  }
+               }
+
+               // CHANGE CSS BASED ON METAMASK PROPS
+               metamask_css(config.metamask);
+               console.log(config);
+
+               // RETURN CONFIG
+               return config;
+            });
+         });
+
+      // NOT LOGGED IN
+      } else {
+
+         // CHANGE CSS BASED ON METAMASK PROPS
+         metamask_css(config.metamask);
+         console.log(config);
+
+         // RETURN CONFIG
+         return config;
       }
-
-      // CHANGE CSS BASED ON METAMASK PROPS
-      metamask_css(config.metamask);
-
-      console.log(config)
-
-      // RETURN CONFIG
-      return config;
    });
 }
 

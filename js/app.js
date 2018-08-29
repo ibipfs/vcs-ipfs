@@ -1,6 +1,8 @@
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
-require('./content/index.js')();
-var current = 'files';
+$('body').on('load', () => {
+   require('./content/index.js')();
+   var current = 'files';
+});
 
 // WHEN MENULINK IS CLICKED
 $('body').on('click', '#menu a', () => {

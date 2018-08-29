@@ -57,6 +57,19 @@ class Immutable {
          });
       });
    }
+
+   // CHECK IF ADDRESS IS FOUND IN WHITELIST
+   isMember(address) {
+        return new Promise(function(resolve, reject) {
+            contract.whitelist(address, (err, result) => {
+                if (err) {
+                    log('Smart Contract Error: ' + err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    }
 }
 
 // EXPORT CLASS

@@ -1,75 +1,22 @@
 class Immutable {
 
-   // OPEN IPFS DIRECTORY
-   dir (value) {
-      return new Promise(function(resolve, reject) {
-         ipfs.ls(value, function (err, files) {
-            resolve(files);
-         });
-      });
-   }
+   // OPEN DIRECTORY
+   dir (value) { return ipfs.ls(value); }
 
-   // OPEN IPFS FILE
-   file (value) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.cat(value, function (err, file) {
-            resolve(file.toString('utf8'));
-         });
-      });
-   }
+   // FETCH RAW FILE CONTENT
+   raw (value) { return ipfs.files.cat(value); }
 
-   // SIMILAR TO FILE METHOD, BUT FETCHES BINARY DATA
-   raw (value) {
-      ipfs.files.cat(value, function (err, file) {
-         resolve(file);
-      });
-   }
+   // FETCH STRINGIFIED FILE CONTENT
+   file (value) { return ipfs.files.cat(value.toString('utf8')); }
 
-   // OVERVIEW OF DIR OR FILE
-   get (value) {
-      ipfs.files.get(value, function (err, content) {
-         resolve(content);
-      });
-   }
+   // INSPECT FILE OR DIR PROPERTIES
+   get (value) { return ipfs.files.get(value); }
 
-   // ANALYZE METAMASK DATA VIA WEB3
-   metamask() {
-      return new Promise(function(resolve, reject) {
-         web3.eth.getAccounts((err, result) => {
-            if (err) {
-               log('MetaMask Error: ' + err)
-            } else {
-               resolve(result);
-            }
-         });
-      });
+   // ADD FILE TO IPFS
+   add(cacheName) {
+      var content = localStorage.getItem(cacheName);
+      return ipfs.files.add(Buffer.from(content));
    }
-
-   // FETCH SMART CONTRACT ADMIN ADDRESS
-   admin() {
-      return new Promise(function(resolve, reject) {
-         contract.admin((err, result) => {
-            if (err) {
-               log('Smart Contract Error: ' + err)
-            } else {
-               resolve(result);
-            }
-         });
-      });
-   }
-
-   // CHECK IF ADDRESS IS FOUND IN WHITELIST
-   isMember(address) {
-        return new Promise(function(resolve, reject) {
-            contract.whitelist(address, (err, result) => {
-                if (err) {
-                    log('Smart Contract Error: ' + err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
-    }
 }
 
 // EXPORT CLASS

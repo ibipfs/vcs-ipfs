@@ -28,18 +28,30 @@ function render() {
                <tr><td><div id="header">Add user to Whitelist</div></td></tr>
                <tr><td>
                   <div id="gray">
-                     <table><tbody><tr>
-                        <td style="vertical-align: middle">Name:</td>
-                        <td>
-                           <input type="text" placeholder="Claire" id="name">
-                        </td>
-                     </tr></tbody></table>
-                     <table style="margin-top: 5px;"><tbody><tr>
-                        <td style="vertical-align: middle">Ethereum Address:</td>
-                        <td>
-                           <input type="text" placeholder="0x45597FE80FE0F6dedEbe3359dC6C59A5414Fc9A2" id="address">
-                        </td>
-                     </tr></tbody></table>
+                     <table><tbody>
+                        <tr>
+                           <td style="vertical-align: middle">Name:</td>
+                           <td>
+                              <input type="text" placeholder="Claire" id="name">
+                           </td>
+                        </tr>
+                        <tr>
+                           <td style="vertical-align: middle">Ethereum Address:</td>
+                           <td>
+                              <input type="text" placeholder="0x45597FE80FE0F6dedEbe3359dC6C59A5414Fc9A2" id="address">
+                           </td>
+                        </tr>
+                        <tr>
+                           <td style="vertical-align: middle">Permission:</td>
+                           <td>
+                              <select id="permission">
+                                 <option>Editor</option>
+                                 <option>Admin</option>
+                                 <option>Master</option>
+                              </select>
+                           </td>
+                        </tr>
+                     </tbody></table>
                   </div>
                   <input type="submit" id="whitelist" value="Add">
                </td></tr>
@@ -70,6 +82,7 @@ function render() {
 
       // PICK UP INPUT VALUES
       var name = $('#name').val();
+      var permission = $("#permission :selected").text();
       var address = $('#address').val();
 
       // CHECK LENGTHS
@@ -80,7 +93,7 @@ function render() {
          var actions = new Actions();
 
          // EXECUTE & LOG RESPONSE
-         actions.add(name, address).then((response) => {
+         actions.add(name, permission, address).then((response) => {
             log(response);
          });
 

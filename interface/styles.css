@@ -448,13 +448,9 @@ select, input {
    margin: 0px;
 	padding: 7px;
 	border: 1px solid #CECECE;
-	width: 200px;
+	width: 350px;
 	border-radius: 4px;
    outline: none;
    cursor: pointer;
    -webkit-appearance: textfield;
-}
-
-input {
-   width: 350px;
 }

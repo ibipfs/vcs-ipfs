@@ -6,19 +6,6 @@ class Mutable {
    constructor() {
       this.check();
    }
-
-   // MAKE DIRECTORY
-   mkdir(dir) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.mkdir('/' + dir, (err) => {
-            if (err) {
-               log(err)
-            } else {
-               resolve(dir);
-            }
-         });
-      });
-   }
    
    // LIST
    ls(dir = '') {
@@ -28,19 +15,6 @@ class Mutable {
                log(error);
             } else {
                resolve(files);
-            }
-         });
-      });
-   }
-   
-   // FLUSH
-   flush(file = '') {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.flush('/' + file, (err) => {
-            if (err) {
-               log(err);
-            } else {
-               resolve();
             }
          });
       });
@@ -59,34 +33,18 @@ class Mutable {
       });
    }
 
-   // COPY
-   cp(from, to) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.cp('/' + from, '/' + to, (err) => {
-            if (err) {
-               log(err)
-            } else {
-               log('Copied "' + from + '" to "' + to + '"');
-            }
-         });
-      });
-   }
+   // READ FILE
+   read(path) { return ipfs.files.read('/' + path); }
 
-   // READ
-   read(path) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.read('/' + path, (error, buf) => {
-            resolve(buf.toString('utf8'));
-         });
-      });
-   }
+   // WRITE INTO FILE
+   write(path, content) { ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }); }
 
-   // WRITE
-   write(path, content) {
+   // RELEASE NEW VERSION
+   release(fileArray) {
       return new Promise(function(resolve, reject) {
-         ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }, (err, res) => {
+         ipfs.files.add(fileArray, (err, res) => {
             if (err) {
-               log(err)
+               log(err);
             } else {
                resolve(res);
             }
@@ -117,7 +75,7 @@ class Mutable {
       });
    }
 
-   // RESET ALL LOGS TO THEIR DEFAULT VALUE
+   // RESET ALL LOGS
    nukeLogs(files) {
       log('Nuking initiated!');
       var promiseList = [];
@@ -168,30 +126,6 @@ class Mutable {
 
                });
             });
-         });
-      });
-   }
-
-   // ADD TO IPFS
-   add(cacheName) {
-      return new Promise(function(resolve, reject) {
-         var content = localStorage.getItem(cacheName);
-
-         ipfs.files.add(Buffer.from(content), function (err, res) {
-            resolve(res);
-         });
-      });
-   }
-
-   // RELEASE NEW VERSION
-   release(fileArray) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.add(fileArray, (err, res) => {
-            if (err) {
-               log(err);
-            } else {
-               resolve(res);
-            }
          });
       });
    }

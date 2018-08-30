@@ -1,5 +1,6 @@
 var Buffer = require('buffer/').Buffer
 var Mutable = require('./mutable.js');
+var Ethereum = require('./ethereum.js');
 var config = require('../config.js')();
 
 class Actions {
@@ -7,8 +8,8 @@ class Actions {
    release(significance) {
       config.then((config) => {
 
-         // MAKE SURE LMETAMASK USER IS ADMIN
-         if (config.metamask.admin == true) {
+         // MAKE SURE LOGGED USER IS ADMIN OR HIGHER
+         if (config.metamask.permission == 'admin' || config.metamask.permission == 'master') {
 
             // CHECK IF TRACKER IS EMPTY
             if ($.isEmptyObject(config.tracker) == false) {
@@ -209,35 +210,43 @@ class Actions {
    }
 
    // ADD USER TO WHITELIST
-   add(_name, _address) {
+   add(_name, _permission, _address) {
       config.then((config) => {
 
-         // MAKE SURE LMETAMASK USER IS ADMIN
-         if (config.metamask.admin == true) {
+         // FETCH ETHEREUM MODULE
+         var ethereum = new Ethereum();
 
-            return new Promise(function(resolve, reject) {
-               contract.whitelist(_address, function(error, result) {
-         
-                  // IF ENTRY DOESNT ALREADY EXIST IN MAP
-                  if (result[0] == '') {
-         
-                     // ADD ENTRY
-                     contract.add(_name, _address, function(error, result) {
-                        if (error) {
-                           log(error);
-                        } else {
-                           resolve('Added "' + _name + '" to the whitelist!');
-                        }
-                     });
-         
-                  } else {
-                     resolve('That user already exists!');
-                  }
+         ethereum.master().then((master) => {
+
+            // MAKE SURE LOGGED USER IS THE MASTER
+            if (config.metamask.address == master) {
+
+               return new Promise(function(resolve, reject) {
+                  ethereum.whitelist(_address).then((row) => {
+            
+                     // IF ENTRY DOESNT ALREADY EXIST IN MAP
+                     if (row[0] == '') {
+            
+                        // ADD ENTRY
+                        ethereum.add(_name, _permission, _address).then(() => {
+                           if (error) {
+                              log(error);
+                           } else {
+                              resolve('Added "' + _name + '" to the whitelist!');
+                           }
+                        });
+            
+                     } else {
+                        resolve('That user already exists!');
+                     }
+                  });
                });
-            });
-         } else {
-            log('Permission denied!');
-         }
+
+            // USER ISNT THE MASTER
+            } else {
+               log('Permission Denied!');
+            }
+         });
       });
    }
 

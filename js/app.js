@@ -1,7 +1,9 @@
+// DECLARE CURRENT VAR FOR MAINMENU UNDERLINING
+var current = 'files';
+
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
-$('body').on('load', () => {
+$(document).ready(() => {
    require('./content/index.js')();
-   var current = 'files';
 });
 
 // WHEN MENULINK IS CLICKED

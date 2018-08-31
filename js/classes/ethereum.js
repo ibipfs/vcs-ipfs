@@ -10,7 +10,7 @@ class Ethereum {
                resolve(whitelist);
             }
          });
-     });
+      });
    }
 
    // ADD USER TO WHITELIST

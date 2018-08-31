@@ -6,7 +6,7 @@ contract Main {
     mapping(address => User) public whitelist;
 
     // DECLARE SUP
-    address public master = 0x1491a6C747DA54fEFbeDA8d72d0db175D2eE4937;
+    address public master = 0x03ce8855b592f9D420806690Ae31b3593eFB015c;
 
     // USER OBJECT
     struct User {

@@ -19,8 +19,11 @@ var json = $.ajax({
    dataType: 'json'
 }).responseJSON;
 
+// FETCH LAST INDEX VALUE
+var length = Object.keys(json.networks).length;
+
 // FETCH DEPLOYMENT ID
-var id = Object.keys(json.networks)[0];
+var id = Object.keys(json.networks)[length - 1];
 
 // CONTRACT ADDRESS
 var contractAddress = json.networks[id].address;

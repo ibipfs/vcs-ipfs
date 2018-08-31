@@ -5,7 +5,7 @@ contract Main {
     // WHITELIST
     mapping(address => User) public whitelist;
 
-    // DECLARE SUP
+    // DECLARE MASTER
     address public master = 0x03ce8855b592f9D420806690Ae31b3593eFB015c;
 
     // USER OBJECT

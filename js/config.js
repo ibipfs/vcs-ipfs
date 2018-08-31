@@ -52,20 +52,40 @@ function build() {
                config.metamask.address = addresses[0];
             }
 
-            // CHANGE CSS BASED ON ethereum PROPS
-            metamask_css(config.metamask);
+            log(config)
+
+            // RETURN CONFIG
+            return config;
          });
-
-      // NOT LOGGED IN
+      
       } else {
+         log(config)
 
-         // CHANGE CSS BASED ON ethereum PROPS
-         metamask_css(config.metamask);
+         // RETURN CONFIG
+         return config;  
+      }
+   });
+}
+
+// ADD USERDATA TO CONFIG
+function add_data(config, address) {
+
+   // FETCH SMART CONTRACT MODULE
+   var Ethereum = require('./classes/ethereum.js');
+   var ethereum = new Ethereum();
+
+   // CHECK SMART CONTRACT WHITELIST
+   ethereum.whitelist(address).then((user_data) => {
+
+      // IF STRUCT EXISTS IN MAP -- WORKAROUND B/C UINT256 RETURNED AS ARRAY
+      if (user_data[2].c[0] != 0) {
+
+         // SAVE ADDRESS NAME PROP TO CONFIG
+         config.metamask.name = user_data[0];
+         config.metamask.permission = user_data[1];
+         config.metamask.address = address;
       }
 
-      log(config)
-
-      // RETURN CONFIG
       return config;
    });
 }

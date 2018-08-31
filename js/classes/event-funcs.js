@@ -156,27 +156,27 @@ function upload() {
             mutable.write('tracker.json', tracker).then(() => {
                log('Added entry to Tracker.')
 
-                  // PARSE LOG FILE
-                  var activity = config.activity;
-                  var type = 'upload';
-                  
-                  // ADD ENTRY
-                  activity[unix] = {
-                     type: type,
-                     original: original_file,
-                     user: user,
-                     path: path,
-                     hash: hash
-                  }
+               // PARSE LOG FILE
+               var activity = config.activity;
+               var type = 'upload';
+               
+               // ADD ENTRY
+               activity[unix] = {
+                  type: type,
+                  original: original_file,
+                  user: user,
+                  path: path,
+                  hash: hash
+               }
 
-                  // STRINGIFY AGAIN
-                  activity = JSON.stringify(activity);
+               // STRINGIFY AGAIN
+               activity = JSON.stringify(activity);
 
-                  // OVERWRITE OLD LOG
-                  mutable.write('activity.json', activity).then(() => {
-                     log('Added entry to log.');
+               // OVERWRITE OLD LOG
+               mutable.write('activity.json', activity).then(() => {
+                  log('Added entry to log.');
 
-                  });
+               });
             });
          });
 

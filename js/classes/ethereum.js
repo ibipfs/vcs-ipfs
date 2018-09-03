@@ -1,45 +1,15 @@
 class Ethereum {
 
    // FETCH ROW FROM WHITELIST
-   whitelist (address) {
+   userInfo (address) {
       return new Promise((resolve, reject) => {
-         contract.whitelist(address, (error, whitelist) => {
-            if (error) {
-               reject(error);
-            } else {
-               resolve(whitelist);
-            }
+         contract.whitelist(address, (error, result) => {
+            if (error) { reject(error); } else { resolve(result); }
          });
       });
    }
-
-   // ADD USER TO WHITELIST
-   add(_name, _permission, _address) {
-      return new Promise((resolve, reject) => {
-         contract.add(_name, _permission, _address, (error, result) => {
-            if (error) {
-               reject(error);
-            } else {
-               resolve('Added "' + _name + '" to the whitelist!');
-            }
-         });
-      });
-   }
-
-   // FETCH CONTRACT MASTER ADDRESS
-   master() {
-      return new Promise((resolve, reject) => {
-         contract.master((error, master) => {
-            if (error) {
-               reject(error);
-            } else {
-               resolve(master);
-            }
-         });
-      });
-   }
-
+   
 }
 
-// EXPORT CLASS
+// EXPORT CLASS AS MODULE
 module.exports = Ethereum;

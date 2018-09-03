@@ -25,5 +25,5 @@ function render() {
    sections.files();
 }
 
-// EXPORT MODULE
+// EXPORT RENDER FUNCTION AS MODULE
 module.exports = render;

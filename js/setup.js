@@ -1,6 +1,5 @@
 // BLOCKCHAIN & IPFS GATEWAY IP
 var host_addr = 'localhost';
-//var host_addr = '192.168.1.150';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {
@@ -19,7 +18,7 @@ var json = $.ajax({
    dataType: 'json'
 }).responseJSON;
 
-// FETCH LAST INDEX VALUE
+// FETCH LAST INDEX VALUE -- YOUR SMART CONTRACT TENDS TO BE AT THE LAST INDEX
 var length = Object.keys(json.networks).length;
 
 // FETCH DEPLOYMENT ID

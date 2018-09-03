@@ -2,8 +2,13 @@
 var Mutable = require('./classes/mutable.js');
 var mutable = new Mutable();
 
+// FETCH METAMASK MODULE
 var Metamask = require('./classes/metamask.js')
 var metamask = new Metamask();
+
+// FETCH SMART CONTRACT MODULE
+var Ethereum = require('./classes/ethereum.js');
+var ethereum = new Ethereum();
 
 function build() {
 
@@ -12,10 +17,13 @@ function build() {
    var history = mutable.read('history.json');
    var tracker = mutable.read('tracker.json');
    var activity = mutable.read('activity.json');
-   var accounts = metamask.accounts();
+   var sessions = metamask.sessions();
 
    // WAIT FOR ALL PROMISES TO BE RESOLVED
-   return Promise.all([latest, history, tracker, activity, accounts]).then((values) => {
+   return Promise.all([latest, history, tracker, activity, sessions]).then((values) => {
+
+      // LIST OF METAMASK SESSIONS
+      var addresses = values[4];
 
       // CREATE CONFIG OBJECT
       var config = {};
@@ -36,12 +44,8 @@ function build() {
          // SET METAMASK SESSION PROP
          config.metamask.session = true;
 
-         // FETCH SMART CONTRACT MODULE
-         var Ethereum = require('./classes/ethereum.js');
-         var ethereum = new Ethereum();
-
          // CHECK SMART CONTRACT WHITELIST
-         ethereum.whitelist(addresses[0]).then((user_data) => {
+         return ethereum.userInfo(addresses[0]).then((user_data) => {
 
             // IF STRUCT EXISTS IN MAP -- WORKAROUND B/C UINT256 RETURNED AS ARRAY
             if (user_data[2].c[0] != 0) {
@@ -50,43 +54,30 @@ function build() {
                config.metamask.name = user_data[0];
                config.metamask.permission = user_data[1];
                config.metamask.address = addresses[0];
+
+               // LOG FOR CLARITY & RETURN
+               log(config);
+               metamask_css(config.metamask);
+               return config;
+
+            // USER STRUCT DOESNT EXIST
+            } else {
+
+               // LOG FOR CLARITY & RETURN
+               log(config);
+               metamask_css(config.metamask);
+               return config;
             }
-
-            log(config)
-
-            // RETURN CONFIG
-            return config;
          });
-      
+
+      // NO METAMASK SESSIONS
       } else {
-         log(config)
-
-         // RETURN CONFIG
-         return config;  
+            
+         // LOG FOR CLARITY & RETURN
+         log(config);
+         metamask_css(config.metamask);
+         return config;
       }
-   });
-}
-
-// ADD USERDATA TO CONFIG
-function add_data(config, address) {
-
-   // FETCH SMART CONTRACT MODULE
-   var Ethereum = require('./classes/ethereum.js');
-   var ethereum = new Ethereum();
-
-   // CHECK SMART CONTRACT WHITELIST
-   ethereum.whitelist(address).then((user_data) => {
-
-      // IF STRUCT EXISTS IN MAP -- WORKAROUND B/C UINT256 RETURNED AS ARRAY
-      if (user_data[2].c[0] != 0) {
-
-         // SAVE ADDRESS NAME PROP TO CONFIG
-         config.metamask.name = user_data[0];
-         config.metamask.permission = user_data[1];
-         config.metamask.address = address;
-      }
-
-      return config;
    });
 }
 

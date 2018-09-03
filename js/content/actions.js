@@ -103,5 +103,5 @@ function render() {
    });
 }
 
-// EXPORT MODULE
+// EXPORT RENDER FUNCTION AS MODULE
 module.exports = render;

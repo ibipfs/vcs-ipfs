@@ -221,7 +221,7 @@ class Actions {
             // MAKE SURE LOGGED USER IS THE MASTER
             if (config.metamask.address == master) {
 
-               return new Promise(function(resolve, reject) {
+               return new Promise((resolve, reject) => {
                   ethereum.whitelist(_address).then((row) => {
             
                      // IF ENTRY DOESNT ALREADY EXIST IN MAP

@@ -1,101 +1,25 @@
+// FETCH BUFFER PACKAGE TO CONVERT STRINGS TO BINARY ARRAYS
 var Buffer = require('buffer/').Buffer
 
 class Mutable {
 
-   // CHECK THAT LOG FILES EXIST
-   constructor() {
-      this.check();
-   }
-
-   // MAKE DIRECTORY
-   mkdir(dir) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.mkdir('/' + dir, (err) => {
-            if (err) {
-               log(err)
-            } else {
-               resolve(dir);
-            }
-         });
-      });
-   }
+   // CHECK CONTENT OF VIRTUAL IPFS DIRECTORY
+   constructor() { this.checkLogs(); }
    
-   // LIST
-   ls(dir = '') {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.ls('/' + dir, function (err, files) {
-            if (err) {
-               log(error);
-            } else {
-               resolve(files);
-            }
-         });
-      });
-   }
+   // LIST OUT DIR CONTENT
+   ls(dir = '') { return ipfs.files.ls('/' + dir); }
    
-   // FLUSH
-   flush(file = '') {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.flush('/' + file, (err) => {
-            if (err) {
-               log(err);
-            } else {
-               resolve();
-            }
-         });
-      });
-   }
-   
-   // REMOVE FILE/DIR -- RECURSIVELY
-   rm(path) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.rm('/' + path, { recursive: true }, (err) => {
-            if (err) {
-               log(err);
-            } else {
-               resolve();
-            }
-         });
-      });
-   }
+   // REMOVE FILE -- RECURSIVELY
+   rm(path) { return ipfs.files.rm('/' + path, { recursive: true }); }
 
-   // COPY
-   cp(from, to) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.cp('/' + from, '/' + to, (err) => {
-            if (err) {
-               log(err)
-            } else {
-               log('Copied "' + from + '" to "' + to + '"');
-            }
-         });
-      });
-   }
+   // FETCH FILE CONTENT -- BINARY ARRAY -- .toString('utf8')
+   read(path) { return ipfs.files.read('/' + path); }
 
-   // READ
-   read(path) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.read('/' + path, (error, buf) => {
-            resolve(buf.toString('utf8'));
-         });
-      });
-   }
-
-   // WRITE
-   write(path, content) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }, (err, res) => {
-            if (err) {
-               log(err)
-            } else {
-               resolve(res);
-            }
-         });
-      });
-   }
+   // WRITE INTO FILE -- OVERWRITE IF FILE EXISTS & CREATE IF NOT
+   write(path, content) { return ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }); }
 
    // CHECK IF LOGFILES EXIST
-   check() {
+   checkLogs() {
       this.ls().then((files) => {
          var keys = Object.keys(files);
          var list = [];
@@ -106,10 +30,16 @@ class Mutable {
          }
 
          // WHITELIST
-         var whitelist = ['activity.json', 'history.json', 'latest.json', 'tracker.json'];
+         var whitelist = ['tracker.json', 'latest.json', 'history.json', 'activity.json'];
 
          // IF BOTH ARRAYS ARE THE SAME
          if (compareArrays(list, whitelist) == false) {
+
+            // LOG DETAILS FOR CLARITY
+            log('Expected files:');
+            log(whitelist);
+            log('Current files:');
+            log(files);
 
             // NUKE LOGS IF SOMETHING IS MISSING
             this.nukeLogs(list);
@@ -119,10 +49,11 @@ class Mutable {
 
    // RESET ALL LOGS TO THEIR DEFAULT VALUE
    nukeLogs(files) {
-      log('Nuking initiated!');
-      var promiseList = [];
+      log('\nNuking initiated!');
 
-      // CREATE A PROMISE FOR EACH EXISTING FILE/DIR
+      // GENERATE & PUSH A PROMISE FOR REMOVING ALL OLD CONTENT
+      var promiseList = [];
+      
       for (var x = 0; x < files.length; x++) {
          promiseList.push(this.rm(files[x]));
       }
@@ -141,7 +72,7 @@ class Mutable {
             // DEFAULT HISTORY CONTENT
             var latestDefault = {
                "name": "1.0",
-               "hash": "QmSBmWXmCwYYKUTtW8RQ1xivH2M7Zkgfhsa1GLNx7hFmSe",
+               "hash": "QmQsztuBTtghvcnHjbpwuH9da9EVCeYvdYBvQXRe7GAa6C",
                "timestamp": unixTime()
             }
 
@@ -165,38 +96,12 @@ class Mutable {
 
                      log('Nuking complete!')
                   });
-
                });
             });
          });
       });
    }
-
-   // ADD TO IPFS
-   add(cacheName) {
-      return new Promise(function(resolve, reject) {
-         var content = localStorage.getItem(cacheName);
-
-         ipfs.files.add(Buffer.from(content), function (err, res) {
-            resolve(res);
-         });
-      });
-   }
-
-   // RELEASE NEW VERSION
-   release(fileArray) {
-      return new Promise(function(resolve, reject) {
-         ipfs.files.add(fileArray, (err, res) => {
-            if (err) {
-               log(err);
-            } else {
-               resolve(res);
-            }
-         });
-      });
-   }
-
 }
 
-// EXPORT CLASS
+// EXPORT CLASS AS MODULE
 module.exports = Mutable;

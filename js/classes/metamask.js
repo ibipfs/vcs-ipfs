@@ -1,19 +1,14 @@
 class Metamask {
 
    // FETCH WEB3 ETH ACCOUNTLIST
-   accounts () {
+   sessions() {
       return new Promise((resolve, reject) => {
-         web3.eth.getAccounts((error, accounts) => {
-            if (error) {
-               reject(error);
-            } else {
-               resolve(accounts);
-            }
+         web3.eth.getAccounts((error, result) => {
+            if (error) { reject(error); } else { resolve(result); }
          });
       });
    }
-
 }
 
-// EXPORT CLASS
+// EXPORT CLASS AS MODULE
 module.exports = Metamask;

@@ -35,5 +35,9 @@ function render() {
 
 }
 
+function foobar() {
+   log('eyylmao');
+}
+
 // EXPORT RENDER FUNCTION AS MODULE
 module.exports = render;

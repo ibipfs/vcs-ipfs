@@ -22,35 +22,35 @@ $('body').on('click', '#menu a', () => {
       $(event.target).css('text-decoration', 'underline');
 
       // PLACEHOLDER MODULE
-      var sectionModule;
+      var section_module;
    
       switch (value) {
    
          // ACTIVITY
          case 'activity':
-            sectionModule = require('./content/activity.js');
+            section_module = require('./content/activity.js');
             current = 'activity';
          break;
 
          // TRACKER
          case 'tracker':
-            sectionModule = require('./content/tracker.js');
+            section_module = require('./content/tracker.js');
             current = 'tracker';
          break;
 
          // TRACKER
-         case 'actions':
-            sectionModule = require('./content/actions.js');
-            current = 'actions';
+         case 'manage':
+            section_module = require('./content/manage.js');
+            current = 'manage';
          break;
    
          // FALLBACK & INDEX
          default:
-            sectionModule = require('./content/index.js');
+            section_module = require('./content/index.js');
             current = 'files';
          break;
       }
 
-      sectionModule();
+      section_module();
    }
 });

@@ -41,7 +41,7 @@ function build() {
          config.metamask.session = true;
 
          // CHECK SMART CONTRACT WHITELIST
-         return ethereum.userInfo(addresses[0]).then((user_data) => {
+         return ethereum.user_info(addresses[0]).then((user_data) => {
 
             // IF STRUCT EXISTS IN MAP -- WORKAROUND B/C UINT256 RETURNED AS ARRAY
             if (user_data[2].c[0] != 0) {

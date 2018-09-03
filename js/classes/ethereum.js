@@ -10,9 +10,18 @@ class Ethereum {
    }
 
    // FETCH ROW FROM WHITELIST
-   userInfo (address) {
+   user_info (address) {
       return new Promise((resolve, reject) => {
          contract.whitelist(address, (error, result) => {
+            if (error) { reject(error); } else { resolve(result); }
+         });
+      });
+   }
+
+   // FETCH MASTER ADDRESS
+   fetch_master () {
+      return new Promise((resolve, reject) => {
+         contract.master((error, result) => {
             if (error) { reject(error); } else { resolve(result); }
          });
       });

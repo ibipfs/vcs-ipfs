@@ -89,11 +89,11 @@ function render() {
       if (name.length != 0 && address.length == 42) {
 
          // FETCH ACTIONS MODULE
-         var Actions = require('../classes/actions.js');
-         var actions = new Actions();
+         var Ethereum = require('../classes/ethereum.js');
+         var ethereum = new Ethereum();
 
          // EXECUTE & LOG RESPONSE
-         actions.add(name, permission, address).then((response) => {
+         ethereum.add(name, permission, address).then((response) => {
             log(response);
          });
 

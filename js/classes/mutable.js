@@ -7,20 +7,20 @@ class Mutable {
    constructor() { this.checkLogs(); }
    
    // LIST OUT DIR CONTENT
-   ls(dir = '') { return ipfs.files.ls('/' + dir); }
+   list (dir = '') { return ipfs.files.ls('/' + dir); }
    
    // REMOVE FILE -- RECURSIVELY
-   rm(path) { return ipfs.files.rm('/' + path, { recursive: true }); }
+   remove (path) { return ipfs.files.rm('/' + path, { recursive: true }); }
 
    // FETCH FILE CONTENT -- BINARY ARRAY -- .toString('utf8')
-   read(path) { return ipfs.files.read('/' + path); }
+   read (path) { return ipfs.files.read('/' + path); }
 
    // WRITE INTO FILE -- OVERWRITE IF FILE EXISTS & CREATE IF NOT
-   write(path, content) { return ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }); }
+   write (path, content) { return ipfs.files.write('/' + path, Buffer.from(content), { truncate: true, create: true }); }
 
    // CHECK IF LOGFILES EXIST
-   checkLogs() {
-      this.ls().then((files) => {
+   checkLogs () {
+      this.list().then((files) => {
          var keys = Object.keys(files);
          var list = [];
 
@@ -39,7 +39,7 @@ class Mutable {
             log('Expected files:');
             log(whitelist);
             log('Current files:');
-            log(files);
+            log(list);
 
             // NUKE LOGS IF SOMETHING IS MISSING
             this.nukeLogs(list);
@@ -48,14 +48,14 @@ class Mutable {
    }
 
    // RESET ALL LOGS TO THEIR DEFAULT VALUE
-   nukeLogs(files) {
+   nukeLogs (files) {
       log('\nNuking initiated!');
 
       // GENERATE & PUSH A PROMISE FOR REMOVING ALL OLD CONTENT
       var promiseList = [];
       
       for (var x = 0; x < files.length; x++) {
-         promiseList.push(this.rm(files[x]));
+         promiseList.push(this.remove(files[x]));
       }
 
       // WAIT FOR ALL PROMISES TO GET RESOLVED
@@ -94,7 +94,7 @@ class Mutable {
                   this.write('activity.json', JSON.stringify(activityDefault)).then(() => {
                      log('Activity log created!');
 
-                     log('Nuking complete!')
+                     log('Nuking complete!');
                   });
                });
             });

@@ -1,6 +1,5 @@
 var Buffer = require('buffer/').Buffer
 var Mutable = require('./mutable.js');
-var Ethereum = require('./ethereum.js');
 var config = require('../config.js')();
 
 class Actions {
@@ -13,7 +12,7 @@ class Actions {
 
             // CHECK IF TRACKER IS EMPTY
             if ($.isEmptyObject(config.tracker) == false) {
-               log('Releasing new version..\n----')
+               log('Releasing new version..\n----');
 
                var mutable = new Mutable();
                significance = significance.toLowerCase();
@@ -210,45 +209,45 @@ class Actions {
    }
 
    // ADD USER TO WHITELIST
-   add(_name, _permission, _address) {
-      config.then((config) => {
+   // add(_name, _permission, _address) {
+   //    config.then((config) => {
 
-         // FETCH ETHEREUM MODULE
-         var ethereum = new Ethereum();
+   //       // FETCH ETHEREUM MODULE
+   //       var ethereum = new Ethereum();
 
-         ethereum.master().then((master) => {
+   //       ethereum.master().then((master) => {
 
-            // MAKE SURE LOGGED USER IS THE MASTER
-            if (config.metamask.address == master) {
+   //          // MAKE SURE LOGGED USER IS THE MASTER
+   //          if (config.metamask.address == master) {
 
-               return new Promise((resolve, reject) => {
-                  ethereum.whitelist(_address).then((row) => {
+   //             return new Promise((resolve, reject) => {
+   //                ethereum.whitelist(_address).then((row) => {
             
-                     // IF ENTRY DOESNT ALREADY EXIST IN MAP
-                     if (row[0] == '') {
+   //                   // IF ENTRY DOESNT ALREADY EXIST IN MAP
+   //                   if (row[0] == '') {
             
-                        // ADD ENTRY
-                        ethereum.add(_name, _permission, _address).then(() => {
-                           if (error) {
-                              log(error);
-                           } else {
-                              resolve('Added "' + _name + '" to the whitelist!');
-                           }
-                        });
+   //                      // ADD ENTRY
+   //                      ethereum.add(_name, _permission, _address).then(() => {
+   //                         if (error) {
+   //                            log(error);
+   //                         } else {
+   //                            resolve('Added "' + _name + '" to the whitelist!');
+   //                         }
+   //                      });
             
-                     } else {
-                        resolve('That user already exists!');
-                     }
-                  });
-               });
+   //                   } else {
+   //                      resolve('That user already exists!');
+   //                   }
+   //                });
+   //             });
 
-            // USER ISNT THE MASTER
-            } else {
-               log('Permission Denied!');
-            }
-         });
-      });
-   }
+   //          // USER ISNT THE MASTER
+   //          } else {
+   //             log('Permission Denied!');
+   //          }
+   //       });
+   //    });
+   // }
 
 }
 

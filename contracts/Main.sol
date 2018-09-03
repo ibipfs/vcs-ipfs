@@ -3,7 +3,7 @@ pragma solidity ^0.4.2;
 contract Main {
 
     // WHITELIST
-    mapping(address => User) public whitelist;
+    mapping (address => User) public whitelist;
 
     // DECLARE MASTER
     address public master = 0xFffC9F737D80E9031F8b1B01D7FAF59Ce45def3B;

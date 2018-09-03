@@ -2,10 +2,6 @@
 var Mutable = require('./classes/mutable.js');
 var mutable = new Mutable();
 
-// FETCH METAMASK MODULE
-var Metamask = require('./classes/metamask.js')
-var metamask = new Metamask();
-
 // FETCH SMART CONTRACT MODULE
 var Ethereum = require('./classes/ethereum.js');
 var ethereum = new Ethereum();
@@ -17,7 +13,7 @@ function build() {
    var history = mutable.read('history.json');
    var tracker = mutable.read('tracker.json');
    var activity = mutable.read('activity.json');
-   var sessions = metamask.sessions();
+   var sessions = ethereum.sessions();
 
    // WAIT FOR ALL PROMISES TO BE RESOLVED
    return Promise.all([latest, history, tracker, activity, sessions]).then((values) => {

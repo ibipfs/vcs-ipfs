@@ -119,18 +119,30 @@ function capitalize(string) {
    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// CHECK IF TWO ARRAYS ARE THE SAME
+// CHECK IF TWO ARRAYS HAVE THE SAME CONTENT
 function compareArrays(first, second) {
+
+   // START BY SORTING BOTH
+   first = first.sort();
+   second = second.sort();
+
+   // ASSIST VARS
    var value = false;
    var num = 0;
 
+   // CHECK IF ARRAYS ARE SAME SIZE
    if (first.length == second.length) {
+
+      // CHECK THAT EACH EACH ELEMENT ARE THE SAME
       for (var x = 0; x < first.length; x++) {
          if (first[x] == second[x]) {
+
+            // IF THEY DO, INCREMENT NUM
             num++;
          }
       }
 
+      // IF NUM EQUALS ARRAY SIZE, RETURN TRUE
       if (num == first.length) {
          value = true;
       }

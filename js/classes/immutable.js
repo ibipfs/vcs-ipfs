@@ -13,14 +13,10 @@ class Immutable {
    get (value) { return ipfs.files.get(value); }
 
    // ADD FILE TO IPFS
-   add_file(content) {
-      return ipfs.files.add(Buffer.from(content));
-   }
+   add_file (content) { return ipfs.files.add(Buffer.from(content)); }
 
    // ADD DIRECTORY TO IPFS
-   add_dir(fileArray) {
-      return ipfs.files.add(fileArray);
-   }
+   add_dir (fileArray) { return ipfs.files.add(fileArray); }
 }
 
 // EXPORT CLASS AS MODULE

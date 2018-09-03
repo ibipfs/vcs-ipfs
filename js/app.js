@@ -10,10 +10,10 @@ $(document).ready(() => {
 $('body').on('click', '#menu a', () => {
 
    // CLICKED MENU ELEMENT VALUE
-   var val = $(event.target).text();
-   val = val.toLowerCase();
+   var value = $(event.target).text();
+   value = value.toLowerCase();
 
-   if (current != val) {
+   if (current != value) {
 
       // REMOVE UNDERLINE FROM EVERY ELEMENT
       $('#menu a').css('text-decoration', 'none');
@@ -24,7 +24,7 @@ $('body').on('click', '#menu a', () => {
       // PLACEHOLDER MODULE
       var sectionModule;
    
-      switch (val) {
+      switch (value) {
    
          // ACTIVITY
          case 'activity':

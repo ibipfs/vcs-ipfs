@@ -73,17 +73,17 @@ function elements() {
 // ADD SPECIFIC EVENTS
 function events(config) {
 
+   // FETCH ACTION MODULES
+   var actions = require('../classes/actions.js');
+
    // RELEASE
    $('#release').on('click', () => {
 
-      // FETCH ACTIONS MODULE
-      var Actions = require('../classes/actions.js');
-      var actions = new Actions();
-
-      // PICK UP SIGNIFICANCE & EXECUTE
+      // PICK UP USER SELECTED SIGNIFICANCE
       var significance = $("#significance :selected").text();
-      actions.release(significance);
 
+      // EXECUTE
+      actions.release(significance);
    });
 
    // WHITELIST
@@ -94,21 +94,8 @@ function events(config) {
       var permission = $("#permission :selected").text();
       var address = $('#address').val();
 
-      // CHECK LENGTHS
-      if (name.length != 0 && address.length == 42) {
-
-         // FETCH ACTIONS MODULE
-         var Ethereum = require('../classes/ethereum.js');
-         var ethereum = new Ethereum();
-
-         // EXECUTE & LOG RESPONSE
-         ethereum.add(name, permission, address).then((response) => {
-            log(response);
-         });
-
-      } else {
-         log('Bad input data.');
-      }
+      // EXECUTE
+      actions.add(name, permission, address);
    });
 }
 

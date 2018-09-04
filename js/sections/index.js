@@ -148,6 +148,37 @@ function content(config, query = '') {
 
 // ADD SPECIFIC EVENTS
 function events(config) {
+
+   // FETCH & INSTANTIATE ACTIONS MODULE
+   var actions = require('../classes/actions.js');
+
+   // SHOW FILE CONTENT
+   $('body').on('click', 'a#show', (target) => { actions.show(); });
+
+   // OPEN IPFS DIRECTORY
+   $('body').on('click', 'a#open', (target) => { actions.open(); });
+
+   // SAVE BUTTON EVENT
+   $('body').on('click', '#save', () => { actions.save(); });
+
+   // REMOVE BUTTON EVENT
+   $('body').on('click', '#remove', () => { actions.remove(); });
+
+   // UPLOAD BUTTON EVENT
+   $('body').on('click', '#upload', () => { actions.upload(); });
+
+   // CLOSE WINDOW VIA BUTTON EVENT
+   $('body').on('click', '#discard', () => { actions.close(); });
+
+   // CLOSE WINDOW EVENT
+   $(document).on('keyup', (evt) => {
+   
+      // ESC KEY
+      if (evt.keyCode == 27) {
+         event.preventDefault();
+         actions.close();
+      }
+   });
 }
 
 // EXPORT RENDER FUNCTION AS MODULE

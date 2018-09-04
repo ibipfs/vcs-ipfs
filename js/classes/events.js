@@ -3,7 +3,7 @@ var Immutable = require('../classes/immutable.js');
 var config = require('../config.js')();
 
 // HIDE PROMPT ON ESC
-$(document).on('keyup',function(evt) {
+$(document).on('keyup', (evt) => {
    
    // ESC KEY
    if (evt.keyCode == 27) {

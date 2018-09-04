@@ -118,11 +118,24 @@ function content(config, filter = '') {
 
 // ADD SPECIFIC EVENTS
 function events(config) {
-   
+
+   // FETCH & INSTANTIATE ACTIONS MODULE
+   var actions = require('../classes/actions.js');
+
    // FILTER
-   $("#filter").on('keyup', () => {
-      var query = $('#filter').val();
-      content(config, query);
+   $("#filter").on('keyup', () => { var query = $('#filter').val(); content(config, query); });
+
+   // COMPARE FILES EVENT
+   $('body').on('click', 'a#compare', (target) => { actions.compare(); });
+
+   // CLOSE WINDOW EVENT
+   $(document).on('keyup', (evt) => {
+   
+      // ESC KEY
+      if (evt.keyCode == 27) {
+         event.preventDefault();
+         funcs.closePrompt();
+      }
    });
 
 }

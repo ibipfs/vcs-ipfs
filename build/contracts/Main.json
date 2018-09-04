@@ -65,14 +65,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405273fffc9f737d80e9031f8b1b01d7faf59ce45def3b600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555034801561006557600080fd5b5061069b806100756000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806389d4a3161461005c5780639b19251a1461012b578063ee97f7f31461025a575b600080fd5b34801561006857600080fd5b50610129600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102b1565b005b34801561013757600080fd5b5061016c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061044a565b604051808060200180602001848152602001838103835286818151815260200191508051906020019080838360005b838110156101b657808201518184015260208101905061019b565b50505050905090810190601f1680156101e35780820380516001836020036101000a031916815260200191505b50838103825285818151815260200191508051906020019080838360005b8381101561021c578082015181840152602081019050610201565b50505050905090810190601f1680156102495780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b34801561026657600080fd5b5061026f6105a4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156104455760008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060020154141561044457826000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805190602001906103a69291906105ca565b50816000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010190805190602001906103fc9291906105ca565b50426000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201819055505b5b505050565b6000602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f65780601f106104cb576101008083540402835291602001916104f6565b820191906000526020600020905b8154815290600101906020018083116104d957829003601f168201915b505050505090806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105945780601f1061056957610100808354040283529160200191610594565b820191906000526020600020905b81548152906001019060200180831161057757829003601f168201915b5050505050908060020154905083565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061060b57805160ff1916838001178555610639565b82800160010185558215610639579182015b8281111561063857825182559160200191906001019061061d565b5b509050610646919061064a565b5090565b61066c91905b80821115610668576000816000905550600101610650565b5090565b905600a165627a7a723058201565a816b274951bd5ac93e9edf1a2c0c1f676d8b4021462705087c77d15a30b0029",
-  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806389d4a3161461005c5780639b19251a1461012b578063ee97f7f31461025a575b600080fd5b34801561006857600080fd5b50610129600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102b1565b005b34801561013757600080fd5b5061016c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061044a565b604051808060200180602001848152602001838103835286818151815260200191508051906020019080838360005b838110156101b657808201518184015260208101905061019b565b50505050905090810190601f1680156101e35780820380516001836020036101000a031916815260200191505b50838103825285818151815260200191508051906020019080838360005b8381101561021c578082015181840152602081019050610201565b50505050905090810190601f1680156102495780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b34801561026657600080fd5b5061026f6105a4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156104455760008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060020154141561044457826000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805190602001906103a69291906105ca565b50816000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010190805190602001906103fc9291906105ca565b50426000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201819055505b5b505050565b6000602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f65780601f106104cb576101008083540402835291602001916104f6565b820191906000526020600020905b8154815290600101906020018083116104d957829003601f168201915b505050505090806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105945780601f1061056957610100808354040283529160200191610594565b820191906000526020600020905b81548152906001019060200180831161057757829003601f168201915b5050505050908060020154905083565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061060b57805160ff1916838001178555610639565b82800160010185558215610639579182015b8281111561063857825182559160200191906001019061061d565b5b509050610646919061064a565b5090565b61066c91905b80821115610668576000816000905550600101610650565b5090565b905600a165627a7a723058201565a816b274951bd5ac93e9edf1a2c0c1f676d8b4021462705087c77d15a30b0029",
-  "sourceMap": "25:823:0:-;;;157:42;133:66;;;;;;;;;;;;;;;;;;;;25:823;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:823:0;;;;;;;",
-  "deployedSourceMap": "25:823:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;343:503;;8:9:-1;5:2;;;30:1;27;20:12;5:2;343:503:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;63:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;63:41:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;63:41:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;63:41:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;133:66;;8:9:-1;5:2;;;30:1;27;20:12;5:2;133:66:0;;;;;;;;;;;;;;;;;;;;;;;;;;;343:503;488:6;;;;;;;;;;;474:20;;:10;:20;;;470:370;;;606:1;575:9;:17;585:6;575:17;;;;;;;;;;;;;;;:27;;;:32;571:259;;;699:5;674:9;:17;684:6;674:17;;;;;;;;;;;;;;;:22;;:30;;;;;;;;;;;;:::i;:::-;;753:11;722:9;:17;732:6;722:17;;;;;;;;;;;;;;;:28;;:42;;;;;;;;;;;;:::i;:::-;;812:3;782:9;:17;792:6;782:17;;;;;;;;;;;;;;;:27;;:33;;;;571:259;470:370;343:503;;;:::o;63:41::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;133:66::-;;;;;;;;;;;;;:::o;25:823::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.2;\n\ncontract Main {\n\n    // WHITELIST\n    mapping(address => User) public whitelist;\n\n    // DECLARE MASTER\n    address public master = 0xFffC9F737D80E9031F8b1B01D7FAF59Ce45def3B;\n\n    // USER OBJECT\n    struct User {\n        string name;\n        string permission;\n        uint256 timestamp;\n    }\n\n    // ADD MEMBER\n    function add(string _name, string _permission, address _owner) public {\n\n        // MAKE SURE CALLER ADDRESS IS MASTER\n        if (msg.sender == master) {\n\n            // CHECK THAT ENTRY DOESNT ALREADY EXIST IN MAP\n            if (whitelist[_owner].timestamp == 0) {\n\n                // GENERATE & PUSH NEW STRUCT\n                whitelist[_owner].name = _name;\n                whitelist[_owner].permission = _permission;\n                whitelist[_owner].timestamp = now;\n            }\n        }\n    }\n}",
-  "sourcePath": "/var/www/html/ipfs/contracts/Main.sol",
+  "bytecode": "0x608060405273fffc9f737d80e9031f8b1b01d7faf59ce45def3b600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555034801561006557600080fd5b5061069b806100756000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806389d4a3161461005c5780639b19251a1461012b578063ee97f7f31461025a575b600080fd5b34801561006857600080fd5b50610129600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102b1565b005b34801561013757600080fd5b5061016c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061044a565b604051808060200180602001848152602001838103835286818151815260200191508051906020019080838360005b838110156101b657808201518184015260208101905061019b565b50505050905090810190601f1680156101e35780820380516001836020036101000a031916815260200191505b50838103825285818151815260200191508051906020019080838360005b8381101561021c578082015181840152602081019050610201565b50505050905090810190601f1680156102495780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b34801561026657600080fd5b5061026f6105a4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156104455760008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060020154141561044457826000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805190602001906103a69291906105ca565b50816000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010190805190602001906103fc9291906105ca565b50426000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201819055505b5b505050565b6000602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f65780601f106104cb576101008083540402835291602001916104f6565b820191906000526020600020905b8154815290600101906020018083116104d957829003601f168201915b505050505090806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105945780601f1061056957610100808354040283529160200191610594565b820191906000526020600020905b81548152906001019060200180831161057757829003601f168201915b5050505050908060020154905083565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061060b57805160ff1916838001178555610639565b82800160010185558215610639579182015b8281111561063857825182559160200191906001019061061d565b5b509050610646919061064a565b5090565b61066c91905b80821115610668576000816000905550600101610650565b5090565b905600a165627a7a72305820358a76cc3db2b0f50f7748901484ad19f466eff835cc154c797cc79e3bdc76f50029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806389d4a3161461005c5780639b19251a1461012b578063ee97f7f31461025a575b600080fd5b34801561006857600080fd5b50610129600480360381019080803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509192919290803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102b1565b005b34801561013757600080fd5b5061016c600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061044a565b604051808060200180602001848152602001838103835286818151815260200191508051906020019080838360005b838110156101b657808201518184015260208101905061019b565b50505050905090810190601f1680156101e35780820380516001836020036101000a031916815260200191505b50838103825285818151815260200191508051906020019080838360005b8381101561021c578082015181840152602081019050610201565b50505050905090810190601f1680156102495780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b34801561026657600080fd5b5061026f6105a4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156104455760008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060020154141561044457826000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805190602001906103a69291906105ca565b50816000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010190805190602001906103fc9291906105ca565b50426000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600201819055505b5b505050565b6000602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f65780601f106104cb576101008083540402835291602001916104f6565b820191906000526020600020905b8154815290600101906020018083116104d957829003601f168201915b505050505090806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105945780601f1061056957610100808354040283529160200191610594565b820191906000526020600020905b81548152906001019060200180831161057757829003601f168201915b5050505050908060020154905083565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061060b57805160ff1916838001178555610639565b82800160010185558215610639579182015b8281111561063857825182559160200191906001019061061d565b5b509050610646919061064a565b5090565b61066c91905b80821115610668576000816000905550600101610650565b5090565b905600a165627a7a72305820358a76cc3db2b0f50f7748901484ad19f466eff835cc154c797cc79e3bdc76f50029",
+  "sourceMap": "27:855:0:-;;;166:42;142:66;;;;;;;;;;;;;;;;;;;;27:855;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:855:0;;;;;;;",
+  "deployedSourceMap": "27:855:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;362:517;;8:9:-1;5:2;;;30:1;27;20:12;5:2;362:517:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;68:42;;8:9:-1;5:2;;;30:1;27;20:12;5:2;68:42:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;68:42:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;68:42:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;142:66;;8:9:-1;5:2;;;30:1;27;20:12;5:2;142:66:0;;;;;;;;;;;;;;;;;;;;;;;;;;;362:517;510:6;;;;;;;;;;;496:20;;:10;:20;;;492:380;;;631:1;600:9;:17;610:6;600:17;;;;;;;;;;;;;;;:27;;;:32;596:265;;;727:5;702:9;:17;712:6;702:17;;;;;;;;;;;;;;;:22;;:30;;;;;;;;;;;;:::i;:::-;;782:11;751:9;:17;761:6;751:17;;;;;;;;;;;;;;;:28;;:42;;;;;;;;;;;;:::i;:::-;;842:3;812:9;:17;822:6;812:17;;;;;;;;;;;;;;;:27;;:33;;;;596:265;492:380;362:517;;;:::o;68:42::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;142:66::-;;;;;;;;;;;;;:::o;27:855::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.2;\r\n\r\ncontract Main {\r\n\r\n    // WHITELIST\r\n    mapping (address => User) public whitelist;\r\n\r\n    // DECLARE MASTER\r\n    address public master = 0xFffC9F737D80E9031F8b1B01D7FAF59Ce45def3B;\r\n\r\n    // USER OBJECT\r\n    struct User {\r\n        string name;\r\n        string permission;\r\n        uint256 timestamp;\r\n    }\r\n\r\n    // ADD MEMBER\r\n    function add(string _name, string _permission, address _owner) public {\r\n\r\n        // MAKE SURE CALLER ADDRESS IS MASTER\r\n        if (msg.sender == master) {\r\n\r\n            // CHECK THAT ENTRY DOESNT ALREADY EXIST IN MAP\r\n            if (whitelist[_owner].timestamp == 0) {\r\n\r\n                // GENERATE & PUSH NEW STRUCT\r\n                whitelist[_owner].name = _name;\r\n                whitelist[_owner].permission = _permission;\r\n                whitelist[_owner].timestamp = now;\r\n            }\r\n        }\r\n    }\r\n}",
+  "sourcePath": "C:\\xampp\\htdocs\\ipfs\\contracts\\Main.sol",
   "ast": {
-    "absolutePath": "/var/www/html/ipfs/contracts/Main.sol",
+    "absolutePath": "/C/xampp/htdocs/ipfs/contracts/Main.sol",
     "exportedSymbols": {
       "Main": [
         61
@@ -111,7 +111,7 @@
             "name": "whitelist",
             "nodeType": "VariableDeclaration",
             "scope": 61,
-            "src": "63:41:0",
+            "src": "68:42:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -124,14 +124,14 @@
                 "id": 2,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "71:7:0",
+                "src": "77:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "63:24:0",
+              "src": "68:25:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                 "typeString": "mapping(address => struct Main.User)"
@@ -142,7 +142,7 @@
                 "name": "User",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 15,
-                "src": "82:4:0",
+                "src": "88:4:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_User_$15_storage_ptr",
                   "typeString": "struct Main.User"
@@ -158,7 +158,7 @@
             "name": "master",
             "nodeType": "VariableDeclaration",
             "scope": 61,
-            "src": "133:66:0",
+            "src": "142:66:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -169,7 +169,7 @@
               "id": 6,
               "name": "address",
               "nodeType": "ElementaryTypeName",
-              "src": "133:7:0",
+              "src": "142:7:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
                 "typeString": "address"
@@ -185,7 +185,7 @@
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "157:42:0",
+              "src": "166:42:0",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
@@ -205,7 +205,7 @@
                 "name": "name",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "247:11:0",
+                "src": "260:11:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -216,7 +216,7 @@
                   "id": 9,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "247:6:0",
+                  "src": "260:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -231,7 +231,7 @@
                 "name": "permission",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "268:17:0",
+                "src": "282:17:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -242,7 +242,7 @@
                   "id": 11,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "268:6:0",
+                  "src": "282:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -257,7 +257,7 @@
                 "name": "timestamp",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "295:17:0",
+                "src": "310:17:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -268,7 +268,7 @@
                   "id": 13,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "295:7:0",
+                  "src": "310:7:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -281,14 +281,14 @@
             "name": "User",
             "nodeType": "StructDefinition",
             "scope": 61,
-            "src": "225:94:0",
+            "src": "237:98:0",
             "visibility": "public"
           },
           {
             "body": {
               "id": 59,
               "nodeType": "Block",
-              "src": "413:433:0",
+              "src": "432:447:0",
               "statements": [
                 {
                   "condition": {
@@ -310,8 +310,8 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 76,
-                        "src": "474:3:0",
+                        "referencedDeclaration": 133,
+                        "src": "496:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
@@ -325,7 +325,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "474:10:0",
+                      "src": "496:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -340,13 +340,13 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 8,
-                      "src": "488:6:0",
+                      "src": "510:6:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "src": "474:20:0",
+                    "src": "496:20:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -355,11 +355,11 @@
                   "falseBody": null,
                   "id": 58,
                   "nodeType": "IfStatement",
-                  "src": "470:370:0",
+                  "src": "492:380:0",
                   "trueBody": {
                     "id": 57,
                     "nodeType": "Block",
-                    "src": "496:344:0",
+                    "src": "518:354:0",
                     "statements": [
                       {
                         "condition": {
@@ -384,7 +384,7 @@
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 5,
-                                "src": "575:9:0",
+                                "src": "600:9:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                   "typeString": "mapping(address => struct Main.User storage ref)"
@@ -398,7 +398,7 @@
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 21,
-                                "src": "585:6:0",
+                                "src": "610:6:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -409,7 +409,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "575:17:0",
+                              "src": "600:17:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_User_$15_storage",
                                 "typeString": "struct Main.User storage ref"
@@ -423,7 +423,7 @@
                             "memberName": "timestamp",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 14,
-                            "src": "575:27:0",
+                            "src": "600:27:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -441,7 +441,7 @@
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "606:1:0",
+                            "src": "631:1:0",
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -449,7 +449,7 @@
                             },
                             "value": "0"
                           },
-                          "src": "575:32:0",
+                          "src": "600:32:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
@@ -458,11 +458,11 @@
                         "falseBody": null,
                         "id": 56,
                         "nodeType": "IfStatement",
-                        "src": "571:259:0",
+                        "src": "596:265:0",
                         "trueBody": {
                           "id": 55,
                           "nodeType": "Block",
-                          "src": "609:221:0",
+                          "src": "634:227:0",
                           "statements": [
                             {
                               "expression": {
@@ -483,7 +483,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "674:9:0",
+                                      "src": "702:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -497,7 +497,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "684:6:0",
+                                      "src": "712:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -508,7 +508,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "674:17:0",
+                                    "src": "702:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -522,7 +522,7 @@
                                   "memberName": "name",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 10,
-                                  "src": "674:22:0",
+                                  "src": "702:22:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_storage",
                                     "typeString": "string storage ref"
@@ -537,13 +537,13 @@
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
                                   "referencedDeclaration": 17,
-                                  "src": "699:5:0",
+                                  "src": "727:5:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_memory_ptr",
                                     "typeString": "string memory"
                                   }
                                 },
-                                "src": "674:30:0",
+                                "src": "702:30:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_string_storage",
                                   "typeString": "string storage ref"
@@ -551,7 +551,7 @@
                               },
                               "id": 40,
                               "nodeType": "ExpressionStatement",
-                              "src": "674:30:0"
+                              "src": "702:30:0"
                             },
                             {
                               "expression": {
@@ -572,7 +572,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "722:9:0",
+                                      "src": "751:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -586,7 +586,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "732:6:0",
+                                      "src": "761:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -597,7 +597,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "722:17:0",
+                                    "src": "751:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -611,7 +611,7 @@
                                   "memberName": "permission",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 12,
-                                  "src": "722:28:0",
+                                  "src": "751:28:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_storage",
                                     "typeString": "string storage ref"
@@ -626,13 +626,13 @@
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
                                   "referencedDeclaration": 19,
-                                  "src": "753:11:0",
+                                  "src": "782:11:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_memory_ptr",
                                     "typeString": "string memory"
                                   }
                                 },
-                                "src": "722:42:0",
+                                "src": "751:42:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_string_storage",
                                   "typeString": "string storage ref"
@@ -640,7 +640,7 @@
                               },
                               "id": 47,
                               "nodeType": "ExpressionStatement",
-                              "src": "722:42:0"
+                              "src": "751:42:0"
                             },
                             {
                               "expression": {
@@ -661,7 +661,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "782:9:0",
+                                      "src": "812:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -675,7 +675,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "792:6:0",
+                                      "src": "822:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -686,7 +686,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "782:17:0",
+                                    "src": "812:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -700,7 +700,7 @@
                                   "memberName": "timestamp",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 14,
-                                  "src": "782:27:0",
+                                  "src": "812:27:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
@@ -714,14 +714,14 @@
                                   "name": "now",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 78,
-                                  "src": "812:3:0",
+                                  "referencedDeclaration": 135,
+                                  "src": "842:3:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 },
-                                "src": "782:33:0",
+                                "src": "812:33:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
@@ -729,7 +729,7 @@
                               },
                               "id": 54,
                               "nodeType": "ExpressionStatement",
-                              "src": "782:33:0"
+                              "src": "812:33:0"
                             }
                           ]
                         }
@@ -757,7 +757,7 @@
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "356:12:0",
+                  "src": "375:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -768,7 +768,7 @@
                     "id": 16,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "356:6:0",
+                    "src": "375:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -783,7 +783,7 @@
                   "name": "_permission",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "370:18:0",
+                  "src": "389:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -794,7 +794,7 @@
                     "id": 18,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "370:6:0",
+                    "src": "389:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -809,7 +809,7 @@
                   "name": "_owner",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "390:14:0",
+                  "src": "409:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -820,7 +820,7 @@
                     "id": 20,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "390:7:0",
+                    "src": "409:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -830,30 +830,30 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "355:50:0"
+              "src": "374:50:0"
             },
             "payable": false,
             "returnParameters": {
               "id": 23,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "413:0:0"
+              "src": "432:0:0"
             },
             "scope": 61,
-            "src": "343:503:0",
+            "src": "362:517:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 62,
-        "src": "25:823:0"
+        "src": "27:855:0"
       }
     ],
-    "src": "0:848:0"
+    "src": "0:882:0"
   },
   "legacyAST": {
-    "absolutePath": "/var/www/html/ipfs/contracts/Main.sol",
+    "absolutePath": "/C/xampp/htdocs/ipfs/contracts/Main.sol",
     "exportedSymbols": {
       "Main": [
         61
@@ -892,7 +892,7 @@
             "name": "whitelist",
             "nodeType": "VariableDeclaration",
             "scope": 61,
-            "src": "63:41:0",
+            "src": "68:42:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -905,14 +905,14 @@
                 "id": 2,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "71:7:0",
+                "src": "77:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "63:24:0",
+              "src": "68:25:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                 "typeString": "mapping(address => struct Main.User)"
@@ -923,7 +923,7 @@
                 "name": "User",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 15,
-                "src": "82:4:0",
+                "src": "88:4:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_User_$15_storage_ptr",
                   "typeString": "struct Main.User"
@@ -939,7 +939,7 @@
             "name": "master",
             "nodeType": "VariableDeclaration",
             "scope": 61,
-            "src": "133:66:0",
+            "src": "142:66:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -950,7 +950,7 @@
               "id": 6,
               "name": "address",
               "nodeType": "ElementaryTypeName",
-              "src": "133:7:0",
+              "src": "142:7:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
                 "typeString": "address"
@@ -966,7 +966,7 @@
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "157:42:0",
+              "src": "166:42:0",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
@@ -986,7 +986,7 @@
                 "name": "name",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "247:11:0",
+                "src": "260:11:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -997,7 +997,7 @@
                   "id": 9,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "247:6:0",
+                  "src": "260:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -1012,7 +1012,7 @@
                 "name": "permission",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "268:17:0",
+                "src": "282:17:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1023,7 +1023,7 @@
                   "id": 11,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "268:6:0",
+                  "src": "282:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -1038,7 +1038,7 @@
                 "name": "timestamp",
                 "nodeType": "VariableDeclaration",
                 "scope": 15,
-                "src": "295:17:0",
+                "src": "310:17:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1049,7 +1049,7 @@
                   "id": 13,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "295:7:0",
+                  "src": "310:7:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1062,14 +1062,14 @@
             "name": "User",
             "nodeType": "StructDefinition",
             "scope": 61,
-            "src": "225:94:0",
+            "src": "237:98:0",
             "visibility": "public"
           },
           {
             "body": {
               "id": 59,
               "nodeType": "Block",
-              "src": "413:433:0",
+              "src": "432:447:0",
               "statements": [
                 {
                   "condition": {
@@ -1091,8 +1091,8 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 76,
-                        "src": "474:3:0",
+                        "referencedDeclaration": 133,
+                        "src": "496:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
@@ -1106,7 +1106,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "474:10:0",
+                      "src": "496:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -1121,13 +1121,13 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 8,
-                      "src": "488:6:0",
+                      "src": "510:6:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "src": "474:20:0",
+                    "src": "496:20:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1136,11 +1136,11 @@
                   "falseBody": null,
                   "id": 58,
                   "nodeType": "IfStatement",
-                  "src": "470:370:0",
+                  "src": "492:380:0",
                   "trueBody": {
                     "id": 57,
                     "nodeType": "Block",
-                    "src": "496:344:0",
+                    "src": "518:354:0",
                     "statements": [
                       {
                         "condition": {
@@ -1165,7 +1165,7 @@
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 5,
-                                "src": "575:9:0",
+                                "src": "600:9:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                   "typeString": "mapping(address => struct Main.User storage ref)"
@@ -1179,7 +1179,7 @@
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 21,
-                                "src": "585:6:0",
+                                "src": "610:6:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -1190,7 +1190,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "575:17:0",
+                              "src": "600:17:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_User_$15_storage",
                                 "typeString": "struct Main.User storage ref"
@@ -1204,7 +1204,7 @@
                             "memberName": "timestamp",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 14,
-                            "src": "575:27:0",
+                            "src": "600:27:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -1222,7 +1222,7 @@
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "606:1:0",
+                            "src": "631:1:0",
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
@@ -1230,7 +1230,7 @@
                             },
                             "value": "0"
                           },
-                          "src": "575:32:0",
+                          "src": "600:32:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
@@ -1239,11 +1239,11 @@
                         "falseBody": null,
                         "id": 56,
                         "nodeType": "IfStatement",
-                        "src": "571:259:0",
+                        "src": "596:265:0",
                         "trueBody": {
                           "id": 55,
                           "nodeType": "Block",
-                          "src": "609:221:0",
+                          "src": "634:227:0",
                           "statements": [
                             {
                               "expression": {
@@ -1264,7 +1264,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "674:9:0",
+                                      "src": "702:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -1278,7 +1278,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "684:6:0",
+                                      "src": "712:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -1289,7 +1289,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "674:17:0",
+                                    "src": "702:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -1303,7 +1303,7 @@
                                   "memberName": "name",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 10,
-                                  "src": "674:22:0",
+                                  "src": "702:22:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_storage",
                                     "typeString": "string storage ref"
@@ -1318,13 +1318,13 @@
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
                                   "referencedDeclaration": 17,
-                                  "src": "699:5:0",
+                                  "src": "727:5:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_memory_ptr",
                                     "typeString": "string memory"
                                   }
                                 },
-                                "src": "674:30:0",
+                                "src": "702:30:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_string_storage",
                                   "typeString": "string storage ref"
@@ -1332,7 +1332,7 @@
                               },
                               "id": 40,
                               "nodeType": "ExpressionStatement",
-                              "src": "674:30:0"
+                              "src": "702:30:0"
                             },
                             {
                               "expression": {
@@ -1353,7 +1353,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "722:9:0",
+                                      "src": "751:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -1367,7 +1367,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "732:6:0",
+                                      "src": "761:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -1378,7 +1378,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "722:17:0",
+                                    "src": "751:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -1392,7 +1392,7 @@
                                   "memberName": "permission",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 12,
-                                  "src": "722:28:0",
+                                  "src": "751:28:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_storage",
                                     "typeString": "string storage ref"
@@ -1407,13 +1407,13 @@
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
                                   "referencedDeclaration": 19,
-                                  "src": "753:11:0",
+                                  "src": "782:11:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_string_memory_ptr",
                                     "typeString": "string memory"
                                   }
                                 },
-                                "src": "722:42:0",
+                                "src": "751:42:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_string_storage",
                                   "typeString": "string storage ref"
@@ -1421,7 +1421,7 @@
                               },
                               "id": 47,
                               "nodeType": "ExpressionStatement",
-                              "src": "722:42:0"
+                              "src": "751:42:0"
                             },
                             {
                               "expression": {
@@ -1442,7 +1442,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 5,
-                                      "src": "782:9:0",
+                                      "src": "812:9:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_User_$15_storage_$",
                                         "typeString": "mapping(address => struct Main.User storage ref)"
@@ -1456,7 +1456,7 @@
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": 21,
-                                      "src": "792:6:0",
+                                      "src": "822:6:0",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -1467,7 +1467,7 @@
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "nodeType": "IndexAccess",
-                                    "src": "782:17:0",
+                                    "src": "812:17:0",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_struct$_User_$15_storage",
                                       "typeString": "struct Main.User storage ref"
@@ -1481,7 +1481,7 @@
                                   "memberName": "timestamp",
                                   "nodeType": "MemberAccess",
                                   "referencedDeclaration": 14,
-                                  "src": "782:27:0",
+                                  "src": "812:27:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
@@ -1495,14 +1495,14 @@
                                   "name": "now",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 78,
-                                  "src": "812:3:0",
+                                  "referencedDeclaration": 135,
+                                  "src": "842:3:0",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 },
-                                "src": "782:33:0",
+                                "src": "812:33:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
@@ -1510,7 +1510,7 @@
                               },
                               "id": 54,
                               "nodeType": "ExpressionStatement",
-                              "src": "782:33:0"
+                              "src": "812:33:0"
                             }
                           ]
                         }
@@ -1538,7 +1538,7 @@
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "356:12:0",
+                  "src": "375:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1549,7 +1549,7 @@
                     "id": 16,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "356:6:0",
+                    "src": "375:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1564,7 +1564,7 @@
                   "name": "_permission",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "370:18:0",
+                  "src": "389:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1575,7 +1575,7 @@
                     "id": 18,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "370:6:0",
+                    "src": "389:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1590,7 +1590,7 @@
                   "name": "_owner",
                   "nodeType": "VariableDeclaration",
                   "scope": 60,
-                  "src": "390:14:0",
+                  "src": "409:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1601,7 +1601,7 @@
                     "id": 20,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "390:7:0",
+                    "src": "409:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -1611,27 +1611,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "355:50:0"
+              "src": "374:50:0"
             },
             "payable": false,
             "returnParameters": {
               "id": 23,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "413:0:0"
+              "src": "432:0:0"
             },
             "scope": 61,
-            "src": "343:503:0",
+            "src": "362:517:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 62,
-        "src": "25:823:0"
+        "src": "27:855:0"
       }
     ],
-    "src": "0:848:0"
+    "src": "0:882:0"
   },
   "compiler": {
     "name": "solc",
@@ -1641,22 +1641,10 @@
     "1535735651437": {
       "events": {},
       "links": {},
-      "address": "0xb98646ed383ca35688d7729575eeb3b7566ad8fd",
-      "transactionHash": "0xd98a484ec725d1b44d7a134e0bcb2cba7b82a15cadd96da5361c6fd5d0da2144"
-    },
-    "1535959712738": {
-      "events": {},
-      "links": {},
-      "address": "0x81bddc8c7f1e222da4755e40db816a43edfa68aa",
-      "transactionHash": "0xe79354beda34d7ad47957b55bd41c23c885a9d802a537f18206516c914dde8ec"
-    },
-    "1535969185599": {
-      "events": {},
-      "links": {},
-      "address": "0xa1aa82df64d4088393e535e73c66628633fed0db",
-      "transactionHash": "0xe79354beda34d7ad47957b55bd41c23c885a9d802a537f18206516c914dde8ec"
+      "address": "0x522709139f516a385d75ec6fd59248fd067af6e8",
+      "transactionHash": "0x39aa6b429dd1c0d530542f78618f12736b266edef3ec4d17acc32c4ba3751dc5"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-09-03T10:06:57.008Z"
+  "updatedAt": "2018-09-04T16:57:54.186Z"
 }

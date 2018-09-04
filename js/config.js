@@ -67,7 +67,7 @@ function build() {
 
       // NO METAMASK SESSIONS
       } else {
-            
+
          // LOG FOR CLARITY & RETURN
          log(config);
          metamask_css(config.metamask);

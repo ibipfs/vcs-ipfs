@@ -4,7 +4,13 @@ var current = 'files';
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
 $(document).ready(() => {
    var config = require('./config.js')();
-   config.then((config) => { require('./sections/index.js')(config); });
+
+   config.then((config) => {
+      require('./sections/index.js')(config);
+
+      // IF USER IS MASTER, ADD MANAGE LINK TO MAINMENU
+      if (config.metamask.permission == 'master') { $('ul').append('<li><a href="javascript:void(0)">Manage</a></li>'); }
+   });
 });
 
 // WHEN MENULINK IS CLICKED

@@ -1,6 +1,11 @@
 function render(config) {
-   elements();
-   events();
+
+   // LIMIT TO MASTER
+   if (config.metamask.permission == 'master') {
+      elements();
+      events();
+
+   } else { log('Permission Denied!'); }
 }
 
 // ADD HTML CONTENT

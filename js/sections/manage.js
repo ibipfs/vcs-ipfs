@@ -1,5 +1,10 @@
-function render() {
+function render(config) {
+   elements();
+   events(config);
+}
 
+// ADD HTML CONTENT
+function elements() {
    var container = `
       <div id="container">
          <div id="tracker-outer"><div id="tracker-inner">
@@ -63,6 +68,10 @@ function render() {
    // RENDER THEM IN & TURN OPACITY ON
    $('#content-body').html(container);
    $('#container').css('opacity', '1');
+}
+
+// ADD SPECIFIC EVENTS
+function events(config) {
 
    // RELEASE
    $('#release').on('click', () => {

@@ -3,7 +3,8 @@ var current = 'files';
 
 // RENDER IN INDEX WHEN PAGE IS FIRST LOADED
 $(document).ready(() => {
-   require('./content/index.js')();
+   var config = require('./config.js')();
+   config.then((config) => { require('./sections/index.js')(config); });
 });
 
 // WHEN MENULINK IS CLICKED
@@ -28,29 +29,31 @@ $('body').on('click', '#menu a', () => {
    
          // ACTIVITY
          case 'activity':
-            section_module = require('./content/activity.js');
+            section_module = require('./sections/activity.js');
             current = 'activity';
          break;
 
          // TRACKER
          case 'tracker':
-            section_module = require('./content/tracker.js');
+            section_module = require('./sections/tracker.js');
             current = 'tracker';
          break;
 
          // TRACKER
          case 'manage':
-            section_module = require('./content/manage.js');
+            section_module = require('./sections/manage.js');
             current = 'manage';
          break;
    
          // FALLBACK & INDEX
          default:
-            section_module = require('./content/index.js');
+            section_module = require('./sections/index.js');
             current = 'files';
          break;
       }
 
-      section_module();
+      // FETCH CONFIG & WAIT FOR IT TO RESOLVE, THEN EXECUTE MODULE
+      var config = require('./config.js')();
+      config.then((config) => { section_module(config); });
    }
 });

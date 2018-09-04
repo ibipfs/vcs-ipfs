@@ -1,6 +1,6 @@
-function render(config) {
+function render(config, query = '') {
    elements();
-   content(config);
+   content(config, query);
    events(config);
 }
 
@@ -23,12 +23,11 @@ function elements() {
 }
 
 // ADD GENERATED CONTENT
-function content(config, query = '') {
+function content(config, query) {
 
    // MODULES
    var moment = require('moment');
-   var Immutable = require('../classes/immutable.js');
-   var immutable = new Immutable();
+   var immutable = require('../modules/immutable.js');
 
    // PLACEHOLDERS
    var dir = '';
@@ -137,7 +136,7 @@ function content(config, query = '') {
 
       // GENERATE FOOTER
       var footer = `
-         <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.latest.name + ` &nbsp;&ndash;&nbsp; ` + moment.unix(config.latest.timestamp).format('D/MM @ HH:mm') + `</a>
+         <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.latest.name + ` &nbsp;&ndash;&nbsp; ` + moment.unix(config.latest.timestamp).format('DD/MM @ HH:mm') + `</a>
       `;
 
       // FADE IN BOTH
@@ -150,13 +149,13 @@ function content(config, query = '') {
 function events(config) {
 
    // FETCH & INSTANTIATE ACTIONS MODULE
-   var actions = require('../classes/actions.js');
+   var actions = require('../modules/actions.js');
 
    // SHOW FILE CONTENT
-   $('body').on('click', 'a#show', (target) => { actions.show(); });
+   $('body').on('click', 'a#show', (target) => { actions.show(target.currentTarget); });
 
    // OPEN IPFS DIRECTORY
-   $('body').on('click', 'a#open', (target) => { actions.open(); });
+   $('body').on('click', 'a#open', (target) => { content(config, $(target.currentTarget).attr('hash')); });
 
    // SAVE BUTTON EVENT
    $('body').on('click', '#save', () => { actions.save(); });

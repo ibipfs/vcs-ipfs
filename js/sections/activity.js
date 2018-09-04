@@ -120,13 +120,13 @@ function content(config, filter = '') {
 function events(config) {
 
    // FETCH & INSTANTIATE ACTIONS MODULE
-   var actions = require('../classes/actions.js');
+   var actions = require('../modules/actions.js');
 
    // FILTER
    $("#filter").on('keyup', () => { var query = $('#filter').val(); content(config, query); });
 
    // COMPARE FILES EVENT
-   $('body').on('click', 'a#compare', (target) => { actions.compare(); });
+   $('body').on('click', 'a#compare', (target) => { actions.compare(target.currentTarget); });
 
    // CLOSE WINDOW EVENT
    $(document).on('keyup', (evt) => {

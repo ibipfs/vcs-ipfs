@@ -1,12 +1,11 @@
-// FETCH & INSTANTIATE MODULES
-var Mutable = require('./classes/mutable.js');
-var mutable = new Mutable();
-
-// FETCH SMART CONTRACT MODULE
-var Ethereum = require('./classes/ethereum.js');
-var ethereum = new Ethereum();
+// FETCH MODULES
+var mutable = require('./modules/mutable.js');
+var ethereum = require('./modules/ethereum.js');
 
 function build() {
+
+   // CHECK STRUCTURE OF LOGS
+   mutable.check_logs();
 
    // GENERATE PROMISES
    var latest = mutable.read('latest.json');

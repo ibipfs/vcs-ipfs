@@ -1,6 +1,6 @@
 function render(config) {
    elements();
-   events(config);
+   events();
 }
 
 // ADD HTML CONTENT
@@ -71,10 +71,10 @@ function elements() {
 }
 
 // ADD SPECIFIC EVENTS
-function events(config) {
+function events() {
 
    // FETCH ACTION MODULES
-   var actions = require('../classes/actions.js');
+   var actions = require('../modules/actions.js');
 
    // RELEASE
    $('#release').on('click', () => {

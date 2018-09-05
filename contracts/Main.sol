@@ -13,6 +13,7 @@ contract Main {
         string name;
         string permission;
         uint256 timestamp;
+        bool modified;
     }
 
     // ADD MEMBER
@@ -28,6 +29,19 @@ contract Main {
                 whitelist[_owner].name = _name;
                 whitelist[_owner].permission = _permission;
                 whitelist[_owner].timestamp = now;
+            }
+        //}
+    }
+
+    // CHANGE PERMISSION OF EXISTING USER
+    function change(address _owner, string _permission) public {
+
+        // MAKE SURE CALLER ADDRESS IS MASTER
+        //if (msg.sender == master) {
+
+            // MAKE SURE THAT ENTRY EXISTS
+            if (whitelist[_owner].timestamp != 0) {
+                whitelist[_owner].permission = _permission;
             }
         //}
     }

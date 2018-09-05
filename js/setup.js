@@ -3,9 +3,9 @@ var host_addr = 'localhost';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {
-   web3 = new Web3(web3.currentProvider);
+   var web3 = new Web3(web3.currentProvider);
 } else {
-   web3 = new Web3(new Web3.providers.HttpProvider('http://' + host_addr + ':8545'));
+   var web3 = new Web3(new Web3.providers.HttpProvider('http://' + host_addr + ':8545'));
 }
 
 // DEFAULT ACCOUNT

@@ -19,7 +19,7 @@ contract Main {
     function add(string _name, string _permission, address _owner) public {
 
         // MAKE SURE CALLER ADDRESS IS MASTER
-        if (msg.sender == master) {
+        //if (msg.sender == master) {
 
             // CHECK THAT ENTRY DOESNT ALREADY EXIST IN MAP
             if (whitelist[_owner].timestamp == 0) {
@@ -29,6 +29,6 @@ contract Main {
                 whitelist[_owner].permission = _permission;
                 whitelist[_owner].timestamp = now;
             }
-        }
+        //}
     }
 }

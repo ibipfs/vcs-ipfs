@@ -25,8 +25,20 @@ function fetch_data(obj, filename) {
    return data;
 }
 
+// FORMATS PATH
+function format_path(path) {
+   path = path.split(' / ');
+   path = path.join('/');
+   path = path.toLowerCase();
+
+   return path;
+}
+
 // FORMAT FILE PATH
 function headerify(path, lowercase = false) {
+
+   // REMOVE SPACES & SPLIT ON SLASH
+   path = path.trim();
    path = path.split('/');
 
    // SET FIRST KEY TO ROOT
@@ -47,6 +59,7 @@ function headerify(path, lowercase = false) {
 
       // WITHOUT SPACES
       path = path.join('/');
+      path = path.toLowerCase();
    }
 
    return path;

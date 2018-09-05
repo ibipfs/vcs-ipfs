@@ -77,3 +77,5 @@ class Buttons {
    }
 
 }
+
+module.exports = Buttons;

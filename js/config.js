@@ -36,6 +36,8 @@ function build() {
       // CHECK FOR ACTIVE METAMASK SESSION
       if (addresses.length == 1) {
 
+         // WHEN ADDING REMEMBER: app.add('wickstjo', 'admin', '0x0a34015c7ba8d296eefdc231bf482d77a9dc9921')
+
          // SET METAMASK SESSION PROP
          config.metamask.session = true;
 
@@ -48,7 +50,6 @@ function build() {
                // SAVE ADDRESS NAME PROP TO CONFIG
                config.metamask.name = user_data[0];
                config.metamask.permission = user_data[1];
-               config.metamask.address = addresses[0];
 
                // LOG FOR CLARITY & RETURN
                log(config);

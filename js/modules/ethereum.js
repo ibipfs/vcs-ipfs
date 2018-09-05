@@ -8,7 +8,7 @@ function sessions() {
 }
 
 // FETCH ROW FROM WHITELIST
-function user_info (address) {
+function user_info(address) {
    return new Promise((resolve, reject) => {
       contract.whitelist(address, (error, result) => {
          if (error) { reject(error); } else { resolve(result); }
@@ -17,7 +17,7 @@ function user_info (address) {
 }
 
 // FETCH MASTER ADDRESS
-function fetch_master () {
+function fetch_master() {
    return new Promise((resolve, reject) => {
       contract.master((error, result) => {
          if (error) { reject(error); } else { resolve(result); }
@@ -26,7 +26,7 @@ function fetch_master () {
 }
 
 // ADD USER TO WHITELIST
-function add (_name, _permission, _address) {
+function add(_name, _permission, _address) {
    return new Promise((resolve, reject) => {
       contract.add(_name, _permission, _address, (error, result) => {
          if (error) {

@@ -8,7 +8,10 @@ function file (value) { return ipfs.files.cat(value); }
 function get (value) { return ipfs.files.get(value); }
 
 // ADD FILE TO IPFS
-function add_file (content) { return ipfs.files.add(Buffer.from(content)); }
+function add_file (content) {
+   var Buffer = require('buffer/').Buffer;
+   return ipfs.files.add(Buffer.from(content));
+}
 
 // ADD DIRECTORY TO IPFS
 function add_dir (fileArray) { return ipfs.files.add(fileArray); }

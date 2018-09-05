@@ -15,7 +15,7 @@ function write(path, content) {
 
 // CHECK IF LOGFILES EXIST
 function check_logs(reset = false) {
-   this.list().then((files) => {
+   list().then((files) => {
       var keys = Object.keys(files);
       var list = [];
 
@@ -50,7 +50,7 @@ function nuke_logs(files) {
    var promiseList = [];
    
    for (var x = 0; x < files.length; x++) {
-      promiseList.push(this.remove(files[x]));
+      promiseList.push(remove(files[x]));
    }
 
    // WAIT FOR ALL PROMISES TO GET RESOLVED
@@ -61,7 +61,7 @@ function nuke_logs(files) {
       var trackerDefault = {};
 
       // NUKE TRACKER
-      this.write('tracker.json', JSON.stringify(trackerDefault)).then(() => {
+      write('tracker.json', JSON.stringify(trackerDefault)).then(() => {
          log('Tracker Log created!');
          
          // DEFAULT HISTORY CONTENT
@@ -72,21 +72,21 @@ function nuke_logs(files) {
          }
 
          // NUKE LATEST
-         this.write('latest.json', JSON.stringify(latestDefault)).then(() => {
+         write('latest.json', JSON.stringify(latestDefault)).then(() => {
             log('Latest Log created!');
 
             // DEFAULT LOG CONTENT
             var historyDefault = {};
             
             // NUKE HISTORY
-            this.write('history.json', JSON.stringify(historyDefault)).then(() => {
+            write('history.json', JSON.stringify(historyDefault)).then(() => {
                log('History log created!');
                
                // DEFAULT ACTIVITY CONTENT
                var activityDefault = {};
                
                // NUKE ACTIVITY
-               this.write('activity.json', JSON.stringify(activityDefault)).then(() => {
+               write('activity.json', JSON.stringify(activityDefault)).then(() => {
                   log('Activity log created!');
 
                   log('Nuking complete!');

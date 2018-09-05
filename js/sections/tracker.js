@@ -56,6 +56,9 @@ function content(config, filter = '') {
             if (sub_entry != 'path' && sub_entry != 'selected') {
                var sub_instance = instance[sub_entry];
 
+               // FETCH MOMENT MODULE
+               var moment = require('moment');
+
                // GENERATE ROW
                var row = `
                   <tr><td>
@@ -76,7 +79,7 @@ function content(config, filter = '') {
 
                         <table><tbody><tr>
                            <td>Submitted:</td>
-                           <td>` + this.moment.unix(sub_instance.timestamp).format('D/MM @ HH:mm') + `</td>
+                           <td>` + moment.unix(sub_instance.timestamp).format('D/MM @ HH:mm') + `</td>
                         </tr></tbody></table>
                      </div>
                   </td></tr>

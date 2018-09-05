@@ -49,64 +49,41 @@ function transition_buttons(_hash, _user) {
 
 // SAVE CACHE
 function save() {
-   var config = require('../config.js')();
 
-   // REFRESH CONFIG
-   config.then((config) => {
+   // GENERATE CACHE NAME
+   var cache = $('#save-cache').attr('storage');
 
-      // PICK UP CACHE ID & VALUE
-      var cache = $('#save-cache').attr('storage');
+   // PICK UP RELEVANT DATA
+   var editor_content = window.editor.getValue();
+   var split = cache.split('-');
 
-      // MAKE SURE SOMETHING IS CACHED
-      if (cache != undefined) {
+   // SAVE TO CACHE
+   localStorage.setItem(cache, editor_content);
+   log('Cache Set!');
 
-         // MAKE SURE USER HAS PERMISSION
-         if ($.inArray(config.metamask.permission, rights) != -1) {
-
-            var value = window.editor.getValue();
-            var split = cache.split('-');
-
-            // SAVE TO CACHE
-            localStorage.setItem(cache, value);
-            log('Cache Set!');
-
-            // TRANSITION BUTTONS
-            transition_buttons(split[0], split[1]);
-
-         } else { log('Permission Denied!'); }
-      } else { log('Trying to save, but something wasnt right!'); }
-   });
+   // TRANSITION BUTTONS
+   transition_buttons(split[0], split[1]);
 }
 
 // REMOVE CACHE
 function remove() {
-   var config = require('../config.js')();
 
-   // REFRESH CONFIG
-   config.then((config) => {
+   // GENERATE CACHE NAME
+   var cache = $('#remove-cache').attr('storage');
 
-      // PICK UP CACHE ID & VALUE
-      var cache = $('#remove-cache').attr('storage');
+   // MAKE SURE SOMETHING IS CACHED
+   if (cache != undefined) {
 
-      // MAKE SURE SOMETHING IS CACHED
-      if (cache != undefined) {
+      var split = cache.split('-');
 
-         // MAKE SURE USER HAS PERMISSION
-         if ($.inArray(config.metamask.permission, rights) != -1) {
+      // SAVE TO CACHE
+      localStorage.removeItem(cache);
+      log('Cache Purged!')
 
-            var split = cache.split('-');
+      // TRANSITION BUTTONS
+      transition_buttons(split[0]);
    
-            // SAVE TO CACHE
-            localStorage.removeItem(cache);
-            log('Cache Purged!')
-   
-            // TRANSITION BUTTONS
-            transition_buttons(split[0]);
-      
-         } else { log('Permission Denied!'); }
-      } else { log('Trying to purge cache, but nothing was found!'); }
-
-   });
+   } else { log('Trying to purge cache, but nothing was found!'); }
 }
 
 // UPLOAD TO IPFS & MODIFY LOGS
@@ -116,14 +93,12 @@ function upload() {
    // REFRESH CONFIG
    config.then((config) => {
 
-      // PICK UP CACHE ID & VALUE
+      // GENERATE CACHE NAME
       var cache = $('#save-cache').attr('storage');
-      var path = $('#path').text();
+      var cache_content = localStorage.getItem(cache);
 
-      // FORMAT PATH
-      path = path.split(' / ');
-      path = path.join('/');
-      path = path.toLowerCase();
+      // FETCH INSTANCE FILE PATH
+      var path = $('#path').text();
 
       // MAKE SURE SOMETHING IS CACHED
       if (cache != undefined) {
@@ -131,11 +106,11 @@ function upload() {
          // MAKE SURE USER HAS PERMISSION
          if ($.inArray(config.metamask.permission, rights) != -1) {
 
-            // FETCH MUTABLE MODULE
-            var mutable = require('./mutable.js');
-   
+            // FETCH MODULES
+            var immutable = require('./immutable.js');
+
             // ADD TO IPFS
-            mutable.add(cache).then((ret) => {
+            immutable.add_file(cache_content).then((ret) => {
                log('Added to IPFS.');
    
                // NEW FILES HASH
@@ -169,7 +144,10 @@ function upload() {
    
                // STRINGIFY AGAIN
                var tracker = JSON.stringify(tracker);
-   
+               
+               // FETCH MUTABLE MODULE
+               var mutable = require('./mutable.js');
+
                // OVERWRITE OLD TRACKER LOG
                mutable.write('tracker.json', tracker).then(() => {
                   log('Added entry to Tracker.')
@@ -508,7 +486,7 @@ function show(config, target) {
          var cache = localStorage.getItem(cache_name);
 
          // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT
-         if (cache != null) { file_content = cache; }
+         if (cache != null) { file_content = cache; log('Content from cache!') }
 
          // TURN OFF READ-ONLY MODE
          read_only = false;
@@ -553,16 +531,19 @@ function compare(target) {
    var path = $(target).attr('path');
    var time = $(target).attr('time');
 
+   // FETCH IMMUTABLE MODULE
+   var immutable = require('./immutable.js');
+
    // GENERATE PROMISES
-   var first = promisify('file', original);
-   var second = promisify('file', edited);
+   var first = immutable.file(original);
+   var second = immutable.file(edited);
 
    // WAIT FOR BOTH PROMISES TO BE RESOLVED
-   Promise.all([first, second]).then(function(values) {
+   Promise.all([first, second]).then((values) => {
 
-      // SAVE FETCHES FILE VALUES
-      var original_value = values[0];
-      var edited_value = values[1];
+      // SAVE FETCHES FILE VALUES -- CONVERTED FROM BINARY TO STRING
+      var original_value = values[0].toString('utf8');
+      var edited_value = values[1].toString('utf8');
 
       // GENERATE TABLE
       var selector = `
@@ -617,9 +598,6 @@ function compare(target) {
 
       // PREPEND TO BODY
       $('#prompt-space').prepend(selector);
-
-      // EXPAND WINDOW SIZE
-      //$('#prompt-outer').css('width', '1200px');
 
       // FETCH MONACO EDITOR MODULE
       var monaco = require('@timkendrick/monaco-editor');

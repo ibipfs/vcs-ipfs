@@ -25,10 +25,13 @@ function content(config, filter = '') {
    // ALL ENTRY ROWS
    var rows = '';
 
+   // FETCH MOMENT MODULE
+   var moment = require('moment');
+
    // GENERATE ROW FOR EACH ENTRY
    keys.forEach((entry) => {
       var instance = config.activity[entry];
-      var timestamp = this.moment.unix(entry).format('D/MM @ HH:mm');
+      var timestamp = moment.unix(entry).format('D/MM @ HH:mm');
 
       // LIMIT SPLITTING TO ONLY UPLOADS
       if (instance.type == 'upload') {
@@ -36,7 +39,7 @@ function content(config, filter = '') {
          var filename = instance.path.split('/').pop();
 
          // CHANGE FIRST KEY IN PATH TO ROOT DIR
-         instance.path = instance.path.split('/');
+         instance.path = instance.path.split(' / ');
          instance.path[0] = config.latest.hash;
          instance.path = instance.path.join('/');
       }
@@ -52,7 +55,7 @@ function content(config, filter = '') {
 
             // UPLOAD
             case 'upload':
-               string = capitalize(instance.user) + ' uploaded an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>!';
+               string = capitalize(instance.user) + ' uploaded an entry of <a id="compare" old="' + instance.original + '" new="' + instance.hash + '" author="' + instance.user + '" path="' + instance.path + '" time="' + timestamp + '">' + headerify(instance.path, true) + '</a>';
             break;
 
             // RELEASE
@@ -123,7 +126,7 @@ function events(config) {
       // ESC KEY
       if (evt.keyCode == 27) {
          event.preventDefault();
-         funcs.closePrompt();
+         actions.close();
       }
    });
 

@@ -434,122 +434,113 @@ function add(_name, _permission, _address) {
 }
 
 // SHOW FILE CONTENT
-function show(target) {
-   
-    // FILE PATH
-    var path = $(target).attr('hash');
- 
-    // PARENT   
-    var split = path.split('/');
-    var filename = split.pop();
-    var dir = split.join('/');
-    
-    // FIGURE OUT FILE TYPE FOR BEAUTIFY PARSING
-    var type = filename.split('.');
-    type = type.pop();
- 
-    // FETCH IMMUTABLE MODULE
-    var immutable = require('./immutable.js');
- 
-    // GENERATE PROMISES
-    var first = immutable.file(path);
-    var second = immutable.dir(dir);
- 
-    // WAIT FOR FILE DATA & CONFIG PROMISES TO BE RESOLVED
-    Promise.all([first, second, config]).then((values) => {
-       
-       // ASSIGN RESOLVED VALUES
-       var file_content = values[0];
-       var file_data = fetch_data(values[1], filename);
-       var config = values[2];
- 
-       // LOOK FOR LEGIT METAMASK SESSION
-       if ($.inArray(config.metamask.permission, rights) != -1) {
- 
-          // FETCH CACHE DATA
-          var cache_name = file_data.hash + '-' + config.metamask.name;
-          var cache = localStorage.getItem(cache_name);
- 
-          // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT
-          if (cache != null) {
-             file_content = cache;
-          }
-       }
- 
-       // GENERATE TABLE
-       var selector = `
-          <table id="prompt">
-             <tr>
-                <td>
-                   <div id="prompt-outer">
-                      <div id="prompt-header">
-                         <div id="item">
-                            <table>
-                               <tr>
-                                  <td>Name/Path:</td>
-                                  <td id="path">` + headerify(path) + `</td>
-                               </tr>
-                            </table>
-                            <hr>
-                            <table>
-                               <tr>
-                                  <td>Direct Link:</td>
-                                  <td><a href="http://ipfs.io/ipfs/` + file_data.hash + `" target="_blank">` + file_data.hash + `</a></td>
-                               </tr>
-                            </table>
-                            <hr>
-                            <table>
-                               <tr>
-                                  <td>Size:</td>
-                                  <td>` + file_data.size / 1000 + ` KB</td>
-                               </tr>
-                            </table>
-                         </div>
-                      </div>
-                      <div id="prompt-inner"></div>
-       `;
- 
-       // STITCH IN BUTTON ROW IF USER IS LOGGED
-       if (config.metamask.rights == true) {
- 
-          // FETCH BUTTONS MODULE
-          var Buttons = require('./buttons.js');
-          var buttons = new Buttons(file_data.hash, config.metamask.name);
- 
-          // RENDER BUTTON ROW
-          selector += buttons.render();
-       }
- 
-       // STITCH IN END OF SELECTORS
-       selector += `
-                   </div>
-                </td>
-             </tr>
-          </table>
-       `;
- 
-       // PREPEND TO BODY
-       $('#prompt-space').prepend(selector);
- 
-       // FETCH MONACO EDITOR MODULE
-       var monaco = require('@timkendrick/monaco-editor');
-       
-       // GENERATE EDITOR
-       window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
-          value: file_content,
-          language: findLang(type),
-          minimap: {
-             enabled: false
-          }
-       });
- 
-       // SET EDITOR TO READ ONLY IF USER IS NOT SUCCESSFULLY LOGGED IN
-       if (config.metamask.rights != true) {
-          window.editor.readOnly = true
-       }
- 
-       $("#prompt-space").css('opacity', '1');
-    });
+function show(config, target) {
+
+   // FILE PATH
+   var path = $(target).attr('hash');
+
+   // FETCH INSTANCE DETAILS
+   var details = file_details(path);
+   var filename = details.filename;
+   var dir = details.parent;
+   var language = details.lang;
+   var read_only = true;
+
+   // FETCH IMMUTABLE MODULE
+   var immutable = require('./immutable.js');
+
+   // GENERATE PROMISES TO FETCH DATA FOR BOTH FILE & PARENT DIR
+   var first = immutable.file(path);
+   var second = immutable.dir(dir);
+
+   // WAIT FOR FILE DATA PROMISES TO BE RESOLVED
+   Promise.all([first, second]).then((values) => {
+      
+      // ASSIGN RESOLVED VALUES
+      var file_content = values[0].toString('utf8');
+      var file_data = fetch_data(values[1], filename);
+
+      // GENERATE TABLE
+      var selector = `
+         <table id="prompt">
+            <tr>
+               <td>
+                  <div id="prompt-outer">
+                     <div id="prompt-header">
+                        <div id="item">
+                           <table>
+                              <tr>
+                                 <td>Name/Path:</td>
+                                 <td id="path">` + headerify(path) + `</td>
+                              </tr>
+                           </table>
+                           <hr>
+                           <table>
+                              <tr>
+                                 <td>Direct Link:</td>
+                                 <td><a href="http://ipfs.io/ipfs/` + file_data.hash + `" target="_blank">` + file_data.hash + `</a></td>
+                              </tr>
+                           </table>
+                           <hr>
+                           <table>
+                              <tr>
+                                 <td>Size:</td>
+                                 <td>` + file_data.size / 1000 + ` KB</td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                     <div id="prompt-inner"></div>
+      `;
+
+      // CHECK IF USER HAS THE RIGHT TO EDIT
+      if ($.inArray(config.metamask.permission, rights) != -1) {
+
+         // FETCH BUTTONS MODULE
+         var Buttons = require('./buttons.js');
+         var buttons = new Buttons(file_data.hash, config.metamask.name);
+
+         // RENDER BUTTON ROW
+         selector += buttons.render();
+
+         // STITCH TOGETHER CACHE NAME & QUERY
+         var cache_name = file_data.hash + '-' + config.metamask.name;
+         var cache = localStorage.getItem(cache_name);
+
+         // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT
+         if (cache != null) { file_content = cache; }
+
+         // TURN OFF READ-ONLY MODE
+         read_only = false;
+      }
+
+      // STITCH IN END OF SELECTORS
+      selector += `
+                  </div>
+               </td>
+            </tr>
+         </table>
+      `;
+
+      // PREPEND WINDOW TO BODY
+      $('#prompt-space').prepend(selector);
+
+      // FETCH MONACO EDITOR MODULE
+      var monaco = require('@timkendrick/monaco-editor');
+
+      // GENERATE EDITOR
+      window.editor = monaco.editor.create(document.getElementById('prompt-inner'), {
+         value: file_content,
+         language: language,
+         readOnly: read_only,
+         minimap: {
+            enabled: false
+         }
+      });
+
+      // TURN ON OPACITY
+      $("#prompt-space").css('opacity', '1');
+   });
 }
 
 // OPEN CONTENT COMPARISON OF TWO IPFS FILES

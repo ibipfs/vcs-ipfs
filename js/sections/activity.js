@@ -8,19 +8,8 @@ function render(config) {
 function elements() {
 
    // GENERATE PARENT SELECTORS
-   var filter = `
-      <div id="filter-outer">
-         <div id="filter-inner">
-            <input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1">
-         </div>
-      </div>
-   `;
-
-   var files = `
-      <div id="files-outer">
-         <div id="activity"></div>
-      </div>
-   `;
+   var filter = '<div id="filter-outer"><div id="filter-inner"><input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1"></div></div>';
+   var files = '<div id="files-outer"><div id="activity"></div></div>';
 
    // RENDER THEM IN
    $('#content-body').html(filter + files);

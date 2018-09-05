@@ -25,44 +25,6 @@ function fetch_data(obj, filename) {
    return data;
 }
 
-// IDENTIFY FULL LANGUAGE NAME FROM SUFFIX
-function findLang(suffix) {
-   var name = '';
-
-   switch(suffix) {
-
-      // JAVASCRIPT
-      case 'js':
-         name = 'javascript';
-      break;
-
-      // SOLIDITY
-      case 'sol':
-         name = 'solidity';
-      break;
-
-      // FALLBACK
-      default:
-         name = suffix;
-      break;
-   }
-
-   return name;
-}
-
-// FORMATS FILE PATH TO LOOK MORE USER FRIENDLY
-function formatPath(path) {
-   var split = path.split('/');
-   split[0] = 'Root';
-   
-   for (var x = 0; x < split.length; x++) {
-      split[x] = capitalize(split[x]);
-   }
-
-   var string = split.join(' / ');
-   return string;
-}
-
 // FORMAT FILE PATH
 function headerify(path, lowercase = false) {
    path = path.split('/');
@@ -88,6 +50,52 @@ function headerify(path, lowercase = false) {
    }
 
    return path;
+}
+
+// GET FILE PARENT
+function file_details(path) {
+
+   // RETURN OBJ
+   var details = {};
+
+   // SPLIT ON SLASH
+   var split = path.split('/');
+
+   // SEPARATE & PUSH FILENAME
+   var filename = split.pop();
+   details.filename = filename;
+
+   // STITCH REMAINS TOGETHER TO FORM PARENT DIR
+   var parent = split.join('/');
+   details.parent = parent;
+
+   // FIND LANGUAGE BASED ON SUFFIX
+   var suffix = filename.split('.');
+   suffix = suffix[suffix.length - 1];
+   var lang = '';
+   
+   switch(suffix) {
+
+      // JAVASCRIPT
+      case 'js':
+         lang = 'javascript';
+      break;
+
+      // SOLIDITY
+      case 'sol':
+         lang = 'solidity';
+      break;
+
+      // FALLBACK
+      default:
+         lang = suffix;
+      break;
+   }
+
+   // PUSH LANGUAGE INTO OBJ
+   details.lang = lang;
+
+   return details;
 }
 
 // CAPITALIZE STRING

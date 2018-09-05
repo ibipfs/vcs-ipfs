@@ -8,15 +8,8 @@ function render(config, query = '') {
 function elements() {
 
    // GENERATE PARENT SELECTOR
-   var files = `
-      <div id="files-outer">
-         <div id="files"></div>
-      </div>
-   `;
-
-   var footer = `
-      <div id="footer">Cannot locate IPFS directory</div>
-   `;
+   var files = '<div id="files-outer"><div id="files"></div></div>';
+   var footer = '<div id="footer">Cannot locate IPFS directory</div>';
 
    // RENDER THEM IN
    $('#content-body').html(files + footer);
@@ -25,9 +18,9 @@ function elements() {
 // ADD GENERATED CONTENT
 function content(config, query) {
 
-   // MODULES
-   var moment = require('moment');
+   // FETCH MODULES
    var immutable = require('../modules/immutable.js');
+   var moment = require('moment');
 
    // PLACEHOLDERS
    var dir = '';
@@ -83,7 +76,6 @@ function content(config, query) {
             // APPEND ROW TO ROWS
             rows += row;
          }
-         
       });
 
       // THEN LOOP AGAIN
@@ -106,7 +98,6 @@ function content(config, query) {
 
             // APPEND ROW TO ROWS
             rows += row;
-
          }
          
       });
@@ -135,9 +126,7 @@ function content(config, query) {
       var table = '<table>' + rows + '</table>';
 
       // GENERATE FOOTER
-      var footer = `
-         <a href="https://ipfs.io/ipfs/` + dir + `" target="_blank">Version ` + config.latest.name + ` &nbsp;&ndash;&nbsp; ` + moment.unix(config.latest.timestamp).format('DD/MM @ HH:mm') + `</a>
-      `;
+      var footer = '<a href="https://ipfs.io/ipfs/' + dir + '" target="_blank">Version ' + config.latest.name + ' &nbsp;&ndash;&nbsp; ' + moment.unix(config.latest.timestamp).format('DD/MM @ HH:mm') + '</a>';
 
       // FADE IN BOTH
       fadeIn('files', table);
@@ -152,7 +141,7 @@ function events(config) {
    var actions = require('../modules/actions.js');
 
    // SHOW FILE CONTENT
-   $('body').on('click', 'a#show', (target) => { actions.show(target.currentTarget); });
+   $('body').on('click', 'a#show', (target) => { actions.show(config, target.currentTarget); });
 
    // OPEN IPFS DIRECTORY
    $('body').on('click', 'a#open', (target) => { content(config, $(target.currentTarget).attr('hash')); });

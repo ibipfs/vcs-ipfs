@@ -147,7 +147,7 @@ function events(config) {
    $('body').on('click', 'a#open', (target) => { content(config, $(target.currentTarget).attr('hash')); });
 
    // SAVE BUTTON EVENT
-   $('body').on('click', '#save', () => { actions.save(window.editor.getValue(), config.metamask.name); });
+   $('body').on('click', '#save', () => { actions.save(window.editor.getValue(), config.metamask.name); log('called event') });
 
    // REMOVE BUTTON EVENT
    $('body').on('click', '#remove', () => { actions.remove(config.metamask.name); });

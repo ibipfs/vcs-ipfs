@@ -290,11 +290,8 @@ function release(significance) {
                      }
                   });
 
-                  // FETCH MUTABLE MODULE
-                  var mutable = require('./mutable.js');
-
                   // ADD CONSTRUCTED DIR TO IPFS
-                  mutable.release(files).then((response) => {
+                  immutable.add_dir(files).then((response) => {
 
                      log(response);
 
@@ -342,6 +339,9 @@ function release(significance) {
                         timestamp: config.latest.timestamp,
                         tracker: config.tracker
                      }
+
+                     // FETCH MUTABLE MODULE
+                     var mutable = require('./mutable.js');
 
                      // WRITE NEW HISTORY LOG
                      mutable.write('history.json', JSON.stringify(config.history)).then(() => {
@@ -403,12 +403,19 @@ function add(_name, _permission, _address) {
             // FETCH ACTIONS MODULE
             var ethereum = require('../modules/ethereum.js');
 
-            // EXECUTE & LOG RESPONSE
-            ethereum.add(name, permission, address).then((response) => {
-               log(response);
+            // QUERY ADDRESS FROM WHITELIST
+            ethereum.user_info(_address).then((user_data) => {
+
+               // IF IT DOESNT EXIST FROM BEFORE
+               if (user_data[2].c[0] == 0) {
+
+                  // EXECUTE & LOG RESPONSE
+                  ethereum.add(_name, _permission, _address).then((response) => { log(response); });
+
+               } else { log('User already exists!'); }
             });
 
-         } else { log('Aborting, improper submission data!'); }
+         } else { log('Improper submission data!'); }
       } else { log('Permission Denied!'); }
    });
 }
@@ -623,6 +630,8 @@ function compare(target) {
 
 // CHANGE SELECTED VALUE FOR INSTANCE IN TRACKER
 function change_selected(_instance, _user) {
+   log('called action')
+
    var config = require('../config.js')();
 
    // REFRESH CONFIG
@@ -646,7 +655,7 @@ function change_selected(_instance, _user) {
 
          // WRITE INTO VIRTUAL STORAGE
          mutable.write('tracker.json', tracker).then(() => {
-            log('Changed property in Tracker!.')
+            log('Changed property in Tracker!.');
          });
 
       // NOT MASTER

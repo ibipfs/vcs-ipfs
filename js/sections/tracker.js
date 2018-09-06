@@ -66,7 +66,7 @@ function content(config, filter = '') {
             });
 
             // ADD THEM TO SELECT & ADD SELECT TO HEADER
-            header += '<td><select instance="' + entry + '"><option>None</option>' + options + '</select></td>';
+            header += '<td><select id="tracker-select" instance="' + entry + '"><option>None</option>' + options + '</select></td>';
          }
 
          // STITCH ENDTAGS TO HEADER & CONCAT TO BLOCK
@@ -165,7 +165,9 @@ function events(config) {
    });
 
    // WHEN INSTANCE USER SELECTION DROPDOWN OPTION CHANGES
-   $('body').on('change', 'select', (target) => {
+   $('body').on('change', '#tracker-select', (target) => {
+      log('called event')
+
       target = target.currentTarget;
 
       // PICK UP RELEVANT INFO

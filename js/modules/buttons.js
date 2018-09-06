@@ -1,12 +1,12 @@
 class Buttons {
 
-   constructor(_file, _user) {
+   constructor(cache_name) {
 
-      // GENERATE CACHE NAME: VERSION-HASH-USERNAME
-      this.ref = _file + '-' + _user;
+      // CREATE REFVAR
+      this.ref = cache_name;
 
       // FETCH CACHE
-      this.cache = localStorage.getItem(this.ref);
+      this.cache = localStorage.getItem(cache_name);
    }
 
    // SAVE BUTTON
@@ -19,17 +19,27 @@ class Buttons {
       if (this.cache != undefined) { text = 'Overwrite Cache'; }
 
       // GENERATE & RETURN BUTTON
-      return '<a id="save"><span id="save-cache" storage="' + this.ref + '">' + text + '</span></a>';
+      var button = '<a id="save"><span id="save-cache" storage="' + this.ref + '">' + text + '</span></a>';
+      return button;
    }
 
    // GENERATE UPLOAD BUTTON
-   upload() { return '<span id="upload">Upload To IPFS</span>'; }
+   upload() {
+      var button = '<span id="upload">Upload To IPFS</span>';
+      return button;
+   }
 
    // GENERATE REMOVE BUTTON
-   remove() { return '<a id="remove"><span id="remove-cache" storage="' + this.ref + '">Remove From Cache</span></a>'; }
+   remove() {
+      var button = '<a id="remove"><span id="remove-cache" storage="' + this.ref + '">Remove From Cache</span></a>';
+      return button;
+   }
 
    // GENERATE DISCARD BUTTON
-   discard() { return '<span id="discard">Discard & Close</span>'; }
+   discard() {
+      var button = '<span id="discard">Discard & Close</span>';
+      return button;
+   }
 
    // PROMPT WINDOWS LEFT BUTTONS
    left() {

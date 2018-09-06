@@ -147,10 +147,10 @@ function events(config) {
    $('body').on('click', 'a#open', (target) => { content(config, $(target.currentTarget).attr('hash')); });
 
    // SAVE BUTTON EVENT
-   $('body').on('click', '#save', () => { actions.save(); });
+   $('body').on('click', '#save', () => { actions.save(window.editor.getValue(), config.metamask.name); });
 
    // REMOVE BUTTON EVENT
-   $('body').on('click', '#remove', () => { actions.remove(); });
+   $('body').on('click', '#remove', () => { actions.remove(config.metamask.name); });
 
    // UPLOAD BUTTON EVENT
    $('body').on('click', '#upload', () => { actions.upload(); });

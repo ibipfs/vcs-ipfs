@@ -25,11 +25,11 @@ function close() {
 }
 
 // TRANSITION INSPECT WINDOW BUTTONS
-function transition_buttons(_hash, _user) {
+function transition_buttons(cache_name) {
 
    // FETCH & INSTANTIATE BUTTONS MODULE
    var Buttons = require('./buttons.js');
-   var buttons = new Buttons(_hash, _user);
+   var buttons = new Buttons(cache_name);
 
    // TURN OPACITY TO ZERO
    $('#left').css('opacity', '0');
@@ -48,40 +48,37 @@ function transition_buttons(_hash, _user) {
 }
 
 // SAVE CACHE
-function save() {
+function save(value, user) {
 
-   // GENERATE CACHE NAME
-   var cache = $('#save-cache').attr('storage');
-
-   // PICK UP RELEVANT DATA
-   var editor_content = window.editor.getValue();
-   var split = cache.split('-');
+   // GENERATE HYPOTHETICAL CACHE NAME
+   var cache_name = $('#ref').text() + '-' + user;
 
    // SAVE TO CACHE
-   localStorage.setItem(cache, editor_content);
+   localStorage.setItem(cache_name, value);
    log('Cache Set!');
 
    // TRANSITION BUTTONS
-   transition_buttons(split[0], split[1]);
+   transition_buttons(cache_name);
 }
 
 // REMOVE CACHE
-function remove() {
+function remove(user) {
 
-   // GENERATE CACHE NAME
-   var cache = $('#remove-cache').attr('storage');
+   // GENERATE HYPOTHETICAL CACHE NAME
+   var cache_name = $('#ref').text() + '-' + user;
+
+   // ATTEMPT TO QUERY CACHE
+   var cache = localStorage.getItem(cache_name);
 
    // MAKE SURE SOMETHING IS CACHED
    if (cache != undefined) {
 
-      var split = cache.split('-');
-
       // SAVE TO CACHE
-      localStorage.removeItem(cache);
+      localStorage.removeItem(cache_name);
       log('Cache Purged!')
 
       // TRANSITION BUTTONS
-      transition_buttons(split[0]);
+      transition_buttons(cache_name);
    
    } else { log('Trying to purge cache, but nothing was found!'); }
 }
@@ -125,13 +122,11 @@ function upload() {
                var user = split[1];
                var unix = unixTime();
    
-               // CREATE SUBPROP IF MAIN PROP DOESNT EXIST
+               // CREATE SUBPROP & SELECTED PROP IF MAIN OBJECT DOESNT EXIST
                if (tracker[original_file] == undefined) {
                   tracker[original_file] = {};
+                  tracker[original_file].selected = 'none';
                }
-   
-               // SET SELECTED VALUE AS THE LAST UPLOADED                        --- CHANGE
-               tracker[original_file].selected = config.metamask.name;
    
                // PUSH NEW USER ENTRY
                tracker[original_file][user] = {
@@ -456,7 +451,7 @@ function show(config, target) {
                            <table>
                               <tr>
                                  <td>Direct Link:</td>
-                                 <td><a href="http://ipfs.io/ipfs/` + file_data.hash + `" target="_blank">` + file_data.hash + `</a></td>
+                                 <td><a href="http://ipfs.io/ipfs/` + file_data.hash + `" target="_blank" id="ref">` + file_data.hash + `</a></td>
                               </tr>
                            </table>
                            <hr>
@@ -474,15 +469,17 @@ function show(config, target) {
       // CHECK IF USER HAS THE RIGHT TO EDIT
       if ($.inArray(config.metamask.permission, rights) != -1) {
 
+         // STITCH TOGETHER CACHE NAME & QUERY
+         var cache_name = file_data.hash + '-' + config.metamask.name;
+
          // FETCH BUTTONS MODULE
          var Buttons = require('./buttons.js');
-         var buttons = new Buttons(file_data.hash, config.metamask.name);
+         var buttons = new Buttons(cache_name);
 
          // RENDER BUTTON ROW
          selector += buttons.render();
 
-         // STITCH TOGETHER CACHE NAME & QUERY
-         var cache_name = file_data.hash + '-' + config.metamask.name;
+         // QUERY WITH CACHE NAME
          var cache = localStorage.getItem(cache_name);
 
          // IF CACHE EXISTS, USE ITS CONTENT AS FILE CONTENT

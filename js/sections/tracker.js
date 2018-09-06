@@ -36,59 +36,79 @@ function content(config, filter = '') {
 
          // KEYS OF SUBMISSIONS FOR INSTANCE
          var sub_keys = Object.keys(instance);
+
+         // FILTER OUT "HELPER" KEYS
+         sub_keys = sub_keys.filter(key => key != 'path');
+         sub_keys = sub_keys.filter(key => key != 'selected');
+
+         // REVERSE REMAINING KEYS IN ORDER TO GET NEWEST FIRST
          sub_keys.reverse();
 
          // ENTRY BLOCK
          var block = '';
 
          // GENERATE HEADER
-         var header = `
-            <tr><td><div id="header">` + headerify(instance.path) + `</div></td></tr>
-         `;
+         var header = '<tr><td><div id="header"><table><tbody><tr><td>' + headerify(instance.path) + '</td>';
 
-         // CONCAT TO BLOCK
+         // ADD SELECTED DROPDOWN TO HEADER IF USER EQUALS MASTER AND THERE ARE ATLEAST TWO SUBMISSIONS
+         if (config.metamask.permission == 'master') {
+
+            // GENERATE OPTIONS BASED ON SUBMISSION NAMES
+            var options = '';
+            sub_keys.forEach(name => {
+
+               if (name == instance.selected) {
+                  options += '<option selected>' + name + '</option>';
+               } else {
+                  options += '<option>' + name + '</option>';
+               }
+
+            });
+
+            // ADD THEM TO SELECT & ADD SELECT TO HEADER
+            header += '<td><select id="selected"><option>none</option>' + options + '</select></td>';
+         }
+
+         // STITCH ENDTAGS TO HEADER & CONCAT TO BLOCK
+         header += '</tr></tbody></table>';
          block += header;
 
          // GENERATE ROW FOR EACH ENTRY
          sub_keys.forEach((sub_entry) => {
 
-            // SKIP IF SUBKEY IS PATH OR SELECTED
-            if (sub_entry != 'path' && sub_entry != 'selected') {
-               var sub_instance = instance[sub_entry];
+            var sub_instance = instance[sub_entry];
 
-               // FETCH MOMENT MODULE
-               var moment = require('moment');
+            // FETCH MOMENT MODULE
+            var moment = require('moment');
 
-               // GENERATE ROW
-               var row = `
-                  <tr><td>
-                     <div id="gray" class="selected">
-                        <table><tbody><tr>
-                           <td>Author:</td>
-                           <td>` + capitalize(sub_entry) + `</td>
-                        </tr></tbody></table>
+            // GENERATE ROW
+            var row = `
+               <tr><td>
+                  <div id="gray" class="selected">
+                     <table><tbody><tr>
+                        <td>Author:</td>
+                        <td>` + capitalize(sub_entry) + `</td>
+                     </tr></tbody></table>
 
-                        <hr>
+                     <hr>
 
-                        <table><tbody><tr>
-                           <td>Compare:</td>
-                           <td><a id="compare" old="` + entry + `" new="` + sub_instance.hash + `" author="` + sub_entry + `" path="` + instance.path + `" time="` + sub_instance.timestamp + `">` + sub_instance.hash + `</a></td>
-                        </tr></tbody></table>
+                     <table><tbody><tr>
+                        <td>Compare:</td>
+                        <td><a id="compare" old="` + entry + `" new="` + sub_instance.hash + `" author="` + sub_entry + `" path="` + instance.path + `" time="` + sub_instance.timestamp + `">` + sub_instance.hash + `</a></td>
+                     </tr></tbody></table>
 
-                        <hr>
+                     <hr>
 
-                        <table><tbody><tr>
-                           <td>Submitted:</td>
-                           <td>` + moment.unix(sub_instance.timestamp).format('D/MM @ HH:mm') + `</td>
-                        </tr></tbody></table>
-                     </div>
-                  </td></tr>
-               `;
+                     <table><tbody><tr>
+                        <td>Submitted:</td>
+                        <td>` + moment.unix(sub_instance.timestamp).format('DD/MM @ HH:mm') + `</td>
+                     </tr></tbody></table>
+                  </div>
+               </td></tr>
+            `;
 
-               // CONCAT ROW TO BLOCK
-               block += row;
-            }
-
+            // CONCAT ROW TO BLOCK
+            block += row;
          });
 
          // GENERATE FULL BLOCK

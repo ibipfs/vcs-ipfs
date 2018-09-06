@@ -31,7 +31,7 @@ function content(config, filter = '') {
    // GENERATE ROW FOR EACH ENTRY
    keys.forEach((entry) => {
       var instance = config.activity[entry];
-      var timestamp = moment.unix(entry).format('D/MM @ HH:mm');
+      var timestamp = moment.unix(entry).format('DD/MM @ HH:mm');
 
       // LIMIT SPLITTING TO ONLY UPLOADS
       if (instance.type == 'upload') {

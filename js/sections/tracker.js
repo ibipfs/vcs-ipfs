@@ -58,15 +58,15 @@ function content(config, filter = '') {
             sub_keys.forEach(name => {
 
                if (name == instance.selected) {
-                  options += '<option selected>' + name + '</option>';
+                  options += '<option selected>' + capitalize(name) + '</option>';
                } else {
-                  options += '<option>' + name + '</option>';
+                  options += '<option>' + capitalize(name) + '</option>';
                }
 
             });
 
             // ADD THEM TO SELECT & ADD SELECT TO HEADER
-            header += '<td><select id="selected"><option>none</option>' + options + '</select></td>';
+            header += '<td><select instance="' + entry + '"><option>None</option>' + options + '</select></td>';
          }
 
          // STITCH ENDTAGS TO HEADER & CONCAT TO BLOCK
@@ -162,6 +162,18 @@ function events(config) {
          actions.close();
       }
 
+   });
+
+   // WHEN INSTANCE USER SELECTION DROPDOWN OPTION CHANGES
+   $('body').on('change', 'select', (target) => {
+      target = target.currentTarget;
+
+      // PICK UP RELEVANT INFO
+      var instance = $(target).attr('instance');
+      var user = $(target).val();
+
+      // EXECUTE
+      actions.change_selected(instance, user);
    });
 }
 

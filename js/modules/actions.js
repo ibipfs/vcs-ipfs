@@ -192,13 +192,14 @@ function release(significance) {
          if ($.isEmptyObject(config.tracker) == false) {
             log('Releasing new version..\n----');
 
-            var mutable = require('./mutable.js');
-
             // CURRENT ROOT DIR
             var base = config.latest.hash;
 
+            // FETCH IMMUTABLE MODULE
+            var immutable = require('./immutable.js');
+
             // FETCH CONTENT OF CURRENT VERSION
-            promisify('get', base).then((content) => {
+            immutable.get(base).then((content) => {
 
                // READ TRACKER FOR VERSION
                var tracker = config.tracker;
@@ -212,7 +213,7 @@ function release(significance) {
                tracker_keys.forEach(entry => {
 
                   // IF SELECTED PROP FOR SUBENTRY IS SET TO TRUE
-                  if (tracker[entry].selected != undefined && tracker[entry].selected != '') {
+                  if (tracker[entry].selected != undefined && tracker[entry].selected != 'none') {
 
                      // FORMAT PATH
                      var path = tracker[entry].path;
@@ -234,7 +235,7 @@ function release(significance) {
                edited_content.forEach(entry => {
                      
                   // GENERATE PROMISE & PUSH
-                  var promise = promisify('file', entry);
+                  var promise = immutable.file(entry);
                   edited_promises.push(promise);
                });
 
@@ -243,6 +244,9 @@ function release(significance) {
 
                   // ARRAY FOR COMPLETED NEW DIR
                   var files = [];
+
+                  // FETCH BUFFER MODUEL
+                  var Buffer = require('buffer/').Buffer
 
                   // LOOP THROUGH EACH ORIGINAL FILE
                   content.forEach(entry => {
@@ -266,7 +270,7 @@ function release(significance) {
                            }
 
                            // REPLACE OLD CONTENT WITH NEW
-                           new_content = edited_values[check_index];
+                           new_content = edited_values[check_index].toString('utf8');
 
                         // DOESNT MATCH
                         } else {
@@ -285,6 +289,9 @@ function release(significance) {
                         files.push(obj);
                      }
                   });
+
+                  // FETCH MUTABLE MODULE
+                  var mutable = require('./mutable.js');
 
                   // ADD CONSTRUCTED DIR TO IPFS
                   mutable.release(files).then((response) => {
@@ -614,6 +621,39 @@ function compare(target) {
    });
 }
 
+// CHANGE SELECTED VALUE FOR INSTANCE IN TRACKER
+function change_selected(_instance, _user) {
+   var config = require('../config.js')();
+
+   // REFRESH CONFIG
+   config.then((config) => {
+   
+      // MAKE SURE USER IS THE CONTRACT MASTER
+      if (config.metamask.permission == 'master') {
+
+         // FORCE LOWERCASE
+         _user = _user.toLowerCase();
+
+         // REWRITE TRACKER
+         var tracker = config.tracker;
+         tracker[_instance].selected = _user;
+
+         // STRINGIFY FOR BUFFER
+         tracker = JSON.stringify(tracker);
+
+         // FETCH MUTABLE MODULE
+         var mutable = require('./mutable.js');
+
+         // WRITE INTO VIRTUAL STORAGE
+         mutable.write('tracker.json', tracker).then(() => {
+            log('Changed property in Tracker!.')
+         });
+
+      // NOT MASTER
+      } else { log('Permission Denied!'); }
+   });
+}
+
 // EXPORT INDIVIDUAL FUNCTIONS AS MODULES
 module.exports = {
    close: close,
@@ -624,5 +664,6 @@ module.exports = {
    release: release,
    add: add,
    show: show,
-   compare: compare
+   compare: compare,
+   change_selected: change_selected
 }

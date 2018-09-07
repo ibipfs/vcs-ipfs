@@ -1,11 +1,10 @@
 function render(config, query = '') {
-   elements();
+   body();
    content(config, query);
-   events(config);
 }
 
 // ADD HTML CONTENT
-function elements() {
+function body() {
 
    // GENERATE PARENT SELECTOR
    var files = '<div id="files-outer"><div id="files"></div></div>';
@@ -131,41 +130,6 @@ function content(config, query) {
       // FADE IN BOTH
       fadeIn('files', table);
       fadeIn('footer', footer);
-   });
-}
-
-// ADD SPECIFIC EVENTS
-function events(config) {
-
-   // FETCH & INSTANTIATE ACTIONS MODULE
-   var actions = require('../modules/actions.js');
-
-   // SHOW FILE CONTENT
-   $('body').on('click', 'a#show', (target) => { actions.show(config, target.currentTarget); });
-
-   // OPEN IPFS DIRECTORY
-   $('body').on('click', 'a#open', (target) => { content(config, $(target.currentTarget).attr('hash')); });
-
-   // SAVE BUTTON EVENT
-   $('body').on('click', '#save', () => { actions.save(window.editor.getValue(), config.metamask.name); log('called event') });
-
-   // REMOVE BUTTON EVENT
-   $('body').on('click', '#remove', () => { actions.remove(config.metamask.name); });
-
-   // UPLOAD BUTTON EVENT
-   $('body').on('click', '#upload', () => { actions.upload(); });
-
-   // CLOSE WINDOW VIA BUTTON EVENT
-   $('body').on('click', '#discard', () => { actions.close(); });
-
-   // CLOSE WINDOW EVENT
-   $(document).on('keyup', (evt) => {
-   
-      // ESC KEY
-      if (evt.keyCode == 27) {
-         event.preventDefault();
-         actions.close();
-      }
    });
 }
 

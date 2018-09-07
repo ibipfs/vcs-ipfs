@@ -1,11 +1,10 @@
 function render(config) {
-   elements();
+   body();
    content(config);
-   events(config);
 }
 
 // ADD HTML CONTENT
-function elements() {
+function body() {
 
    // GENERATE PARENT SELECTORS
    var filter = '<div id="filter-outer"><div id="filter-inner"><input type="text" id="filter" placeholder="Filter by Username, File Name or File Hash" tabindex="1"></div></div>';
@@ -106,30 +105,6 @@ function content(config, filter = '') {
       
       fadeIn('activity', table);
    }
-}
-
-// ADD SPECIFIC EVENTS
-function events(config) {
-
-   // FETCH & INSTANTIATE ACTIONS MODULE
-   var actions = require('../modules/actions.js');
-
-   // FILTER
-   $("#filter").on('keyup', () => { var query = $('#filter').val(); content(config, query); });
-
-   // COMPARE FILES EVENT
-   $('body').on('click', 'a#compare', (target) => { actions.compare(target.currentTarget); });
-
-   // CLOSE WINDOW EVENT
-   $(document).on('keyup', (evt) => {
-   
-      // ESC KEY
-      if (evt.keyCode == 27) {
-         event.preventDefault();
-         actions.close();
-      }
-   });
-
 }
 
 // EXPORT RENDER FUNCTION AS MODULE

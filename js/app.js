@@ -7,6 +7,7 @@ $(document).ready(() => {
 
    config.then((config) => {
       require('./sections/index.js')(config);
+      require('./sections/events.js')(config);
 
       // IF USER IS MASTER, ADD MANAGE LINK TO MAINMENU
       if (config.metamask.permission == 'master') { $('ul').append('<li><a href="javascript:void(0)">Manage</a></li>'); }

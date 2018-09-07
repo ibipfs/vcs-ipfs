@@ -2,14 +2,13 @@ function render(config) {
 
    // LIMIT TO MASTER
    if (config.metamask.permission == 'master') {
-      elements();
-      events();
+      body();
 
    } else { log('Permission Denied!'); }
 }
 
 // ADD HTML CONTENT
-function elements() {
+function body() {
    var container = `
       <div id="container">
          <div id="tracker-outer"><div id="tracker-inner">
@@ -73,35 +72,6 @@ function elements() {
    // RENDER THEM IN & TURN OPACITY ON
    $('#content-body').html(container);
    $('#container').css('opacity', '1');
-}
-
-// ADD SPECIFIC EVENTS
-function events() {
-
-   // FETCH ACTION MODULES
-   var actions = require('../modules/actions.js');
-
-   // RELEASE
-   $('#release').on('click', () => {
-
-      // PICK UP USER SELECTED SIGNIFICANCE
-      var significance = $("#significance :selected").text();
-
-      // EXECUTE
-      actions.release(significance);
-   });
-
-   // WHITELIST
-   $('#whitelist').on('click', () => {
-
-      // PICK UP INPUT VALUES
-      var name = $('#name').val();
-      var permission = $("#permission :selected").text();
-      var address = $('#address').val();
-
-      // EXECUTE
-      actions.add(name, permission, address);
-   });
 }
 
 // EXPORT RENDER FUNCTION AS MODULE

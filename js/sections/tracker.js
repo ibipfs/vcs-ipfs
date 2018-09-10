@@ -7,7 +7,7 @@ function render(config) {
 function body() {
 
    // GENERATE PARENT SELECTORS
-   var filter = '<div id="filter-outer"><div id="filter-inner"><input type="text" id="filter" placeholder="Filter by File Name or File Hash" tabindex="1"></div></div>';
+   var filter = '<div id="filter-outer"><div id="filter-inner"><input type="text" id="tracker-filter" placeholder="Filter by File Name or File Hash" tabindex="1"></div></div>';
    var container = '<div id="container"></div>';
 
    // RENDER THEM IN
@@ -140,5 +140,8 @@ function content(config, filter = '') {
    }
 }
 
-// EXPORT RENDER FUNCTION AS MODULE
-module.exports = render;
+// EXPORT RENDER AND CONTENT FUNCTIONS AS MODULES
+module.exports = {
+   render: render,
+   content: content
+}

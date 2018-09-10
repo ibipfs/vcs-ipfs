@@ -75,4 +75,4 @@ function body() {
 }
 
 // EXPORT RENDER FUNCTION AS MODULE
-module.exports = render;
+module.exports = { render: render }

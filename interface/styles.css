@@ -338,7 +338,7 @@ hr {
    border-bottom: 1px dotted white;
 }
 
-#filter {
+#activity-filter, #tracker-filter {
    background: url('img/success.png');
    border: 0px solid black;
    border-bottom: 1px solid #B5D0C6;
@@ -355,7 +355,7 @@ hr {
    transition: .2s;
 }
 
-#filter:placeholder-shown {
+#activity-filter:placeholder-shown, #tracker-filter:placeholder-shown {
    background: url('img/caution-hover.png');
    border-bottom: 1px solid #dada8b;
 }

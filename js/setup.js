@@ -1,11 +1,13 @@
 // BLOCKCHAIN & IPFS GATEWAY IP
 var host_addr = 'localhost';
+var blockchain_port = '8545';
+var ipfs_port = '5001';
 
 // WEB3 BROWSER CONFIG
 if (typeof web3 !== 'undefined') {
    var web3 = new Web3(web3.currentProvider);
 } else {
-   var web3 = new Web3(new Web3.providers.HttpProvider('http://' + host_addr + ':8545'));
+   var web3 = new Web3(new Web3.providers.HttpProvider('http://' + host_addr + ':' + blockchain_port));
 }
 
 // DEFAULT ACCOUNT
@@ -31,4 +33,4 @@ var contractAddress = json.networks[id].address;
 var contract = web3.eth.contract(json.abi).at(contractAddress);
 
 // ESTABLISH CONNECTION TO IPFS PEER
-var ipfs = window.IpfsApi(host_addr, '5001');
+var ipfs = window.IpfsApi(host_addr, ipfs_port);

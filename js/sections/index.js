@@ -133,5 +133,8 @@ function content(config, query) {
    });
 }
 
-// EXPORT RENDER FUNCTION AS MODULE
-module.exports = render;
+// EXPORT RENDER AND CONTENT FUNCTIONS AS MODULES
+module.exports = {
+   render: render,
+   content: content
+}

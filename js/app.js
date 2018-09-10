@@ -6,8 +6,8 @@ $(document).ready(() => {
    var config = require('./config.js')();
 
    config.then((config) => {
-      require('./sections/index.js')(config);
-      require('./sections/events.js')(config);
+      require('./sections/index.js').render(config);
+      require('./modules/events.js')(config);
 
       // IF USER IS MASTER, ADD MANAGE LINK TO MAINMENU
       if (config.metamask.permission == 'master') { $('ul').append('<li><a href="javascript:void(0)">Manage</a></li>'); }
@@ -61,6 +61,6 @@ $('body').on('click', '#menu a', () => {
 
       // FETCH CONFIG & WAIT FOR IT TO RESOLVE, THEN EXECUTE MODULE
       var config = require('./config.js')();
-      config.then((config) => { section_module(config); });
+      config.then((config) => { section_module.render(config); });
    }
 });

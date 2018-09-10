@@ -1,22 +1,22 @@
 ## Turn on necessary components & compile
 
 Turn on IPFS Daemon:
-> $ shell/daemon.sh
+> $ [shell/daemon.sh](https://github.com/wickstjo/ipfs/blob/master/shell/daemon.sh)
 
 Push temp dataset to IPFS Swarm:
-> $ shell/dataset.sh
+> $ [shell/dataset.sh](https://github.com/wickstjo/ipfs/blob/master/shell/dataset.sh)
 
 Fix "CORS" error:
 > [https://github.com/ipfs/js-ipfs-api#cors](https://github.com/ipfs/js-ipfs-api#cors)
 
 Turn on Local Blockchain:
-> $ shell/ganache.sh
+> $ [shell/ganache.sh](https://github.com/wickstjo/ipfs/blob/master/shell/ganache.sh)
 
 Compile/Deploy Smart Contracts:
-> $ shell/deploy.sh
+> $ [shell/deploy.sh](https://github.com/wickstjo/ipfs/blob/master/shell/deploy.sh)
 
 Compile project node modules:
-> $ shell/browserify.sh
+> $ [shell/browserify.sh](https://github.com/wickstjo/ipfs/blob/master/shell/browserify.sh)
 
 ## Change default values
 

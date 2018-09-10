@@ -67,7 +67,7 @@ function nuke_logs(files) {
          // DEFAULT HISTORY CONTENT
          var latestDefault = {
             "name": "1.0",
-            "hash": "QmfAUMMnn33mnBAZP84jyWn3NVwKRjG3KN1R92SX9SnJD2",
+            "hash": "QmajVZUfnV7ne7hnn8Jr968wWhKxn7HtsoJ8SWAM4aDnLR",
             "timestamp": unixTime()
          }
 

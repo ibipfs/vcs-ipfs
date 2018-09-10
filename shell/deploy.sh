@@ -1,3 +1,5 @@
 rm -rf ../build/contracts/
 truffle migrate ../
-#truffle console
+
+# truffle console
+# Main.deployed().then(function(instance) { app = instance })

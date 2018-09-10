@@ -20,7 +20,7 @@ contract Main {
     function add(string _name, string _permission, address _owner) public {
 
         // MAKE SURE CALLER ADDRESS IS MASTER
-        //if (msg.sender == master) {
+        if (msg.sender == master) {
 
             // CHECK THAT ENTRY DOESNT ALREADY EXIST IN MAP
             if (whitelist[_owner].timestamp == 0) {
@@ -30,19 +30,19 @@ contract Main {
                 whitelist[_owner].permission = _permission;
                 whitelist[_owner].timestamp = now;
             }
-        //}
+        }
     }
 
     // CHANGE PERMISSION OF EXISTING USER
     function change(address _owner, string _permission) public {
 
         // MAKE SURE CALLER ADDRESS IS MASTER
-        //if (msg.sender == master) {
+        if (msg.sender == master) {
 
             // MAKE SURE THAT ENTRY EXISTS
             if (whitelist[_owner].timestamp != 0) {
                 whitelist[_owner].permission = _permission;
             }
-        //}
+        }
     }
 }

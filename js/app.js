@@ -1,12 +1,17 @@
 // DECLARE CURRENT VAR FOR MAINMENU UNDERLINING
 var current = 'files';
 
-// RENDER IN INDEX WHEN PAGE IS FIRST LOADED
+// WHEN DOCUMENT LOADS
 $(document).ready(() => {
    var config = require('./config.js')();
 
+   // REFRESH CONFIG
    config.then((config) => {
+
+      // RENDER IN LOGIC
       require('./sections/index.js').render(config);
+
+      // FETCH ALL EVENTS
       require('./modules/events.js')(config);
 
       // IF USER IS MASTER, ADD MANAGE LINK TO MAINMENU
@@ -59,7 +64,7 @@ $('body').on('click', '#menu a', () => {
          break;
       }
 
-      // FETCH CONFIG & WAIT FOR IT TO RESOLVE, THEN EXECUTE MODULE
+      // FETCH CONFIG & WAIT FOR IT TO RESOLVE, THEN EXECUTE ITS RENDER MODULE
       var config = require('./config.js')();
       config.then((config) => { section_module.render(config); });
    }

@@ -6,20 +6,19 @@ function render(config) {
 // ADD HTML CONTENT
 function body() {
 
-   // GENERATE PARENT SELECTORS
-   var filter = '<div id="filter-outer"><div id="filter-inner"><input type="text" id="tracker-filter" placeholder="Filter by File Name or File Hash" tabindex="1"></div></div>';
+   // GENERATE SELECTOR & RENDER
    var container = '<div id="container"></div>';
-
-   // RENDER THEM IN
-   $('#content-body').html(filter + container);
+   $('#content-body').html(container);
 }
 
 // ADD GENERATED CONTENT
-function content(config, filter = '') {
+function content(config) {
 
-   // FETCH KEYS & REVERSE ORDER
-   var keys = Object.keys(config.tracker);
-   keys.reverse();
+   // FETCH TRACKER KEYS & REVERSE ORDER
+   var keys = Object.keys(config.tracker).reverse();
+
+   // FETCH MOMENT MODULE IF THERE ARE KEYS
+   if (keys.length != 0) { var moment = require('moment'); }
 
    // ALL ENTRY BLOCKS
    var blocks = '';
@@ -27,117 +26,87 @@ function content(config, filter = '') {
    // GENERATE BLOCK FOR EACH FILE
    keys.forEach((entry) => {
       var instance = config.tracker[entry];
-      var filename = instance.path.split('/').pop();
-      var block_name = entry;
 
-      // CHECK FILTER
-      if (filter == '' || filter == block_name || filter.toLowerCase() == filename || filter == headerify(instance.path)) {
+      // KEYS OF SUBMISSIONS FOR INSTANCE
+      var sub_keys = Object.keys(instance);
 
-         // KEYS OF SUBMISSIONS FOR INSTANCE
-         var sub_keys = Object.keys(instance);
+      // FILTER OUT "HELPER" KEYS
+      sub_keys = sub_keys.filter(key => key != 'path');
+      sub_keys = sub_keys.filter(key => key != 'selected');
 
-         // FILTER OUT "HELPER" KEYS
-         sub_keys = sub_keys.filter(key => key != 'path');
-         sub_keys = sub_keys.filter(key => key != 'selected');
+      // REVERSE REMAINING KEYS IN ORDER TO GET NEWEST FIRST
+      sub_keys.reverse();
 
-         // REVERSE REMAINING KEYS IN ORDER TO GET NEWEST FIRST
-         sub_keys.reverse();
+      // ENTRY BLOCK
+      var block = '';
 
-         // ENTRY BLOCK
-         var block = '';
+      // GENERATE HEADER
+      var header = '<tr><td><div id="header"><table><tr><td>' + headerify(instance.path) + '</td>';
 
-         // GENERATE HEADER
-         var header = '<tr><td><div id="header"><table><tbody><tr><td>' + headerify(instance.path) + '</td>';
+      // ADD SELECTED DROPDOWN TO HEADER IF USER EQUALS MASTER AND THERE ARE ATLEAST TWO SUBMISSIONS
+      if (config.metamask.permission == 'master') {
 
-         // ADD SELECTED DROPDOWN TO HEADER IF USER EQUALS MASTER AND THERE ARE ATLEAST TWO SUBMISSIONS
-         if (config.metamask.permission == 'master') {
+         // GENERATE OPTIONS BASED ON SUBMISSION NAMES
+         var options = '';
+         sub_keys.forEach(name => {
 
-            // GENERATE OPTIONS BASED ON SUBMISSION NAMES
-            var options = '';
-            sub_keys.forEach(name => {
-
-               if (name == instance.selected) {
-                  options += '<option selected>' + capitalize(name) + '</option>';
-               } else {
-                  options += '<option>' + capitalize(name) + '</option>';
-               }
-
-            });
-
-            // ADD THEM TO SELECT & ADD SELECT TO HEADER
-            header += '<td><select id="tracker-select" instance="' + entry + '"><option>None</option>' + options + '</select></td>';
-         }
-
-         // STITCH ENDTAGS TO HEADER & CONCAT TO BLOCK
-         header += '</tr></tbody></table>';
-         block += header;
-
-         // GENERATE ROW FOR EACH ENTRY
-         sub_keys.forEach((sub_entry) => {
-
-            var sub_instance = instance[sub_entry];
-
-            // FETCH MOMENT MODULE
-            var moment = require('moment');
-
-            // GENERATE ROW
-            var row = `
-               <tr><td>
-                  <div id="gray" class="selected">
-                     <table><tbody><tr>
-                        <td>Author:</td>
-                        <td>` + capitalize(sub_entry) + `</td>
-                     </tr></tbody></table>
-
-                     <hr>
-
-                     <table><tbody><tr>
-                        <td>Compare:</td>
-                        <td><a id="compare" old="` + entry + `" new="` + sub_instance.hash + `" author="` + sub_entry + `" path="` + instance.path + `" time="` + sub_instance.timestamp + `">` + sub_instance.hash + `</a></td>
-                     </tr></tbody></table>
-
-                     <hr>
-
-                     <table><tbody><tr>
-                        <td>Submitted:</td>
-                        <td>` + moment.unix(sub_instance.timestamp).format('DD/MM @ HH:mm') + `</td>
-                     </tr></tbody></table>
-                  </div>
-               </td></tr>
-            `;
-
-            // CONCAT ROW TO BLOCK
-            block += row;
+            // PUSH SELECTED PROP TO OPTION SELECTOR IF MATCH IS FOUND
+            if (name == instance.selected) { options += '<option selected>' + capitalize(name) + '</option>';
+            } else { options += '<option>' + capitalize(name) + '</option>'; }
+            
          });
 
-         // GENERATE FULL BLOCK
-         var table = '<table><tbody>' + block + '</tbody></table>';
-         var wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
-
-         // CONCAT TO BLOCKS
-         blocks += wrap;
+         // ADD THEM TO SELECT & ADD SELECT TO HEADER
+         header += '<td><select id="tracker-select" instance="' + entry + '"><option>None</option>' + options + '</select></td>';
       }
 
+      // STITCH ENDTAGS TO HEADER & CONCAT TO BLOCK
+      header += '</tr></table>';
+      block += header;
+
+      // GENERATE ROW FOR EACH ENTRY
+      sub_keys.forEach((sub_entry) => {
+         var sub_instance = instance[sub_entry];
+
+         // GENERATE ROW
+         var row = `
+            <tr><td>
+               <div id="gray" class="selected">
+                  <table><tr>
+                     <td>Author:</td>
+                     <td>` + capitalize(sub_entry) + `</td>
+                  </tr></table>
+                  <hr>
+                  <table><tr>
+                     <td>Compare:</td>
+                     <td><a id="compare" old="` + entry + `" new="` + sub_instance.hash + `" author="` + sub_entry + `" path="` + instance.path + `" time="` + sub_instance.timestamp + `">` + sub_instance.hash + `</a></td>
+                  </tr></table>
+                  <hr>
+                  <table><tr>
+                     <td>Submitted:</td>
+                     <td>` + moment.unix(sub_instance.timestamp).format('DD/MM @ HH:mm') + `</td>
+                  </tr></table>
+               </div>
+            </td></tr>
+         `;
+
+         // CONCAT ROW TO BLOCK
+         block += row;
+      });
+
+      // GENERATE FULL BLOCK
+      var table = '<table>' + block + '</table>';  
+      var wrap = '<div id="tracker-outer"><div id="tracker-inner">' + table + '</div></div>';
+
+      // CONCAT TO BLOCKS
+      blocks += wrap;
    });
 
-   // FALLBACK IF TRACKER IS EMPTY OR FILTER FINDS NOTHING
-   if (blocks == '') {
-      blocks = '<div id="tracker-outer"><div id="tracker-inner"><table><tbody><tr><td><div id="header">No entries found.</div></td></tr></tbody></table></div></div>';
-   }
+   // FALLBACK IF TRACKER IS EMPTY
+   if (blocks == '') { blocks = '<div id="tracker-outer"><div id="tracker-inner"><table><tr><td><div id="header">No entries found.</div></td></tr></table></div></div>'; }
 
-   // FETCH SELECTOR CONTENT BEFORE RE-RENDER
-   var previous = $('#container').html();
-
-   // IF OLD AND NEW SELECTOR CONTENT ARE THE SAME, DO NOTHING --- DO THIS TO STOP UNECESSARY FLICKERING
-   if (blocks == previous) {
-
-      $('#container').html(previous);
-
-   // OTHERWISE FADE IN NEW CONTENT
-   } else {
-
-      fadeIn('container', blocks);
-   }
+   // RENDER IN BLOCKS
+   fadeIn('container', blocks);
 }
 
 // EXPORT RENDER AND CONTENT FUNCTIONS AS MODULES

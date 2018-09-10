@@ -1,10 +1,10 @@
-// FETCH MODULES
-var mutable = require('./modules/mutable.js');
-var ethereum = require('./modules/ethereum.js');
-
 function build() {
 
-   // CHECK STRUCTURE OF LOGS
+   // FETCH NECESSARY MODULES
+   var mutable = require('./modules/mutable.js');
+   var ethereum = require('./modules/ethereum.js');
+
+   // CHECK STRUCTURE OF LOGS -- NUKE IF NECESSARY
    mutable.check_logs();
 
    // GENERATE PROMISES

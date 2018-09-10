@@ -1,6 +1,6 @@
 function events(config) {
 
-   // FETCH & INSTANTIATE ACTIONS MODULE
+   // FETCH ACTIONS MODULE
    var actions = require('./actions.js');
 
    // SHOW FILE EVENT
@@ -26,12 +26,6 @@ function events(config) {
 
    // CLOSE WINDOW VIA "ESC" KEY EVENT
    $(document).on('keyup', (evt) => { if (evt.keyCode == 27) { event.preventDefault(); actions.close(); } });
-
-   // ACTIVITY FILTER EVENT
-   $("#filter").on('keyup', () => { var query = $('#activity-filter').val(); require('../sections/activity.js').content(config, query); });
-
-   // TRACKER FILTER EVENT
-   $("#filter").on('keyup', () => { var query = $('#tracker-filter').val(); require('../sections/tracker.js').content(config, query); });
    
    // CHANGE SELECTED EVENT IN TRACKER
    $('body').on('change', '#tracker-select', (target) => {
@@ -45,7 +39,7 @@ function events(config) {
    });
 
    // RELEASE EVENT
-   $('#release').on('click', () => {
+   $('input#release').on('click', () => {
 
       // PICK UP USER SELECTED SIGNIFICANCE
       var significance = $("#significance :selected").text();
@@ -55,15 +49,25 @@ function events(config) {
    });
    
    // ADD TO WHITELIST EVENT
-   $('#whitelist').on('click', () => {
+   $('input#whitelist').on('click', () => {
 
       // PICK UP INPUT VALUES
-      var name = $('#name').val();
-      var permission = $("#permission :selected").text();
-      var address = $('#address').val();
+      var name = $('#add-name').val();
+      var permission = $("#add-permission :selected").text();
+      var address = $('#add-address').val();
 
       // EXECUTE
       actions.add(name, permission, address);
+   });
+
+   $('input#change').on('click', () => {
+
+      // PICK UP INPUT VALUES
+      var permission = $("#change-permission :selected").text();
+      var address = $('#change-address').val();
+
+      // EXECUTE
+      actions.change_permission(address, permission);
    });
 }
 

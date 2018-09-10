@@ -420,6 +420,38 @@ function add(_name, _permission, _address) {
    });
 }
 
+function change_permission(_address, _permission) {
+   var config = require('../config.js')();
+
+   // REFRESH CONFIG
+   config.then((config) => {
+      
+      // MAKE SURE USER IS THE CONTRACT MASTER
+      if (config.metamask.permission == 'master') {
+         
+         // VALIDATE SUBMISSITED DATA
+         if (_address.length == 42) {
+
+            // FETCH ACTIONS MODULE
+            var ethereum = require('../modules/ethereum.js');
+
+            // QUERY ADDRESS FROM WHITELIST
+            ethereum.user_info(_address).then((user_data) => {
+
+               // IF IT DOESNT EXIST FROM BEFORE
+               if (user_data[2].c[0] != 0) {
+
+                  // EXECUTE & LOG RESPONSE
+                  ethereum.change(_address, _permission).then((response) => { log(response); });
+
+               } else { log('User doesnt exist!!'); }
+            });
+
+         } else { log('Weird Ethereum Address!'); }
+      } else { log('Permission Denied!'); }
+   });
+}
+
 // SHOW FILE CONTENT
 function show(config, target) {
 

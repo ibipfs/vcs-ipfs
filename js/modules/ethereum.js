@@ -41,7 +41,7 @@ function add(_name, _permission, _address) {
 // CHANGE EXISTING USERS PERMISSION
 function change(_address, _permisson) {
    return new Promise((resolve, reject) => {
-      contract.add(_address, _permission, (error, result) => {
+      contract.change(_address, _permission, (error, result) => {
          if (error) {
             reject(error);
          } else {

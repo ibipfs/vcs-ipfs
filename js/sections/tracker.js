@@ -27,15 +27,12 @@ function content(config) {
    keys.forEach((entry) => {
       var instance = config.tracker[entry];
 
-      // KEYS OF SUBMISSIONS FOR INSTANCE
-      var sub_keys = Object.keys(instance);
+      // KEYS OF SUBMISSIONS FOR INSTANCE -- REVERSED
+      var sub_keys = Object.keys(instance).reverse();
 
       // FILTER OUT "HELPER" KEYS
       sub_keys = sub_keys.filter(key => key != 'path');
       sub_keys = sub_keys.filter(key => key != 'selected');
-
-      // REVERSE REMAINING KEYS IN ORDER TO GET NEWEST FIRST
-      sub_keys.reverse();
 
       // ENTRY BLOCK
       var block = '';
@@ -48,11 +45,17 @@ function content(config) {
 
          // GENERATE OPTIONS BASED ON SUBMISSION NAMES
          var options = '';
+
+         // ADD FILLED SELECTOR FOR EACH SUBMISSION
          sub_keys.forEach(name => {
 
             // PUSH SELECTED PROP TO OPTION SELECTOR IF MATCH IS FOUND
-            if (name == instance.selected) { options += '<option selected>' + capitalize(name) + '</option>';
-            } else { options += '<option>' + capitalize(name) + '</option>'; }
+            if (name == instance.selected) {
+               options += '<option selected>' + capitalize(name) + '</option>';
+               
+            } else {
+               options += '<option>' + capitalize(name) + '</option>';
+            }
             
          });
 

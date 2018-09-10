@@ -1,16 +1,3 @@
-## Borrowed Tools/Functionality
-- [GO-IPFS](https://github.com/ipfs/go-ipfs)
-- [JS-IPFS-API](https://github.com/ipfs/js-ipfs-api)
-- [Truffle](https://github.com/trufflesuite/truffle)
-- [Ganache](https://github.com/trufflesuite/ganache-cli)
-- [jQuery](https://jquery.com/)
-
-- [NodeJS & NPM](https://nodejs.org/en/)
-- [Backported Monaco Editor by Tim Kendrick](https://github.com/timkendrick/vscode-monaco-editor)
-- [Buffer](https://www.npmjs.com/package/buffer)
-- [Browserify](https://www.npmjs.com/package/browserify)
-- [Moment](https://www.npmjs.com/package/moment)
-
 ## Turn on necessary components & compile
 
 Turn on IPFS Daemon:
@@ -38,3 +25,16 @@ Blockchain & IPFS address/port:
 
 Root IPFS directory:
 > [js/modules/mutable.js @ row 70](https://github.com/wickstjo/ipfs/blob/master/js/modules/mutable.js#L70)
+
+## Borrowed Tools/Functionality
+- [GO-IPFS](https://github.com/ipfs/go-ipfs)
+- [JS-IPFS-API](https://github.com/ipfs/js-ipfs-api)
+- [Truffle](https://github.com/trufflesuite/truffle)
+- [Ganache](https://github.com/trufflesuite/ganache-cli)
+- [jQuery](https://jquery.com/)
+
+- [NodeJS & NPM](https://nodejs.org/en/)
+- [Backported Monaco Editor by Tim Kendrick](https://github.com/timkendrick/vscode-monaco-editor)
+- [Buffer](https://www.npmjs.com/package/buffer)
+- [Browserify](https://www.npmjs.com/package/browserify)
+- [Moment](https://www.npmjs.com/package/moment)

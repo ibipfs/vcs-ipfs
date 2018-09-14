@@ -26,6 +26,9 @@ Blockchain & IPFS address/port:
 Root IPFS directory:
 > [js/modules/mutable.js @ row 70](https://github.com/wickstjo/ipfs/blob/master/js/modules/mutable.js#L70)
 
+Smart Contract Superuser:
+> [contracts/Main.sol @ row 9](https://github.com/wickstjo/ipfs/blob/master/contracts/Main.sol#L9)
+
 ## Borrowed Tools/Functionality
 - [GO-IPFS](https://github.com/ipfs/go-ipfs)
 - [JS-IPFS-API](https://github.com/ipfs/js-ipfs-api)
